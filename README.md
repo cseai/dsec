@@ -53,3 +53,18 @@ In the previous case, `accounts` is `<app_label>`, `user` is `<model>` and `imag
 Inside the `<field_name>` directory more complicated file path could be set up. It's depend on implementation. There can have default file. In case of `user` model there has a default image inside the `image` directory named `default.png` which must be set to work the app properly.
 
 Therefore, it is responsible to the developer to keep track on the implementation as well as static path.
+
+## static_cdn
+There can have file at the end of every directory.
+Example: inside `image` directory there must have a `default.png` file.
+```
+static_cdn
+├───media_root
+│   ├───accounts
+│   │   └───user
+│   │       └───image
+│   └───vendors
+│       └───store
+│           └───logo
+└───static_root
+```
