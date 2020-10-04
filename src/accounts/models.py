@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
 )
 from phonenumber_field.modelfields import PhoneNumberField
 
+from accounts.helpers import UploadTo
+
 class UserManager(BaseUserManager):
     def create_user(self, phone, email=None, first_name=None, last_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
         if not phone:
@@ -25,36 +27,63 @@ class UserManager(BaseUserManager):
 
     def create_staffuser(self, phone, email=None, first_name=None, last_name=None, password=None):
         user = self.create_user(
-                phone,
-                email,
-                first_name = first_name,
-                last_name = last_name,
-                password = password,
-                is_staff = True
+            phone=phone,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            is_staff=True
         )
         return user
 
     def create_superuser(self, phone, email=None, first_name=None, last_name=None, password=None):
         user = self.create_user(
-                phone,
-                email,
-                first_name = first_name,
-                last_name = last_name,
-                password = password,
-                is_staff = True,
-                is_admin = True
+            phone=phone,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            is_staff=True,
+            is_admin=True
         )
         return user
 
 
 class User(AbstractBaseUser):
+    GENDER_MALE     = 'M'
+    GENDER_FEMALE   = 'F'
+    GENDER_OTHER    = 'O'
+    GENDER_CHOICES  = [
+                        (GENDER_MALE, 'Male'),
+                        (GENDER_FEMALE, 'Female'),
+                        (GENDER_OTHER, 'Other'),
+                    ]
+
     phone           = PhoneNumberField(null=False, blank=False, unique=True)
     first_name      = models.CharField(max_length=150, blank=True, null=True)
     last_name       = models.CharField(max_length=150, blank=True, null=True)
+    gender          = models.CharField(
+                        max_length=1,
+                        choices=GENDER_CHOICES, 
+                        blank=True, 
+                        null=True
+                    )
     email           = models.EmailField(max_length=255, blank=True, null=True)
+    image           = models.ImageField(
+                        default='accounts/user/image/default.png',
+                        upload_to=UploadTo('image', plus_id=True),
+                        null=True,
+                        blank=True,
+                        width_field="width_field",
+                        height_field="height_field"
+                    )
+    height_field    = models.IntegerField(default=0, null=True)
+    width_field     = models.IntegerField(default=0, null=True)
+    is_verified     = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=True) # can login 
     is_staff        = models.BooleanField(default=False) # staff user non superuser
     is_admin        = models.BooleanField(default=False) # superuser 
+    updated         = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp       = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'phone' #username
