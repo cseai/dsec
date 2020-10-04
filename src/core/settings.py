@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Local Apps
     'accounts',
     'addresses',
+    'profiles',
 ]
 
 AUTH_USER_MODEL = 'accounts.User' #changes the built-in user model to ours
