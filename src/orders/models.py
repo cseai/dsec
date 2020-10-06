@@ -27,6 +27,10 @@ class Order(models.Model):
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "order"
+        verbose_name_plural = "orders"
+
     def __str__(self):
         return f"order_id:{self.id}"
 
@@ -37,6 +41,10 @@ class OrderItem(models.Model):
     item_total              = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = "order item"
+        verbose_name_plural = "order items"
 
     def __str__(self):
         if self.product and self.product.title:

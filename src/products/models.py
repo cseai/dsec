@@ -37,5 +37,9 @@ class Product(models.Model):
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "product"
+        verbose_name_plural = "products"
+
     def __str__(self):
         return self.title

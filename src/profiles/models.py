@@ -12,6 +12,10 @@ class Profile(models.Model):
     updated     = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp   = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "profile"
+        verbose_name_plural = "profiles"
+
     def __str__(self):
         try:
             return self.user.get_full_name()

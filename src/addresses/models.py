@@ -21,6 +21,10 @@ class Address(models.Model):
     country             = models.CharField(max_length=50, default='Bangladesh')
     timestamp           = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "address"
+        verbose_name_plural = "addresses"
+
     def __str__(self):
         return f"{self.line_1},{self.city}-{self.postal_code}"
 

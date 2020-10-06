@@ -12,6 +12,10 @@ class StoreOrderTrx(models.Model):
     amount                  = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "store-order transaction"
+        verbose_name_plural = "store-order transactions"
+
     def __str__(self):
         if self.store and self.store.title:
             return f"ID:{self.id}, S:{self.store.title}, AMNT:{self.amount}"
@@ -24,6 +28,10 @@ class VendorAdminTrx(models.Model):
     store                   = models.ForeignKey(Store, null=True, on_delete=models.SET_NULL)
     vouchar_amount          = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
     timestamp               = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = "vendor-admin transaction"
+        verbose_name_plural = "vendor-admin transactions"
 
     def __str__(self):
         if self.store and self.store.title:

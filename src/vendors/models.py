@@ -37,5 +37,9 @@ class Store(models.Model):
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name        = "store"
+        verbose_name_plural = "stores"
+
     def __str__(self):
         return f"{self.title}"
