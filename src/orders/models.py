@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from addresses.models import Address
+from products.models import Product
 
 User = get_user_model()
 
@@ -29,6 +30,15 @@ class Order(models.Model):
     def __str__(self):
         return f"order_id:{self.id}"
 
-# class OrderItem(models.Model):
-#     pass
+class OrderItem(models.Model):
+    order                   = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product                 = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+    quantity                = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
+    item_total              = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
+    updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp               = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        if self.product and self.product.title:
+            return f"{self.product.title} - Q:{self.quantity}"
+        return f"id:{self.id} - Q:{self.quantity}"
