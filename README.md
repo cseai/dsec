@@ -63,6 +63,9 @@ static_cdn
 │   ├───accounts
 │   │   └───user
 │   │       └───image
+│   ├───products
+│   │   └───product
+│   │       └───image
 │   └───vendors
 │       └───store
 │           └───logo
