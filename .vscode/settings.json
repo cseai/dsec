@@ -1,0 +1,8 @@
+{
+	"python.pythonPath": "env\\Scripts\\python.exe",
+	"editor.formatOnSave": true,
+	"python.linting.pycodestyleEnabled": false,
+	"python.linting.pylintPath": "pylint",
+	"python.linting.pylintArgs": ["--load-plugins", "pylint_django", "--errors-only"],
+	"python.linting.pylintEnabled": true
+}

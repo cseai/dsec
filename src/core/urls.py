@@ -21,7 +21,7 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from accounts.views import LoginView, RegisterView
-from .views import home_page
+from .views import (home_page, login_test)
 
 urlpatterns = [
     path('', home_page, name='home'),
@@ -29,9 +29,14 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
+    # test url for temp work
+    path('logintest/', login_test, name='login_test'),
+
 ]
 
 
 if settings.DEBUG:
-    urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns = urlpatterns + \
+        static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns = urlpatterns + \
+        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
