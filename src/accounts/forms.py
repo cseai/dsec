@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from phonenumber_field.formfields import PhoneNumberField
+import phonenumbers
 
 User = get_user_model()
 
@@ -52,8 +53,15 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    phone = PhoneNumberField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    # phone = PhoneNumberField()
+    phone   = forms.CharField(label='')
+    password = forms.CharField(label='', widget=forms.PasswordInput(attrs={
+            'placeholder': "Password"
+        }))
+
+    phone.widget.attrs.update({
+            'placeholder': "Phone", 'title': 'Phone number (BD)'
+        })
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -63,31 +71,68 @@ class LoginForm(forms.Form):
         request = self.request
         data = self.cleaned_data
         phone  = data.get("phone")
-        password  = data.get("password")
-        # qs = User.objects.filter(phone=phone)
-        # print(qs)
-        # print(phone)
-        user = authenticate(request, username=phone, password=password)
-        # print(user)
+        password = data.get("password")
+        try:
+            phone_instance = phonenumbers.parse(phone, "BD")
+            if not phonenumbers.is_possible_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number (is_possible_number: False)")
+            if not phonenumbers.is_valid_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number (is_valid_number: False)")
+        except phonenumbers.phonenumberutil.NumberParseException:
+            raise forms.ValidationError("Invalid phone number")
+        # print(phone_instance)
+        user = authenticate(request, username=phone_instance, password=password)
         if user is None:
             raise forms.ValidationError("Invalid credentials")
         login(request, user)
         self.user = user
+        # print(self.user)
         return data
 
 
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
+    # phone = PhoneNumberField()
+    phone   = forms.CharField(label='')
+    password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={
+            'placeholder': "Password"
+        }))
+    password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={
+            'placeholder': "Password confirmation"
+        }))
 
-    phone = PhoneNumberField()
-
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
-
+    phone.widget.attrs.update({
+            'placeholder': "Phone", 'title': 'Phone number (BD)'
+        })
+    
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'phone', 'email',)
+        fields = ('phone', 'first_name', 'last_name', 'gender', 'email',)
+        # customize form attrs
+        labels = {
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+        }
+        widgets={
+            'first_name': forms.TextInput(attrs={
+                                'placeholder': "First name",
+                                'required': True,
+                            }),
+            'last_name': forms.TextInput(attrs={
+                                'placeholder': "Last name",
+                                'required': True,
+                            }),
+            # 'gender': forms.Select(attrs={
+            #                     'placeholder': "Gender",
+            #                     'required': True,
+            #                 }),
+            'email': forms.EmailInput(attrs={
+                                'placeholder': "Email",
+                                'required': True,
+                            }),
+        }
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -96,6 +141,19 @@ class RegisterForm(forms.ModelForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords don't match")
         return password2
+
+    def clean_phone(self):
+        phone  = self.cleaned_data.get("phone")
+        try:
+            phone_instance = phonenumbers.parse(phone, "BD")
+            if not phonenumbers.is_possible_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number (is_possible_number: False)")
+            if not phonenumbers.is_valid_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number (is_valid_number: False)")
+        except phonenumbers.phonenumberutil.NumberParseException:
+            raise forms.ValidationError("Invalid phone number")
+        # print(phone_instance)
+        return phone_instance
 
     def save(self, commit=True):
         # Save the provided password in hashed format
