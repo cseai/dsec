@@ -15,5 +15,5 @@ def register_vendor_store_view(request, *args, **kwargs):
     context = {
         'form': form,
     }
-    return render(request, 'register_vendor_store.html', context)
+    return render(request, 'vendors/register_vendor_store.html', context)
 
