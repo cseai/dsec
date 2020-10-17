@@ -7,15 +7,18 @@ import phonenumbers
 
 User = get_user_model()
 
+
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'phone', 'email', 'image',)
+        fields = ('first_name', 'last_name', 'gender',
+                  'phone', 'email', 'image',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -43,7 +46,8 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'phone', 'email', 'image', 'password', 'is_active', 'is_admin')
+        fields = ('first_name', 'last_name', 'gender', 'phone',
+                  'email', 'image', 'password', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -54,14 +58,14 @@ class UserAdminChangeForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     # phone = PhoneNumberField()
-    phone   = forms.CharField(label='')
+    phone = forms.CharField(label='')
     password = forms.CharField(label='', widget=forms.PasswordInput(attrs={
-            'placeholder': "Password"
-        }))
+        'placeholder': "Password"
+    }))
 
     phone.widget.attrs.update({
-            'placeholder': "Phone", 'title': 'Phone number (BD)'
-        })
+        'placeholder': "Phone", 'title': 'Phone number (BD)'
+    })
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -70,18 +74,21 @@ class LoginForm(forms.Form):
     def clean(self):
         request = self.request
         data = self.cleaned_data
-        phone  = data.get("phone")
+        phone = data.get("phone")
         password = data.get("password")
         try:
             phone_instance = phonenumbers.parse(phone, "BD")
             if not phonenumbers.is_possible_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number (is_possible_number: False)")
+                raise forms.ValidationError(
+                    "Invalid phone number (is_possible_number: False)")
             if not phonenumbers.is_valid_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number (is_valid_number: False)")
+                raise forms.ValidationError(
+                    "Invalid phone number (is_valid_number: False)")
         except phonenumbers.phonenumberutil.NumberParseException:
             raise forms.ValidationError("Invalid phone number")
         # print(phone_instance)
-        user = authenticate(request, username=phone_instance, password=password)
+        user = authenticate(
+            request, username=phone_instance, password=password)
         if user is None:
             raise forms.ValidationError("Invalid credentials")
         login(request, user)
@@ -94,18 +101,18 @@ class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     # phone = PhoneNumberField()
-    phone   = forms.CharField(label='')
+    phone = forms.CharField(label='')
     password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={
-            'placeholder': "Password"
-        }))
+        'placeholder': "Password"
+    }))
     password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={
-            'placeholder': "Password confirmation"
-        }))
+        'placeholder': "Password confirmation"
+    }))
 
     phone.widget.attrs.update({
-            'placeholder': "Phone", 'title': 'Phone number (BD)'
-        })
-    
+        'placeholder': "Phone", 'title': 'Phone number (BD)'
+    })
+
     class Meta:
         model = User
         fields = ('phone', 'first_name', 'last_name', 'gender', 'email',)
@@ -114,26 +121,40 @@ class RegisterForm(forms.ModelForm):
             'first_name': '',
             'last_name': '',
             'email': '',
+            'gender': '',
         }
-        widgets={
+
+        widgets = {
             'first_name': forms.TextInput(attrs={
-                                'placeholder': "First name",
-                                'required': True,
-                            }),
+                'placeholder': "First name",
+                'required': True,
+            }),
             'last_name': forms.TextInput(attrs={
-                                'placeholder': "Last name",
-                                'required': True,
-                            }),
+                'placeholder': "Last name",
+                'required': True,
+            }),
             # 'gender': forms.Select(attrs={
             #                     'placeholder': "Gender",
             #                     'required': True,
             #                 }),
             'email': forms.EmailInput(attrs={
-                                'placeholder': "Email",
-                                'required': True,
-                            }),
+                'placeholder': "Email",
+                'required': True,
+            }),
+            'gender': forms.Select(attrs={
+                'required': True,
+                'class': 'form-control mb-30 custom-select',
+                'style': 'height:50px ;border-radius:0px',
+            })
         }
 
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['gender'].empty_label = "Select a Verb"
+        # following line needed to refresh widget copy of choice list
+        self.fields['gender'].widget.choices = self.fields['gender'].choices
+
+    # check validation
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
@@ -143,13 +164,15 @@ class RegisterForm(forms.ModelForm):
         return password2
 
     def clean_phone(self):
-        phone  = self.cleaned_data.get("phone")
+        phone = self.cleaned_data.get("phone")
         try:
             phone_instance = phonenumbers.parse(phone, "BD")
             if not phonenumbers.is_possible_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number (is_possible_number: False)")
+                raise forms.ValidationError("Invalid phone number ")
+                # (is_possible_number: False)
             if not phonenumbers.is_valid_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number (is_valid_number: False)")
+                raise forms.ValidationError("Invalid phone number ")
+                # (is_possible_number: False)
         except phonenumbers.phonenumberutil.NumberParseException:
             raise forms.ValidationError("Invalid phone number")
         # print(phone_instance)

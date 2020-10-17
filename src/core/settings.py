@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'phonenumber_field',
+    'crispy_forms',
 
     # Local Apps
     'accounts',
@@ -111,7 +112,6 @@ DATABASES = {
 # DATABASE_URL = postgres://tugdtckdkddwwk:1879cef240bdd39a1c248a43d67b9296446fc7380f61f26ebec6b5ee2f561bcc@ec2-54-156-53-71.compute-1.amazonaws.com:5432/d66vfaflo11guc
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -161,3 +161,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.parent.joinpath("static_cdn", "media_root")
 
 PROTECTED_ROOT = BASE_DIR.parent.joinpath("static_cdn", "protected_media")
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
