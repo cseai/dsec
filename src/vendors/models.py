@@ -17,8 +17,8 @@ class Store(models.Model):
     user                    = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     category                = models.CharField(max_length=20, choices=STORE_CATEGORY_CHOICES)
     parent                  = models.ForeignKey("self", blank=True, null=True, on_delete=models.SET_NULL)
-    opening_time            = models.CharField(max_length=50, blank=True, null=True)
-    closing_time            = models.CharField(max_length=50, blank=True, null=True)
+    opening_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    closing_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     store_status            = models.CharField(max_length=255, blank=True, null=True)
     address                 = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL)
     logo                    = models.ImageField(
@@ -33,7 +33,8 @@ class Store(models.Model):
     width_field             = models.IntegerField(default=0, null=True)
     total_store_order_trx   = models.DecimalField(default=0.00, max_digits=30, decimal_places=2)
     total_vendor_admin_trx  = models.DecimalField(default=0.00, max_digits=30, decimal_places=2)
-    is_active               = models.BooleanField(default=True)
+    is_verified             = models.BooleanField(default=False)
+    is_active               = models.BooleanField(default=False)
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
