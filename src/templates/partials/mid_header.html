@@ -4,15 +4,28 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-12 col-sm-4">
 				<div class="logo">
-					<a href="index.html">
-						<img alt="" src="assets/img/logo/logo.png" />
+					<a href="{% url 'home' %}">
+						<img alt="" src={% static "assets/img/logo/logo.png" %} />
 					</a>
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-8 col-12 col-sm-8">
 				<div class="header-middle-right f-right">
 					<div class="header-login">
-						<a href="login-register.html">
+						{% if request.user.is_authenticated %}
+						<a href="#user-profile">
+							<div class="header-icon-style">
+								<i class="icon-user icons"></i>
+							</div>
+							<div class="login-text-content">
+								<p>
+									Your <br />
+									<span>Account</span>
+								</p>
+							</div>
+						</a>
+						{% else %}
+						<a href="{% url 'register' %}">
 							<div class="header-icon-style">
 								<i class="icon-user icons"></i>
 							</div>
@@ -23,9 +36,10 @@
 								</p>
 							</div>
 						</a>
+						{% endif %}
 					</div>
 					<div class="header-wishlist">
-						<a href="wishlist.html">
+						<a href="#wishlist.html">
 							<div class="header-icon-style">
 								<i class="icon-heart icons"></i>
 							</div>
@@ -52,7 +66,7 @@
 							<ul>
 								<li class="single-shopping-cart">
 									<div class="shopping-cart-img">
-										<a href="#"><img alt="" src="assets/img/cart/cart-1.jpg"/></a>
+										<a href="#"><img alt="" src={% static "assets/img/cart/cart-1.jpg" %} /></a>
 									</div>
 									<div class="shopping-cart-title">
 										<h4><a href="#">Phantom Remote </a></h4>
@@ -65,7 +79,7 @@
 								</li>
 								<li class="single-shopping-cart">
 									<div class="shopping-cart-img">
-										<a href="#"><img alt="" src="assets/img/cart/cart-2.jpg"/></a>
+										<a href="#"><img alt="" src={% static "assets/img/cart/cart-2.jpg" %}/></a>
 									</div>
 									<div class="shopping-cart-title">
 										<h4><a href="#">Phantom Remote</a></h4>
@@ -82,8 +96,8 @@
 								<h4>Total : <span class="shop-total">$260.00</span></h4>
 							</div>
 							<div class="shopping-cart-btn">
-								<a href="cart-page.html">view cart</a>
-								<a href="checkout.html">checkout</a>
+								<a href="#cart-page.html">view cart</a>
+								<a href="#checkout.html">checkout</a>
 							</div>
 						</div>
 					</div>
