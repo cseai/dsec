@@ -133,10 +133,6 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': "Last name",
                 'required': True,
             }),
-            # 'gender': forms.Select(attrs={
-            #                     'placeholder': "Gender",
-            #                     'required': True,
-            #                 }),
             'email': forms.EmailInput(attrs={
                 'placeholder': "Email",
                 'required': True,
@@ -147,12 +143,6 @@ class RegisterForm(forms.ModelForm):
                 'style': 'height:50px ;border-radius:0px',
             })
         }
-
-    def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        self.fields['gender'].empty_label = "Select a Verb"
-        # following line needed to refresh widget copy of choice list
-        self.fields['gender'].widget.choices = self.fields['gender'].choices
 
     # check validation
     def clean_password2(self):
