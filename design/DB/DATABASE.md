@@ -87,6 +87,10 @@ class Address(models.Model):
 
 ### title
 
+### username
+
+### tagline
+
 ### user
 
 - FK: User
@@ -96,6 +100,8 @@ class Address(models.Model):
 ### parent
 
 - FK: Store
+
+### description
 
 ### opening_time
 
@@ -272,7 +278,7 @@ class Address(models.Model):
 ## Delivery Service and E-Commerce System  Database Model for Django Framework
 Date: 19.09.2020
 Md. Belal Hossain & Md. Shariar Kabir
-Updated At: 17.10.2020
+Updated At: 19.10.2020
 
 ## Notes
 FK => ForeignKey
