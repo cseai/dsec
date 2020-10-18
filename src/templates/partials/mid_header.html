@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-12 col-sm-4">
 				<div class="logo">
-					<a href="{% url 'home' %}">
+					<a href="{% url 'home:home' %}">
 						<img alt="" src={% static "assets/img/logo/logo.png" %} />
 					</a>
 				</div>
@@ -25,7 +25,7 @@
 							</div>
 						</a>
 						{% else %}
-						<a href="{% url 'register' %}">
+						<a href="{% url 'auth:register' %}">
 							<div class="header-icon-style">
 								<i class="icon-user icons"></i>
 							</div>

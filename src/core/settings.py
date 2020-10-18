@@ -48,12 +48,13 @@ INSTALLED_APPS = [
     'products',
     'orders',
     'billing',
+    'home',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'  # changes the built-in user model to ours
-LOGIN_URL = '/login/'
+LOGIN_URL = '/auth/login/'
 LOGIN_URL_REDIRECT = '/'
-LOGOUT_URL = '/logout/'
+LOGOUT_URL = '/auth/logout/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [

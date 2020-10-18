@@ -18,22 +18,15 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from accounts.views import LoginView, RegisterView
-from .views import (home_page, login_test)
-
 urlpatterns = [
-    path('', home_page, name='home'),
-    path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', RegisterView.as_view(), name='register'),
+    path('', include('home.urls')),
+    path('admin/', admin.site.urls),    
+    path('auth/', include('accounts.auth.urls')),
+    path('accounts/', include('accounts.urls')),
     path('vendor/', include("vendors.urls")),
     # test url for temp work
-    path('logintest/', login_test, name='login_test'),
-
 ]
 
 
