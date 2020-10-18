@@ -55,6 +55,7 @@ class User(AbstractBaseUser):
     GENDER_FEMALE = 'F'
     GENDER_OTHER = 'O'
     GENDER_CHOICES = [
+        ('', 'Select Gender'),
         (GENDER_MALE, 'Male'),
         (GENDER_FEMALE, 'Female'),
         (GENDER_OTHER, 'Other'),

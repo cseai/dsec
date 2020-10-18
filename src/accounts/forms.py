@@ -135,7 +135,7 @@ class RegisterForm(forms.ModelForm):
             }),
             'email': forms.EmailInput(attrs={
                 'placeholder': "Email",
-                'required': True,
+                'required': False,
             }),
             'gender': forms.Select(attrs={
                 'required': True,

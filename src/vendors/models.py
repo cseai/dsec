@@ -8,15 +8,22 @@ User = get_user_model()
 
 
 class Store(models.Model):
+    CATEGORY_COMPANY        = 'C'
+    CATEGORY_PERSONAL       = 'P'
+    CATEGORY_OTHER          = 'O'
     STORE_CATEGORY_CHOICES  = [
-        ('company', 'Company'),
-        ('personal', 'Personal'),
-        ('other', 'Other'),
+        ('', 'Select store category'),
+        (CATEGORY_COMPANY, 'Company'),
+        (CATEGORY_PERSONAL, 'Personal'),
+        (CATEGORY_OTHER, 'Other'),
     ]
     title                   = models.CharField(max_length=255)
+    tagline                 = models.CharField(max_length=255, blank=True, null=True)
+    username                = models.CharField(max_length=50, unique=True)
     user                    = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     category                = models.CharField(max_length=20, choices=STORE_CATEGORY_CHOICES)
     parent                  = models.ForeignKey("self", blank=True, null=True, on_delete=models.SET_NULL)
+    description             = models.TextField(blank=True, null=True)
     opening_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     closing_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     store_status            = models.CharField(max_length=255, blank=True, null=True)
@@ -43,4 +50,4 @@ class Store(models.Model):
         verbose_name_plural = "stores"
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title}[@{self.username}]"
