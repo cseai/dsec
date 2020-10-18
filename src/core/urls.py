@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('vendor/', include("vendors.urls")),
     # test url for temp work
+    path('adminpanel/',include('adminPanel.urls'))
 ]
 
 

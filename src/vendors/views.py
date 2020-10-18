@@ -59,3 +59,10 @@ def register_vendor_store_view(request, *args, **kwargs):
     }
     return render(request, 'vendors/register_vendor_store.html', context)
 
+
+def index(request):
+    store=Store.objects.all()
+    context={
+        'store':store
+    }
+    return render(request,'vendors/index.html',context)
