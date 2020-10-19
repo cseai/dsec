@@ -1,7 +1,7 @@
 {% extends "adminPanel/base.html" %}
 {% load static %}
 {% block title %}
-All Request Store
+All Vendors
 {% endblock title %}
 
 {% block content %}
@@ -9,7 +9,7 @@ All Request Store
         <div class="br-pageheader pd-y-15 pd-l-20">
             <nav class="breadcrumb pd-0 mg-0 tx-12">
                 <a class="breadcrumb-item" href="{% url 'adminpanel:home' %}">Home</a>
-                <span class="breadcrumb-item active">All Request Store</span>
+                <span class="breadcrumb-item active">All Active Store</span>
             </nav>
         </div>
 
@@ -36,7 +36,7 @@ All Request Store
                     {% for store in all_store  %}
                     <tr>
                         {% if store.logo %}
-                            <td style="padding:0 !important"><img src="{{store.logo.url}}" alt="" style="height:50px; width:50px"></td>
+                            <td style="padding:0 !important"><img src="{{store.logo.url}}" alt="" style="height:50px;width:50px"></td>
                         {% else %}
                             <td style="padding:0 !important"><img src="" alt="logo" style="height:50px"></td>
                         {% endif %}
@@ -83,28 +83,5 @@ All Request Store
     <script src="{% static 'adminPanel/lib/select2/js/select2.min.js' %}"></script>
 
     <script src="{% static 'adminPanel/js/bracket.js' %}"></script>
-    <script>
-        $(function(){
-            'use strict';
-            $('#datatable1').DataTable({
-            responsive: true,
-            language: {
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-            });
-
-            $('#datatable2').DataTable({
-            bLengthChange: false,
-            searching: false,
-            responsive: true
-            });
-
-            // Select2
-            $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
-
-        });
-    </script>
-
+    
 {% endblock content %}

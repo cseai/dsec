@@ -5,14 +5,20 @@ from .forms import StoreForm
 def index(request):
     return render(request,'adminPanel/base.html')
 
+def all_store(request):
+    context={}
+    stores=Store.objects.all().filter(is_active=True).filter(is_verified=True)
+    context={
+        'all_store':stores,
+    }
+    return render(request,'adminPanel/store/all_store.html',context)
+
 def all_store_request(request):
     context={}
     stores=Store.objects.all().filter(is_verified=False)
     context={
         'all_store':stores,
     }
-    print(stores)
-    
     return render(request,'adminPanel/store/all_store_request.html',context)
 
 def store_details(request,store_id):
@@ -30,3 +36,7 @@ def store_details(request,store_id):
         'form':form
     }
     return render(request,'adminPanel/store/store_details.html',context)
+
+def store_delete(request,store_id):
+    delete=Store.objects.get(id=store_id).delete()
+    return redirect('adminpanel:store_request')

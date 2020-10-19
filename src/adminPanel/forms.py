@@ -5,13 +5,11 @@ class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
         fields = '__all__'
-        exclude=('height_field','width_field','parent')
-        labels={
-            'is_verified':'Is Verified'
-        }
+        # exclude=('height_field','width_field','parent')
+        
         widgets = {
             'is_verified': forms.CheckboxInput(attrs={'class':'form-control'}),
-            'title':forms.TextInput(attrs={'class':'form-control'})
+            'title':forms.TextInput(attrs={'class':'form-control'}),
         }
 
     # is_verified=forms.BooleanField()
