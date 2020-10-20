@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Third Party Apps
     'phonenumber_field',
     'crispy_forms',
+    
 
     # Local Apps
     'accounts',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'orders',
     'billing',
     'home',
+    'adminPanel'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'  # changes the built-in user model to ours
