@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Mirrored from themepixels.me/demo/bracket/app/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Oct 2020 12:53:36 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="../../../bracket/img/bracket-social.html">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/bracket">
+    <meta property="og:title" content="Bracket">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="../../../bracket/img/bracket-social.html">
+    <meta property="og:image:secure_url" content="../../../bracket/img/bracket-social.html">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    
+
+    <!-- vendor css -->
+    <link href="{% static 'adminPanel/lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/lib/jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/lib/rickshaw/rickshaw.min.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/lib/chartist/chartist.css' %}" rel="stylesheet">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="{% static 'adminPanel/css/bracket.css' %}">
+    <script src="https://use.fontawesome.com/a914d95947.js"></script>
+
+</head>
+
+<body>
+    {% comment %} left bar {% endcomment %}
+    {% include "adminPanel/partials/leftbar.html" %}
+    {% comment %} header {% endcomment %}
+    {% include "adminPanel/partials/header.html" %}
+
+    {% block content %}
+        
+    {% endblock content %}
+
+    <script src="https://use.fontawesome.com/a914d95947.js"></script>
+
+    <script src="{% static 'adminpanel/lib/jquery/jquery.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/popper.js/popper.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/bootstrap/bootstrap.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/moment/moment.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/jquery-ui/jquery-ui.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/jquery-switchbutton/jquery.switchButton.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/peity/jquery.peity.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/chartist/chartist.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/d3/d3.js' %}"></script>
+    <script src="{% static 'adminpanel/lib/rickshaw/rickshaw.min.js' %}"></script>
+
+
+    <script src="{% static 'adminpanel/js/bracket.js' %}"></script>
+    <script src="{% static 'adminpanel/js/ResizeSensor.js' %}"></script>
+    <script src="{% static 'adminpanel/js/dashboard.js' %}"></script>
+    <script src="https://use.fontawesome.com/a914d95947.js"></script>
+
+    <script>
+        $(function(){
+            'use strict'
+
+            // FOR DEMO ONLY
+            // menu collapsed by default during first page load or refresh with screen
+            // having a size between 992px and 1299px. This is intended on this page only
+            // for better viewing of widgets demo.
+            $(window).resize(function(){
+            minimizeMenu();
+            });
+
+            minimizeMenu();
+
+            function minimizeMenu() {
+            if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+                // show only the icons and hide left menu label by default
+                $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+                $('body').addClass('collapsed-menu');
+                $('.show-sub + .br-menu-sub').slideUp();
+            } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+                $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+                $('body').removeClass('collapsed-menu');
+                $('.show-sub + .br-menu-sub').slideDown();
+            }
+            }
+        });
+    </script>
+</body>
+
+<!-- Mirrored from themepixels.me/demo/bracket/app/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Oct 2020 12:53:36 GMT -->
+</html>

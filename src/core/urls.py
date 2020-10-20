@@ -26,6 +26,7 @@ urlpatterns = [
     path('auth/', include('accounts.auth.urls')),
     path('profile/', include('profiles.urls')),
     path('vendor/', include("vendors.urls")),
+    path('adminpanel/',include('adminPanel.urls'))
 ]
 
 
