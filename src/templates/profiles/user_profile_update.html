@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+{{ title }} | {{ block.super }}
+{% endblock  %}
+
+{% block content %} 
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{{ request.user.get_profile_url  }}">Profile</a></li>
+                <li class="active"> Update </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- profile update form-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ form_heading }} </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    
+                                    <form action="#" method="post"> {% csrf_token %}
+                                        {{ user_form|crispy }}
+                                        {{ profile_form|crispy }}
+                                        {{ address_form|crispy }}
+                                        <div class="button-box">
+                                            <button type="submit"><span>Submit Changes</span></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+{% endblock content %}  

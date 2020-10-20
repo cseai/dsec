@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from addresses.models import Address
@@ -22,3 +23,17 @@ class Profile(models.Model):
         except:
             return self.user.phone.as_e164
     
+    # custom functions
+    def get_absolute_url(self):
+        try:
+            url = reverse("profiles:profile")
+        except:
+            url = '#get_absolute_url'
+        return url
+    
+    def get_update_url(self):
+        try:
+            url = reverse("profiles:profile_update")
+        except:
+            url = '#get_update_url'
+        return url

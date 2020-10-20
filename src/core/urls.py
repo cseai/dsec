@@ -24,9 +24,8 @@ urlpatterns = [
     path('', include('home.urls')),
     path('admin/', admin.site.urls),    
     path('auth/', include('accounts.auth.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('profile/', include('profiles.urls')),
     path('vendor/', include("vendors.urls")),
-    # test url for temp work
 ]
 
 
