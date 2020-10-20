@@ -20,5 +20,5 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'auth/register.html'
-    success_url = 'auth/login/'
+    success_url = '/auth/login/'
 

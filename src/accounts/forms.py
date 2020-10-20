@@ -176,3 +176,55 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class UserUpdateForm(forms.ModelForm):
+    phone = forms.CharField(label='Phone')
+
+    phone.widget.attrs.update({
+        'placeholder': "Phone", 'title': 'Phone number (BD)'
+    })
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'gender', 'phone',  'email', 'image',)
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'placeholder': "First name",
+                'required': True,
+            }),
+            'last_name': forms.TextInput(attrs={
+                'placeholder': "Last name",
+                'required': True,
+            }),
+            'email': forms.EmailInput(attrs={
+                'placeholder': "Email",
+                'required': False,
+            }),
+            'gender': forms.Select(attrs={
+                'required': True,
+                'class': 'form-control mb-30 custom-select',
+                'style': 'height:50px ;border-radius:0px',
+            })
+        }
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        try:
+            phone_instance = phonenumbers.parse(phone, "BD")
+            if not phonenumbers.is_possible_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number ")
+                # (is_possible_number: False)
+            if not phonenumbers.is_valid_number(phone_instance):
+                raise forms.ValidationError("Invalid phone number ")
+                # (is_possible_number: False)
+        except phonenumbers.phonenumberutil.NumberParseException:
+            raise forms.ValidationError("Invalid phone number")
+        # print(phone_instance)
+        return phone_instance
+
+    def save(self, commit=True):
+        user = super(UserUpdateForm, self).save(commit=False)
+        if commit:
+            user.save()
+        return user

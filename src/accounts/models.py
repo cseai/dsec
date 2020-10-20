@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
@@ -110,3 +111,18 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+    
+    # custom functions
+    def get_profile_url(self):
+        try:
+            url = self.profile.get_absolute_url()
+        except:
+            url = '#get_profile_url'
+        return url
+
+    def get_profile_update_url(self):
+        try:
+            url = self.profile.get_update_url()
+        except:
+            url = '#get_profile_update_url'
+        return url
