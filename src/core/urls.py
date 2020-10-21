@@ -26,7 +26,10 @@ urlpatterns = [
     path('auth/', include('accounts.auth.urls')),
     path('profile/', include('profiles.urls')),
     path('vendor/', include("vendors.urls")),
-    path('adminpanel/',include('adminPanel.urls'))
+    path('adminpanel/',include('adminPanel.urls')),
+
+    # Devlopments only
+    path('dev/', include('home.dev.urls')),
 ]
 
 

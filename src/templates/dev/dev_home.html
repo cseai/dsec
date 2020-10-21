@@ -1,0 +1,46 @@
+{% extends 'dev/dev_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+{{ title }} | {{ block.super }}
+{% endblock  %}
+
+{% block content %} 
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li class="active"> Dev Home </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- show all urls -->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="text-center">
+                    <h1 class="text-danger">List of DEV URLs</h1>
+                </div>
+                <div class="bg-light m-1 px-3 py-3">
+                    {% for app, url_list in urls.items %}
+                    <div class="mb-2">
+                        <h4 class="text-uppercase text-secondary">{{ app }}</h4>
+                        <ol class="">
+                            {% for url in url_list %}
+                            <li><span class="ml-2 pl-2 text-success">{{ url.url_reverse }}</span> => <span class="ml-2 pl-2"><a href="/{{ url.url }}" class="text-primary">/{{ url.url }}</a></span></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+{% endblock content %}  
