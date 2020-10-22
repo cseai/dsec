@@ -5,12 +5,11 @@ from django.urls import reverse
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
+from model_utils import FieldTracker
 from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.helpers import UploadTo
 
-
-# from profiles.models import Profile
 
 class UserManager(BaseUserManager):
     def create_user(self, phone, email=None, first_name=None, last_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -92,6 +91,8 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)  # superuser
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    # to track field changes using FieldTracker
+    tracker = FieldTracker()
 
     USERNAME_FIELD = 'phone'  # username
     # USERNAME_FIELD and password are required by default
@@ -142,8 +143,12 @@ from profiles.models import Profile
 
 @receiver(pre_save, sender=User)
 def pre_save_user_receiver(sender, instance, *args, **kwargs):
-    pass
-
+    if instance:
+        if instance.tracker.has_changed('phone'):
+            # if phone number changed, need to verify that number
+            # so that firstly set False to is_verified
+            instance.is_verified = False
+            
 
 @receiver(post_save, sender=User)
 def post_save_user_receiver(sender, instance, created, *args, **kwargs):
@@ -152,4 +157,3 @@ def post_save_user_receiver(sender, instance, created, *args, **kwargs):
             # create a profile of this user
             profile_obj, profile_created = Profile.objects.get_or_create(user=instance)
             # print(f"instance:{instance}\nprofile_obj:{profile_obj}\nprofile_created:{profile_created}")
-            

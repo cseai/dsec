@@ -1,0 +1,15 @@
+## only main required will be listed here. dependencies will be automatically installed.
+asgiref==3.2.10
+Django==3.1.1
+django-crispy-forms==1.9.2
+django-phonenumber-field==5.0.0
+phonenumbers==8.12.9
+Pillow==7.2.0
+pytz==2020.1
+sqlparse==0.3.1
+django-model-utils==4.0.0
+
+# For herokuapp
+gunicorn==20.0.4
+whitenoise==5.1.0
+psycopg2==2.8.5
