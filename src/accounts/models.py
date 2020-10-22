@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
@@ -7,6 +9,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.helpers import UploadTo
 
+
+# from profiles.models import Profile
 
 class UserManager(BaseUserManager):
     def create_user(self, phone, email=None, first_name=None, last_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -126,3 +130,26 @@ class User(AbstractBaseUser):
         except:
             url = '#get_profile_update_url'
         return url
+
+
+# Try to import Profile models here after the User model defined
+# because Profile model used User model
+# if we try to import Profile before defined User it will raise:
+# raise ImproperlyConfigured(django.core.exceptions.ImproperlyConfigured: 
+# AUTH_USER_MODEL refers to model 'accounts.User' that has not been installed
+from profiles.models import Profile
+
+
+@receiver(pre_save, sender=User)
+def pre_save_user_receiver(sender, instance, *args, **kwargs):
+    pass
+
+
+@receiver(post_save, sender=User)
+def post_save_user_receiver(sender, instance, created, *args, **kwargs):
+    if instance:
+        if created:
+            # create a profile of this user
+            profile_obj, profile_created = Profile.objects.get_or_create(user=instance)
+            # print(f"instance:{instance}\nprofile_obj:{profile_obj}\nprofile_created:{profile_created}")
+            

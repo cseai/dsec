@@ -30,3 +30,12 @@ Installation
 ```bash
     pip install django-phonenumber-field[phonenumbers]
 ```
+
+## PROBLEM Q [AUTH_USER_MODEL refers to model 'accounts.User' that has not been installed](https://stackoverflow.com/questions/48077112/auth-user-model-refers-to-model-accounts-user-that-has-not-been-installed/56133886#56133886)
+
+## Q [When saving, how can you check if a field has changed?
+](https://stackoverflow.com/questions/1355150/when-saving-how-can-you-check-if-a-field-has-changed/28094442#28094442)
+
+-   [ans for using django-model-utils](https://stackoverflow.com/a/26026613)
+
+There are huge discusion about this topic. I am selecting solution which is suitable for my application.
