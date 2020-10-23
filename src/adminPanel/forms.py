@@ -1,6 +1,5 @@
 from django import forms
 from vendors.models import Store
-
 from django.utils.safestring import mark_safe
 
 class ImagePreviewWidget(forms.widgets.FileInput):

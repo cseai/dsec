@@ -1,7 +1,7 @@
 {% extends "adminPanel/base.html" %}
 {% load static %}
 {% block title %}
-All Request Store
+All Deactive Vendors
 {% endblock title %}
 
 {% block content %}
@@ -9,7 +9,7 @@ All Request Store
         <div class="br-pageheader pd-y-15 pd-l-20">
             <nav class="breadcrumb pd-0 mg-0 tx-12">
                 <a class="breadcrumb-item" href="{% url 'adminpanel:home' %}">Home</a>
-                <span class="breadcrumb-item active">All Request Store</span>
+                <span class="breadcrumb-item active">All Deactive Store</span>
             </nav>
         </div>
 
@@ -17,7 +17,7 @@ All Request Store
             <div class="br-section-wrapper">
             
                 <!--form start-->
-                <form action="{% url 'adminpanel:store_request' %}" method="GET" id="selectForm">
+                <form action="{% url 'adminpanel:store' %}" method="GET" id="selectForm">
                     <div class="d-flex">
                         <div id="slWrapper" class="parsley-select wd-250">
                             <select class="form-control select2" data-placeholder="Choose one"
@@ -51,14 +51,13 @@ All Request Store
             <!--form end-->
 
             {% if all_store %}
-                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10 mg-t-30">All Request For The Store</h6>
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10 mg-t-20">All Deactive Store</h6>
             {% comment %} <p class="mg-b-25 mg-lg-b-50">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p> {% endcomment %}
-
             <div class="table-wrapper">
                 <table id="datatable1" class="table display responsive nowrap">
                 <thead>
                     <tr>
-                        <th class="wd-10p">Logo </th>
+                        <th class="wd-10p">Logo</th>
                         <th class="wd-15p">Title</th>
                         <th class="wd-10p">First Name</th>
                         <th class="wd-15p">User Phone</th>
@@ -72,7 +71,7 @@ All Request Store
                     {% for store in all_store  %}
                     <tr>
                         {% if store.logo %}
-                            <td style="padding:0 !important"><img src="{{store.logo.url}}" alt="" style="height:50px; width:50px"></td>
+                            <td style="padding:0 !important"><img src="{{store.logo.url}}" alt="" style="height:50px;width:50px"></td>
                         {% else %}
                             <td style="padding:0 !important"><img src="" alt="logo" style="height:50px"></td>
                         {% endif %}
@@ -99,21 +98,17 @@ All Request Store
                     </tr>
                     {% endfor %}
                     
-
                 </tbody>
                 </table>
-            {% else %}
-                <h2 class="mg-t-30">No Store Found</h2>
-            {% endif %}
-
-            
             </div><!-- table-wrapper -->
-            </div>
+            {% else %}
+            <h2 class="mg-t-30">Store Not Found</h2>
+            {% endif %}
             
-            <!-- footer -->
-            {% include "adminPanel/partials/footer.html" %}
+            </div>
         </div>
-        
+        <!-- footer -->
+        {% include "adminPanel/partials/footer.html" %}
     </div>
     <script src="{% static 'adminPanel/lib/popper.js/popper.js' %}"></script>
     <script src="{% static 'adminPanel/lib/bootstrap/bootstrap.js' %}"></script>
@@ -128,28 +123,5 @@ All Request Store
     <script src="{% static 'adminPanel/lib/select2/js/select2.min.js' %}"></script>
 
     <script src="{% static 'adminPanel/js/bracket.js' %}"></script>
-    <script>
-        $(function(){
-            'use strict';
-            $('#datatable1').DataTable({
-            responsive: true,
-            language: {
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-            });
-
-            $('#datatable2').DataTable({
-            bLengthChange: false,
-            searching: false,
-            responsive: true
-            });
-
-            // Select2
-            $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
-
-        });
-    </script>
-
+    
 {% endblock content %}
