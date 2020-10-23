@@ -15,27 +15,37 @@
 						{% if request.user.is_authenticated %}
 						<a href="#user-profile">
 							<div class="header-icon-style">
-								<i class="icon-user icons"></i>
+								<img src="{{ request.user.image.url }}" alt="user"
+									style="
+										height:50px;
+										width:50px; 
+										display:block; 
+										margin:0 auto;
+										text-align:center;
+										border-radius:50%;
+									"
+								>
+								{% comment %} <i class="icon-user icons"></i> {% endcomment %}
 							</div>
 							<div class="login-text-content">
 								<p>
-									Your <br />
+									{{request.user.first_name|capfirst}}<br />
 									<span>Account</span>
 								</p>
 							</div>
 						</a>
 						{% else %}
-						<a href="{% url 'auth:register' %}">
-							<div class="header-icon-style">
-								<i class="icon-user icons"></i>
-							</div>
-							<div class="login-text-content">
-								<p>
-									Register <br />
-									or <span>Sign in</span>
-								</p>
-							</div>
-						</a>
+							<a href="{% url 'auth:register' %}">
+								<div class="header-icon-style">
+									<i class="icon-user icons"></i>
+								</div>
+								<div class="login-text-content">
+									<p>
+										Register <br />
+										or <span>Sign in</span>
+									</p>
+								</div>
+							</a>
 						{% endif %}
 					</div>
 					<div class="header-wishlist">
