@@ -13,6 +13,7 @@ from .models import Profile
 def user_profile_home_view(request):
     context = {
         'user': request.user,
+        'title':'Profile'
     }
     return render(request, 'profiles/user_profile_home.html', context)
 

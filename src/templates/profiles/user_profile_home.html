@@ -1,11 +1,155 @@
-<h1>user profile home</h1>
-<ul>
-    <li>phone:{{ user.phone }}</li>
-    <li>profile:{{ user.profile }}</li>
-    <li>address:{{user.profile.address}}</li>
-    <li>address:{{user.profile.address.address_type}}</li>
-    <li>address:{{user.profile.address.line_1}}</li>
-    <li>address:{{user.profile.address.city}}</li>
-    <li>address:{{user.profile.address.state}}</li>
-    <li>address:{{user.profile.address.country}}</li>
-</ul>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+{{ title }} | {{ block.super }}
+{% endblock  %}
+
+{% block content %} 
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{{ request.user.get_profile_url  }}">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- profile update form-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row profile">
+            <div class="col-lg-3 col-md-4 ml-auto mr-auto">
+                <div style="">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Last Orders</a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 ml-auto mr-auto ">
+                <div style="">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <!-- user info -->
+                        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" style="background-color:white !important">
+                            <div class="row">
+                                <div class="col-3 user_img_sec">
+                                    <img class="user_img" src="{{request.user.image.url}}" alt="profile">
+                                </div>
+                                <div class="col-9 row ">
+                                    <div class="card" style="width: 100%;">
+                                        <div class="card-body user-info">
+                                            <h3 class="card-title">User Info: </h3>
+                                            <p class="card-text"><i class="fas fa-user pr-2"></i> {{ request.user.first_name|capfirst }}{{" "}}{{ request.user.last_name }} </p>
+                                            <p class="card-text"><i class="fas fa-phone-square-alt"></i> {{ request.user.phone}} </p>
+                                            <p class="card-text"><i class="fas fa-envelope"></i>{{ request.user.email }} </p>
+                                            <a href="#" class="btn btn-primary">Edit</a>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-4" style="width: 100%;">
+                                        <div class="card-body shipping-address">
+                                            <h4 class="card-title">Shipping Address</h4>
+                                            <p class="card-text text-dark saddress pl-10">
+                                                <i class="fas fa-address-card pr-2"></i>
+                                                {% if request.user.profile.address.line_1  %}
+                                                    {{request.user.profile.address.line_1 }}
+                                                {% endif %}
+                                                {% if request.user.profile.address.line_2  %}
+                                                    {{ " , " }} {{request.user.profile.address.line_2 }}
+                                                {% endif %}
+                                            </p>
+                                            <p class="card-text text-dark  pl-10">
+                                                <i class="fas fa-address-card pr-2"></i>
+                                                {% if request.user.profile.address.city %}
+                                                    {{request.user.profile.address.city }}
+                                                {% endif %}
+                                                {% if request.user.profile.address.state %}
+                                                    {{ " , " }}{{request.user.profile.address.state }}
+                                                {% endif %}
+                                                {% if request.user.profile.address.postal_code %}
+                                                    {{ " , " }}{{request.user.profile.address.postal_code }}
+                                                {% endif %}
+                                            </p>
+                                            <p class="card-text text-dark  pl-10">
+                                                <i class="fa fa-flag pr-2"></i>
+                                                    {% if request.user.profile.address.country %}
+                                                        {{request.user.profile.address.country }}
+                                                    {% endif %}
+                                            </p>
+                                            <a href="#" class="btn btn-primary">Edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--info end-->
+                        <!-- address start -->
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" style="background:white !important">
+                            <!-- shopping-cart-area start -->
+                            <div class="row">
+                                <div class="cart-main-area pt-10 pb-100">
+                                    <div class="container">
+                                        <h3 class="page-title">Your cart items</h3>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <div class="table-content table-responsive">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Image</th>
+                                                                <th>Product Name</th>
+                                                                <th>Until Price</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="product-thumbnail">
+                                                                    <a href="#"><img src="{% static 'assets/images/cart/cart-3.jpg' %}" alt=""></a>
+                                                                </td>
+                                                                <td class="product-name"><a href="#">PRODUCTS NAME HERE </a></td>
+                                                                <td class="product-price-cart"><span class="amount">$260.00</span></td>
+                                                                <td class="product-subtotal">$110.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="product-thumbnail">
+                                                                    <a href="#"><img src="{% static 'assets/images/cart/cart-4.jpg' %}" alt=""></a>
+                                                                </td>
+                                                                <td class="product-name"><a href="#">PRODUCTS NAME HERE </a></td>
+                                                                <td class="product-price-cart"><span class="amount">$150.00</span></td>
+                                                                <td class="product-subtotal">$150.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="product-thumbnail">
+                                                                    <a href="#"><img src="{% static 'assets/images/cart/cart-5.jpg' %}" alt=""></a>
+                                                                </td>
+                                                                <td class="product-name"><a href="#">PRODUCTS NAME HERE </a></td>
+                                                                <td class="product-price-cart"><span class="amount">$170.00</span></td>
+                                                                <td class="product-subtotal">$170.00</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <!-- address end -->
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <link rel="stylesheet" href="{% static 'assets/css/user_profile.css' %}">
+    
+
+{% endblock content %}  
