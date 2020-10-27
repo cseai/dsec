@@ -143,6 +143,13 @@ class RegisterForm(forms.ModelForm):
                 'style': 'height:50px ;border-radius:0px',
             })
         }
+    
+    def __init__(self, hide_is_verified=True, hide_phone=True, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        # if hide_is_verified:
+        #     self.fields['is_verified'].widget = forms.HiddenInput()
+        # if hide_phone:
+        #     self.fields['phone'].widget = forms.HiddenInput()
 
     # check validation
     def clean_password2(self):
