@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from .helpers import get_urls
 
+from phone_verify.models import SMSVerification
 # import types
 
 # from django.urls import get_resolver
@@ -31,3 +32,10 @@ def show_urls(request):
         'urls': urls,
     }
     return render(request, 'dev/show_urls.html', context)
+
+def show_phone_verification_table(request):
+    obj_list = SMSVerification.objects.all()
+    context = {
+        'obj_list': obj_list,
+    }
+    return render(request, 'dev/show_phone_verification_table.html', context)

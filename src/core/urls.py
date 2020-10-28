@@ -27,7 +27,8 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),
     path('vendor/', include("vendors.urls")),
     path('adminpanel/',include('adminPanel.urls')),
-
+    # api
+    path('api/phone-verify/', include('accounts.sms_backends.urls')),
     # Devlopments only
     path('dev/', include('home.dev.urls')),
 ]
