@@ -98,10 +98,10 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-    """A form for creating new users. Includes all the required
+    """A form for creating new users after phone verification. Includes all the required
     fields, plus a repeated password."""
-    # phone = PhoneNumberField()
-    phone = forms.CharField(label='')
+    # phone must be disabled for the case of phone verification
+    phone = forms.CharField(label='', disabled=True)
     password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={
         'placeholder': "Password"
     }))
@@ -143,13 +143,6 @@ class RegisterForm(forms.ModelForm):
                 'style': 'height:50px ;border-radius:0px',
             })
         }
-    
-    def __init__(self, hide_is_verified=True, hide_phone=True, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        # if hide_is_verified:
-        #     self.fields['is_verified'].widget = forms.HiddenInput()
-        # if hide_phone:
-        #     self.fields['phone'].widget = forms.HiddenInput()
 
     # check validation
     def clean_password2(self):
