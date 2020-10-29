@@ -38,17 +38,16 @@ def all_store(request):
         'key':key,
         'sc':search,
     }
-    context={
-        'all_store':stores,
-    }
+    
     return render(request,'adminPanel/store/all_store.html',context)
+
 
 def all_store_request(request):
     key='all'
     search=''
     context={}
     #query
-    stores=Store.objects.all().filter(is_verified=False).filter(is_active=False)
+    stores=Store.objects.all().filter(is_verified=False)
     
     if request.method=='GET':
         #search area
@@ -78,6 +77,20 @@ def all_store_request(request):
     }
     return render(request,'adminPanel/store/all_store_request.html',context)
 
+
+
+def store_details(request,store_id):
+    context={}
+    store=Store.objects.get(id=store_id)
+    form=StoreFormDisable(instance=store)
+    
+    context={
+        'store':store,
+        'form':form
+    }
+    return render(request,'adminPanel/store/store_details.html',context)
+
+
 def store_details_update(request,store_id):
     context={}
     store=Store.objects.get(id=store_id)
@@ -97,17 +110,56 @@ def store_details_update(request,store_id):
     }
     return render(request,'adminPanel/store/store_details.html',context)
 
-def store_details(request,store_id):
+def store_deactived(request):
+    key='all'
+    search=''
     context={}
-    store=Store.objects.get(id=store_id)
-    form=StoreFormDisable(instance=store)
+    
+    stores=Store.objects.all().filter(is_active=False).filter(is_verified=True)
+    if request.method=='GET':
+        #search area
+        if 'keyword' in request.GET:
+            key=request.GET.get('keyword')
+            if key=='title':
+                if 'search' in request.GET:
+                    search=request.GET.get('search')
+                    stores=stores.filter(title__icontains=search)
+                    # print(stores)
+            elif key=='all':
+                pass
+        
+        context={
+            'all_store':stores,
+            'key':key,
+            'sc':search,
+            'state_choices':state_choices
+        }
+        return render(request,'adminPanel/store/all_store.html',context)
     
     context={
-        'store':store,
-        'form':form
+        'all_store':stores,
+        'state_choices':state_choices,
+        'key':key,
+        'sc':search,
     }
-    return render(request,'adminPanel/store/store_details.html',context)
+    context={
+        'all_store':stores,
+    }
+    return render(request,'adminPanel/store/store_deactive.html',context)
 
+# deacative store
+def store_deactive(request,store_id):
+    store=Store.objects.get(id=store_id)
+    store.is_active=False
+    store.save()
+    return redirect('adminpanel:store')
+
+#store active
+def store_active(request,store_id):
+    store=Store.objects.get(id=store_id)
+    store.is_active=True
+    store.save()
+    return redirect('adminpanel:store')
 
 def store_delete(request,store_id):
     delete=Store.objects.get(id=store_id).delete()

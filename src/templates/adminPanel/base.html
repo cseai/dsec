@@ -1,13 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from themepixels.me/demo/bracket/app/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Oct 2020 12:53:36 GMT -->
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Twitter -->
+    <!--fav icon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+    {% comment %} <!-- Twitter -->
     <meta name="twitter:site" content="@themepixels">
     <meta name="twitter:creator" content="@themepixels">
     <meta name="twitter:card" content="summary_large_image">
@@ -24,20 +28,23 @@
     <meta property="og:image:secure_url" content="../../../bracket/img/bracket-social.html">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600">
+    <meta property="og:image:height" content="600"> {% endcomment %}
 
     <!-- Meta -->
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
-    <meta name="author" content="ThemePixels">
 
     <title>
         {% block title %}
         {% endblock title %}
     </title>
     
-
+    {% comment %} <!--font awesome-->
+    <link href="{% static 'adminPanel/faws/all.css' %}" rel="stylesheet">
+    <link href="{% static 'adminPanel/faws/all.min.css' %}" rel="stylesheet"> {% endcomment %}
     <!-- vendor css -->
-    <link href="{% static 'adminPanel/lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/446cf6893e.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/446cf6893e.js" crossorigin="anonymous"></script>
+    <link href="{% static 'adminPanel/lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
     <link href="{% static 'adminPanel/lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
     <link href="{% static 'adminPanel/lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
     <link href="{% static 'adminPanel/lib/jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
@@ -46,7 +53,6 @@
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'adminPanel/css/bracket.css' %}">
-    <script src="https://use.fontawesome.com/a914d95947.js"></script>
 
 </head>
 
@@ -60,7 +66,7 @@
         
     {% endblock content %}
 
-    <script src="https://use.fontawesome.com/a914d95947.js"></script>
+    <script src="https://kit.fontawesome.com/446cf6893e.js" crossorigin="anonymous"></script>
 
     <script src="{% static 'adminpanel/lib/jquery/jquery.js' %}"></script>
     <script src="{% static 'adminpanel/lib/popper.js/popper.js' %}"></script>
@@ -79,8 +85,7 @@
     <script src="{% static 'adminpanel/js/bracket.js' %}"></script>
     <script src="{% static 'adminpanel/js/ResizeSensor.js' %}"></script>
     <script src="{% static 'adminpanel/js/dashboard.js' %}"></script>
-    <script src="https://use.fontawesome.com/a914d95947.js"></script>
-
+    
     <script>
         $(function(){
             'use strict'
@@ -109,6 +114,7 @@
             }
         });
     </script>
+
 </body>
 
 <!-- Mirrored from themepixels.me/demo/bracket/app/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Oct 2020 12:53:36 GMT -->

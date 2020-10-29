@@ -1,6 +1,6 @@
 {% load static %}
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href="#"><span>[</span>bracket<span>]</span></a></div>
+    <div class="br-logo"><a href="{% url 'adminpanel:home' %}"><span>[</span>Express<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
         <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
         <div class="br-sideleft-menu">
@@ -14,7 +14,7 @@
                 <div class="br-menu-item">
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     <span class="menu-item-label">Dashboard </span>
-                </div><!-- menu-item -->
+                </div>
             </a>
             
             {% comment %} store start {% endcomment %}
@@ -26,6 +26,8 @@
                 {% elif '/adminpanel/store-details/' in request.path %}
                     class="br-menu-link active"
                 {% elif '/adminpanel/store-details-update/' in request.path %}
+                    class="br-menu-link active"
+                {% elif '/adminpanel/store-deactived/' == request.path %}
                     class="br-menu-link active"
                 {% else %}
                     class="br-menu-link "
@@ -56,9 +58,43 @@
                         {% endif %}
                     >Vendor Request</a>
                 </li>
+                <li class="nav-item acitve">
+                    <a href="{% url 'adminpanel:store_deactived' %}"
+                    {% if '/adminpanel/store-deactived/' == request.path %}
+                            class="nav-link active"
+                        {% else %}
+                            class="nav-link"
+                        {% endif %}
+                    >All Deactive Vendor</a>
+                </li>
             </ul>
             {% comment %} store end {% endcomment %}
-            
+            <!-- user start-->
+            <a href="#" 
+                {% if '/adminpanel/user/' in request.path  %}
+                    class="br-menu-link active"
+                {% else %}
+                    class="br-menu-link "
+                {% endif %}
+            >
+                <div class="br-menu-item">
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <span class="menu-item-label">User</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item">
+                    <a href="{% url 'adminpanel:adminpanel_user:all_user' %}"
+                        {% if '/adminpanel/user/' == request.path %}
+                            class="nav-link active"
+                        {% else %}
+                            class="nav-link"
+                        {% endif %}
+                    >All User</a>
+                </li>
+            </ul>
+            <!-- user end -->
         </div><!-- br-sideleft-menu -->
 
         {% comment %} <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label>
