@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from vendors.models import Store
 from .forms import (StoreFormDisable,StoreForm)
 from .choices import state_choices
+from django.core.paginator import Paginator
+
 # Create your views here.
 def index(request):
     return render(request,'adminPanel/base.html')
@@ -12,7 +14,13 @@ def all_store(request):
     context={}
     
     stores=Store.objects.all().filter(is_active=True).filter(is_verified=True)
-    if request.method=='GET':
+    
+    #paginator
+    paginator=Paginator(stores,1)
+    page_number=request.GET.get('page')
+    obj_page=paginator.get_page(page_number)
+    
+    if 'sc_btn' in request.GET:
         #search area
         if 'keyword' in request.GET:
             key=request.GET.get('keyword')
@@ -24,19 +32,26 @@ def all_store(request):
             elif key=='all':
                 pass
         
+        # paginator
+        paginator=Paginator(stores,1)
+        page_number=request.GET.get('page')
+        page_obj=paginator.get_page(page_number)
+        
         context={
-            'all_store':stores,
+            'all_store':page_obj,
             'key':key,
             'sc':search,
-            'state_choices':state_choices
+            'state_choices':state_choices,
+            'req':'req'
         }
         return render(request,'adminPanel/store/all_store.html',context)
     
     context={
-        'all_store':stores,
+        'all_store':obj_page,
         'state_choices':state_choices,
         'key':key,
         'sc':search,
+        'req':''
     }
     
     return render(request,'adminPanel/store/all_store.html',context)
@@ -47,10 +62,16 @@ def all_store_request(request):
     search=''
     context={}
     #query
-    stores=Store.objects.all().filter(is_verified=False)
+    stores=Store.objects.all().filter(is_verified=False).order_by('id')
+    # paginator
+    paginator=Paginator(stores,2)
+    page_number=request.GET.get('page')
+    page_obj=paginator.get_page(page_number)
     
-    if request.method=='GET':
-        #search area
+    #search area
+    
+    if 'sc_btn' in request.GET:
+        print("Hello")
         if 'keyword' in request.GET:
             key=request.GET.get('keyword')
             if key=='title':
@@ -60,21 +81,29 @@ def all_store_request(request):
                     # print(stores)
             elif key=='all':
                 pass
+            
+            # paginator
+            paginator=Paginator(stores,2)
+            page_number=request.GET.get('page')
+            page_obj=paginator.get_page(page_number)
+            
+            context={
+                'all_store':page_obj,
+                'key':key,
+                'sc':search,
+                'state_choices':state_choices,
+                'req':'req'
+            }
+            return render(request,'adminPanel/store/all_store_request.html',context)
         
-        context={
-            'all_store':stores,
-            'key':key,
-            'sc':search,
-            'state_choices':state_choices
-        }
-        return render(request,'adminPanel/store/all_store_request.html',context)
-    
     context={
-        'all_store':stores,
+        'all_store':page_obj,
         'state_choices':state_choices,
         'key':key,
         'sc':search,
+        'req':''
     }
+    
     return render(request,'adminPanel/store/all_store_request.html',context)
 
 
