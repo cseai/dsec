@@ -4,7 +4,7 @@
 
 
 {% block title %}
-Login
+    {{ block.super }} | Login
 {% endblock  %}
 
 {% block content %}
@@ -37,15 +37,14 @@ Login
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form action="#" method="post"> {% csrf_token %}
+                                    <form action="" method="post"> {% csrf_token %}
+                                        {{ form.non_field_errors }}
                                         {{form|crispy}}
-                                        <!-- <input type="text" name="user-name" placeholder="Username">
-                                        <input type="password" name="user-password" placeholder="Password"> -->
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
                                                 <input type="checkbox">
                                                 <label>Remember me</label>
-                                                <a href="#">Forgot Password?</a>
+                                                <a href={% url 'auth:password_reset' %}>Forgot Password?</a>
                                             </div>
                                             <button type="submit"><span>Login</span></button>
                                         </div>

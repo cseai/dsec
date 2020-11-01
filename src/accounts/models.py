@@ -147,8 +147,13 @@ def pre_save_user_receiver(sender, instance, *args, **kwargs):
         if instance.tracker.has_changed('phone'):
             # if phone number changed, need to verify that number
             # so that firstly set False to is_verified
-            instance.is_verified = False
-            
+            # [BUG]: When a new User is creating it also detect as  phone number changed
+            # so that it New User are forcely setting to is_verified = False
+            # But we only create a User after phone verification
+            # That means New User always should is_verified = True
+            # instance.is_verified = False
+            # print(f"[PRE_SAVE] instance:{instance} , is_verified:{instance.is_verified}")
+            pass
 
 @receiver(post_save, sender=User)
 def post_save_user_receiver(sender, instance, created, *args, **kwargs):
@@ -157,3 +162,20 @@ def post_save_user_receiver(sender, instance, created, *args, **kwargs):
             # create a profile of this user
             profile_obj, profile_created = Profile.objects.get_or_create(user=instance)
             # print(f"instance:{instance}\nprofile_obj:{profile_obj}\nprofile_created:{profile_created}")
+        else:
+            pass
+            # if instance.tracker.has_changed('phone'):
+                # if phone number changed, need to verify that number
+                # so that firstly set False to is_verified
+                # [BUG]: When a new User is creating it also detect as  phone number changed
+                # so that it New User are forcely setting to is_verified = False
+                # But we only create a User after phone verification
+                # That means New User always should is_verified = True
+                # print(f"[POST_SAVE] instance:{instance} , is_verified:{instance.is_verified}")
+                # instance.is_verified = False
+                # instance.save() # never do it, it is a recursive loop
+                # SO THAT WE CAN NOT UPDATE USER HERE
+                # WE CAN UPDATE USER ONLY IN PRE-SAVE
+                # BUT THERE WAS A PROBLEM OF TRACKING PHONE CHANGED AT CREATION TIME
+                # THEREFORE, WE HAVE TO DO THIS OUTSIDE PRE-SAVE AND POST-SAVE
+                # print(f"[POST_SAVE] instance:{instance} , is_verified:{instance.is_verified}")

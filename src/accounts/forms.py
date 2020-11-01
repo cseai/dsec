@@ -179,14 +179,15 @@ class RegisterForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    phone = forms.CharField(label='Phone')
+    # There was a BUG in pre_save and post_save for updating phone 
+    # So that we will not allow user to update their phone
+    # That means we have to remove phone from this form
+    # IF we need to change phone we have to do it another form
+    # with some constrains
 
-    phone.widget.attrs.update({
-        'placeholder': "Phone", 'title': 'Phone number (BD)'
-    })
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'phone',  'email', 'image',)
+        fields = ('first_name', 'last_name', 'gender', 'email', 'image',)
 
         widgets = {
             'first_name': forms.TextInput(attrs={
@@ -208,20 +209,6 @@ class UserUpdateForm(forms.ModelForm):
             })
         }
     
-    def clean_phone(self):
-        phone = self.cleaned_data.get("phone")
-        try:
-            phone_instance = phonenumbers.parse(phone, "BD")
-            if not phonenumbers.is_possible_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number ")
-                # (is_possible_number: False)
-            if not phonenumbers.is_valid_number(phone_instance):
-                raise forms.ValidationError("Invalid phone number ")
-                # (is_possible_number: False)
-        except phonenumbers.phonenumberutil.NumberParseException:
-            raise forms.ValidationError("Invalid phone number")
-        # print(phone_instance)
-        return phone_instance
 
     def save(self, commit=True):
         user = super(UserUpdateForm, self).save(commit=False)
