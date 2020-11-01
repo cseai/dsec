@@ -61,3 +61,6 @@ def index(request):
         'store':store
     }
     return render(request,'vendors/index.html',context)
+
+def product_details(request):
+    return render(request,'vendors/product-details.html')
