@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
+from django.utils.safestring import mark_safe
 from phonenumber_field.formfields import PhoneNumberField
 import phonenumbers
 
@@ -176,6 +176,14 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+    
+class ImagePreviewWidget(forms.widgets.FileInput):
+    def render(self, name, value, attrs=None, **kwargs):
+        input_html = super().render(name, value, attrs={'label':"User Image"}, **kwargs)
+        img_html = mark_safe(f'<br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex;" id="imgUpload" /><br><br>')
+        return f'{img_html}{input_html}'
+
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -184,11 +192,12 @@ class UserUpdateForm(forms.ModelForm):
     # That means we have to remove phone from this form
     # IF we need to change phone we have to do it another form
     # with some constrains
+    image = forms.ImageField(label=('User Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    image=forms.ImageField(widget=ImagePreviewWidget,)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'email', 'image',)
-
+        fields = ('image','first_name', 'last_name', 'gender', 'email', )
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'placeholder': "First name",
@@ -207,9 +216,18 @@ class UserUpdateForm(forms.ModelForm):
                 'class': 'form-control mb-30 custom-select',
                 'style': 'height:50px ;border-radius:0px',
             })
+            
         }
     
-
+    
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({
+                'class': '',
+                'id':'imageUpload',
+            })
+        self.fields['image'].label = "User Image"
+            
     def save(self, commit=True):
         user = super(UserUpdateForm, self).save(commit=False)
         if commit:

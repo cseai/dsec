@@ -1,0 +1,16 @@
+<script>
+    $('#imageUpload').change(function(){
+        let mythis=this;
+            
+        if(mythis.files[0] && mythis.files){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                //$("#fileup + img").remove();
+                //$("#fileup").after("<img src="+e.target.result+" width='50px' height='50px' />");
+                //$('#fileup').css('visibility','visible');
+                $('#imgUpload').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(mythis.files[0])
+        }
+    })
+</script>
