@@ -5,16 +5,16 @@ from django.utils.safestring import mark_safe
 class ImagePreviewWidget(forms.widgets.FileInput):
     def render(self, name, value, attrs=None, **kwargs):
         input_html = super().render(name, value, attrs=None, **kwargs)
-        img_html = mark_safe(f'<br><br><img src="{value.url}" style="height:200px; width:200px"  />')
-        return f'{input_html}{img_html}'
+        img_html = mark_safe(f'<br><br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex; "  /><br><br>')
+        return f'{img_html}{input_html}'
 
 
 class StoreFormDisable(forms.ModelForm):
     class Meta:
         model = Store
         fields = (
-            'title',
             'logo',
+            'title',
             'username',
             'user',
             'category',
@@ -49,8 +49,8 @@ class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
         fields = (
-            'title',
             'logo',
+            'title',
             'username',
             'user',
             'category',
@@ -73,7 +73,6 @@ class StoreForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
-        # self.fields['is_verified'].widget.atrs['class']='mt-4'
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control is-warning'
             # visible.field.widget.attrs['disabled'] = True
