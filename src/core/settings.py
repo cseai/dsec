@@ -174,6 +174,8 @@ PHONE_VERIFICATION = {
 PHONE_VERIFICATION_UTILS = {
     # SOME HARD CODDED STRING THAT IS NEED IN PHONE VERIFICATION UTILS
     # CONSIDER TO MANUALLY UPDATE
+    # 'SCHEME': 'https',
+    # 'HOST': 'dsec-cseai.herokuapp.com',
     'SCHEME': 'http',
     'HOST': '127.0.0.1:8000',
     'PHONE_VERIFY_REGISTER_PATH': '/api/phone-verify/phone/register',

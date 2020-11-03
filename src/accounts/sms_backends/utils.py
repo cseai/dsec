@@ -58,6 +58,8 @@ def phone_verify_register(data, scheme=None, netloc=None, path=None,
     # call API
     response = requests.post(url=generated_url, data=data)
 
+    print(f"res={response}, url={generated_url}")
+
     if response and response.status_code == 200:
         succeed = True
     return response, succeed

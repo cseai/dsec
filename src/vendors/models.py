@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.shortcuts import reverse
 from addresses.models import Address
 
 from accounts.helpers import UploadTo
@@ -51,3 +52,27 @@ class Store(models.Model):
 
     def __str__(self):
         return f"{self.title}[@{self.username}]"
+    
+    
+    def get_vendor_store_detail_url(self):
+        try:
+            url = reverse("vendors:store_detail", kwargs={'store_username': self.username})
+        except:
+            url = '#store_detail'
+        return url
+    
+
+    def get_vendor_store_update_url(self):
+        try:
+            url = reverse("vendors:store_update", kwargs={'store_username': self.username})
+        except:
+            url = '#store_update'
+        return url
+
+
+    def get_vendor_store_product_add_url(self):
+        try:
+            url = reverse("vendors:store_product_add", kwargs={'store_username': self.username})
+        except:
+            url = '#store_product_add'
+        return url

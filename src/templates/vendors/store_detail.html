@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | {{ page_context.title }}
+{% endblock  %}
+
+{% block content %}
+
+
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
+                <li><a href={{ store.get_vendor_store_detail_url }}>Store</a></li>
+                <li class="active"> {{ page_context.breadcrumb_active }} </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- basic-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ page_context.main_heading }} </h4>
+                        </a>
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4 class="text-info" title="{{ store.title}}'s current status: {{ store.store_status }}"> ({{ store.store_status }}) </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    <div>
+                                        <h4>{{ store.title }} [@{{ store.username }}]</h4>
+                                        <p>{{ store.description }}</p>
+                                    </div>
+                                    
+                                    <form action="" method="post"> {% csrf_token %}
+                                        {{ store_status_form.non_field_errors }}
+                                        {{store_status_form|crispy}}
+                                        <div class="button-box">
+                                            <button type="submit"><span>Update Status</span></button>
+                                        </div>
+                                        <br>
+                                    </form>
+                                </div>
+                                <div>
+                                    <h4>Products</h4>
+                                    <div>
+                                        <ol>
+                                            {% for product in products %}
+                                            <li>{{product}}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    </div>
+                                    <div class="button-box">
+                                        <button type="button"><a href={{ store.get_vendor_store_product_add_url }}><span>Add poduct</span></a></button>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+{% endblock content %}    
+

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | {{ page_context.title }}
+{% endblock  %}
+
+{% block content %}
+
+
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
+                <li class="active"> {{ page_context.breadcrumb_active }} </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- basic-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ page_context.main_heading }} </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    {% for store in stores %}
+                                        <div class="single-store">
+                                            <h2>Title: <a href={{ store.get_vendor_store_detail_url }}>{{store.title}}</a></h2>
+                                            <ul>
+                                                <li>Tagline: {{store.tagline}}</li>
+                                                <li>Username: {{store.username}}</li>
+                                                <li>Openning Time: {{store.opening_time}}</li>
+                                                <li>Closing Time: {{store.closing_time}}</li>
+                                                <li>Current Status: {{store.status}}</li>
+                                            </ul>
+                                            <br>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+{% endblock content %}    
+

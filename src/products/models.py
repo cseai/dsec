@@ -1,10 +1,19 @@
 from django.db import models
 # from django.contrib.auth import get_user_model
+from django.shortcuts import reverse
 from vendors.models import Store
 
 from accounts.helpers import UploadTo
 
 # User = get_user_model()
+
+class ProductManager(models.Manager):
+    # we don't want to show inactive product
+    # so that we are filtering that first in queryset
+    def get_queryset(self):
+        return super().get_queryset().filter(active=True)
+
+
 
 class Product(models.Model):
     title                   = models.CharField(max_length=255)
@@ -34,8 +43,11 @@ class Product(models.Model):
     height_field            = models.IntegerField(default=0, null=True)
     width_field             = models.IntegerField(default=0, null=True)
     # more_images             = 
+    active                  = models.BooleanField(default=True)
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
+
+    objects    = ProductManager() # custom manager for active product only
 
     class Meta:
         verbose_name        = "product"
@@ -43,3 +55,27 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+
+    def get_vendor_store_product_detail_url(self):
+        try:
+            url = reverse("vendors:store_product_detail", kwargs={'store_username': self.store.username, 'product_id': self.id})
+        except:
+            url = '#product_detail'
+        return url
+
+
+    def get_vendor_store_product_update_url(self):
+        try:
+            url = reverse("vendors:store_product_update", kwargs={'store_username': self.store.username, 'product_id': self.id})
+        except:
+            url = '#product_update'
+        return url
+    
+
+    def get_vendor_store_product_remove_url(self):
+        try:
+            url = reverse("vendors:store_product_remove", kwargs={'store_username': self.store.username, 'product_id': self.id})
+        except:
+            url = '#product_remove'
+        return url

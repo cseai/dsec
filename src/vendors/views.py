@@ -1,14 +1,39 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django import forms
-from .forms import RegisterStoreForm
+from django.shortcuts import render, reverse, get_object_or_404
+from django import forms 
+from .forms import (
+    RegisterStoreForm, 
+    StoreUpdateForm,
+    StoreAddressUpdateForm,
+    StoreStatusUpdateForm,
+    StoreProductAddForm,
+    StoreProductUpdateForm,
+    StoreProductRemoveForm,
+)
 
 from vendors.models import Store
 from addresses.models import Address
+from products.models import Product
+
 
 @login_required
-def register_vendor_store_view(request, *args, **kwargs):
+def vendor_home_view(request):
+    stores = Store.objects.filter(user=request.user)
+    context = {
+        'page_context': {
+            'title': "Vendor",
+            'breadcrumb_active': "Home",
+            'main_heading': "Vendor Home",
+        },
+        'stores': stores,
+    }
+    return render(request, 'vendors/vendor_home.html', context)
+   
+
+
+@login_required
+def register_store_view(request, *args, **kwargs):
     form = RegisterStoreForm(request.POST or None, request.FILES or None)
     if request.method =='POST':
         if form.is_valid():
@@ -48,16 +73,173 @@ def register_vendor_store_view(request, *args, **kwargs):
             store.user = request.user
             store.save()
             
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('vendors:store_detail'))
     context = {
+        'page_context': {
+            'title': "Register Store",
+            'breadcrumb_active': "Register Store",
+            'main_heading': "Register Store",
+        },
         'form': form,
     }
-    return render(request, 'vendors/register_vendor_store.html', context)
+    return render(request, 'vendors/register_store.html', context)
 
+@login_required
+def store_detail_view(request, store_username, *args, **kwargs):
+    store = get_object_or_404(Store, username=store_username)
+    products = Product.objects.filter(store=store)
 
-def index(request):
-    store=Store.objects.all()
-    context={
-        'store':store
+    store_status_form = StoreStatusUpdateForm(request.POST or None, request.FILES or None, instance=store)
+    if request.method =='POST':
+        if store_status_form.is_valid():
+            store = store_status_form.save()
+            store.save()
+    context = {
+        'page_context': {
+            'title': store.title,
+            'breadcrumb_active': "Store detail",
+            'main_heading': store.title,
+        },
+        'store': store,
+        'store_status_form': store_status_form,
+        'products': products,
     }
-    return render(request,'vendors/index.html',context)
+    return render(request, 'vendors/store_detail.html', context)
+
+
+@login_required
+def store_update_view(request, store_username):
+    store = get_object_or_404(Store, username=store_username)
+    
+    form = StoreUpdateForm(request.POST or None, request.FILES or None, instance=store)
+    store_address_form = StoreAddressUpdateForm(request.POST or None, request.FILES or None, instance=store.address)
+    
+    if request.method =='POST':
+        if form.is_valid() and store_address_form.is_valid():
+            store_address = store_address_form.save()
+            store = form.save(commit=False)
+            if store_address:
+                store.address = store_address
+            store.save()
+            
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
+    context = {
+        'page_context': {
+            'title': "Store Update",
+            'breadcrumb_active': "Store Update",
+            'main_heading': "Store Update",
+        },
+        'form': form,
+        'store_address_form': store_address_form,
+    }
+    return render(request, 'vendors/store_update.html', context)
+
+
+@login_required
+def store_product_list_view(request, store_username):
+    store = get_object_or_404(Store, username=store_username)
+    store_products = Product.objects.filter(store=store)
+
+    context = {
+        'page_context': {
+            'title': "store_product_list",
+            'breadcrumb_active': "",
+            'main_heading': "store_product_list",
+        },
+        'store': store,
+        'store_products': store_products,
+    }
+    return render(request, 'vendors/store_product_list.html', context)
+
+
+@login_required
+def store_product_add_view(request, store_username):
+    store = get_object_or_404(Store, username=store_username)
+    store_product_form = StoreProductAddForm(request.POST or None, request.FILES or None)
+    
+    if request.method =='POST':
+        if store_product_form.is_valid():
+            store_product = store_product_form.save(commit=False)
+            # set product's store
+            store_product.store = store
+            store_product.save()
+            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+
+    context = {
+        'page_context': {
+            'title': store.title,
+            'breadcrumb_active': "Product Add",
+            'main_heading': f"Add product to {store.title}",
+        },
+        'store': store,
+        'store_product_form': store_product_form,
+    }
+    return render(request, 'vendors/store_product_add.html', context)
+
+
+@login_required
+def store_product_detail_view(request, store_username, product_id):
+    store = get_object_or_404(Store, username=store_username)
+    store_product = get_object_or_404(Product, id=product_id, store=store)
+    context = {
+        'page_context': {
+            'title': store.title,
+            'breadcrumb_active': "Product Detail",
+            'main_heading': store_product.title,
+        },
+        'store': store,
+        'store_product': store_product,
+    }
+    return render(request, 'vendors/store_product_detail.html', context)
+
+
+@login_required
+def store_product_update_view(request, store_username, product_id):
+    store = get_object_or_404(Store, username=store_username)
+    store_product = get_object_or_404(Product, id=product_id, store=store)
+
+    store_product_form = StoreProductUpdateForm(request.POST or None, request.FILES or None, instance=store_product)
+    
+    if request.method =='POST':
+        if store_product_form.is_valid():
+            store_product = store_product_form.save()
+            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+
+    context = {
+        'page_context': {
+            'title': store.title,
+            'breadcrumb_active': "Product Update",
+            'main_heading': "Product Update",
+        },
+        'store': store,
+        'store_product': store_product,
+        'store_product_form': store_product_form,
+    }
+    return render(request, 'vendors/store_product_update.html', context)
+
+
+@login_required
+def store_product_remove_view(request, store_username, product_id):
+    store = get_object_or_404(Store, username=store_username)
+    store_product = get_object_or_404(Product, id=product_id, store=store)
+
+    store_product_form = StoreProductRemoveForm(request.POST or None, request.FILES or None, instance=store_product)
+    
+    if request.method =='POST':
+        if store_product_form.is_valid():
+            store_product = store_product_form.save()
+            return HttpResponseRedirect(reverse('vendors:store_product_list', kwargs={'store_username': store.username}))
+
+    context = {
+        'page_context': {
+            'title': store.title,
+            'breadcrumb_active': "Product Remove",
+            'main_heading': f"Confirm Remove Product: {store_product.title}",
+        },
+        'store': store,
+        'store_product': store_product,
+        'store_product_form': store_product_form,
+    }
+    return render(request, 'vendors/store_product_remove.html', context)
+
+
