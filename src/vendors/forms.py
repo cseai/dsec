@@ -68,6 +68,7 @@ class RegisterStoreForm(forms.ModelForm):
             'description': forms.Textarea(attrs={
                 'placeholder': "Store Description",
                 'title': 'Store description',
+                'class':'form-control mb-30'
             }),
             'opening_time': forms.TimeInput(attrs={
                 'placeholder': "Opening time. e.g. 8:00",
