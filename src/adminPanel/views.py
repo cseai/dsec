@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from vendors.models import Store
 from .forms import (StoreFormDisable,StoreForm)
 from .choices import state_choices
@@ -12,6 +13,7 @@ def all_store(request):
     key='all'
     search=''
     context={}
+    
     
     stores=Store.objects.all().filter(is_active=True).filter(is_verified=True)
     
@@ -61,6 +63,8 @@ def all_store_request(request):
     key='all'
     search=''
     context={}
+    # message test
+    messages.add_message(request, messages.ERROR, 'Hello world.')
     #query
     stores=Store.objects.all().filter(is_verified=False).order_by('id')
     # paginator

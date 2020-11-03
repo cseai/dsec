@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -213,3 +214,13 @@ MEDIA_ROOT = BASE_DIR.parent.joinpath("static_cdn", "media_root")
 
 PROTECTED_ROOT = BASE_DIR.parent.joinpath("static_cdn", "protected_media")
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+#django messages
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+MESSAGE_TAGS ={
+    messages.SUCCESS:'success',
+    messages.ERROR:'danger',
+    messages.WARNING:'warning',
+    messages.INFO:'info',
+}
