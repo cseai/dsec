@@ -26,20 +26,25 @@
             <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                 <div class="login-register-wrapper">
                     <div class="login-register-tab-list nav">
-                        <a class="active" data-toggle="tab" href="#lg1">
+                        <a class="active" data-toggle="tab" href="#lg2">
                             <h4> {{ main_heading }} </h4>
+                        </a>
+                        <a href={% url 'auth:login' %}>
+                            <h4> login </h4>
                         </a>
                     </div>
                     <div class="tab-content">
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form enctype="multipart/form-data" action="" method="post"> {% csrf_token %}
+                                    <form action="" method="post"> {% csrf_token %}
                                         {{ form.non_field_errors }}
                                         {{form|crispy}}
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
-                                                <a href={% url 'auth:login' %}>Already have an account? Login!</a>
+                                                {% if current_step == 2 %}
+                                                <a href={% url 'auth:register' %}>Haven't got any CODE? Retry!</a>
+                                                {% endif %}
                                             </div>
                                             <button type="submit"><span>{{submit_btn_text}}</span></button>
                                         </div>

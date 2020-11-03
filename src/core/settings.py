@@ -23,7 +23,7 @@ SECRET_KEY = 's+1@c*&8(4h&m7k%g^)!exg=(7re4v^gf_sr#4%i$$hen7fz_t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -75,7 +75,10 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR.joinpath('templates')],
+        'DIRS': [
+                BASE_DIR.joinpath('templates'),
+                BASE_DIR.joinpath('templates', 'error'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,6 +168,16 @@ PHONE_VERIFICATION = {
     'APP_NAME': 'DSEC',
     'SECURITY_CODE_EXPIRATION_TIME': 300,  # In seconds only
     'VERIFY_SECURITY_CODE_ONLY_ONCE': True,  # If False, then a security code can be used multiple times for verification
+}
+
+# Settings for phone_verify utils
+PHONE_VERIFICATION_UTILS = {
+    # SOME HARD CODDED STRING THAT IS NEED IN PHONE VERIFICATION UTILS
+    # CONSIDER TO MANUALLY UPDATE
+    'SCHEME': 'http',
+    'HOST': '127.0.0.1:8000',
+    'PHONE_VERIFY_REGISTER_PATH': '/api/phone-verify/phone/register',
+    'PHONE_VERIFY_VERIFY_PATH': '/api/phone-verify/phone/verify',
 }
 
 

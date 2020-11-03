@@ -46,7 +46,10 @@
                                             <p class="card-text"><i class="fas fa-user pr-2"></i> {{ request.user.first_name|capfirst }}{{" "}}{{ request.user.last_name }} </p>
                                             <p class="card-text"><i class="fas fa-phone-square-alt"></i> {{ request.user.phone}} </p>
                                             <p class="card-text"><i class="fas fa-envelope"></i>{{ request.user.email }} </p>
-                                            <a href="#" class="btn btn-primary">Edit</a>
+                                            
+                                            <div class="button-box">
+                                                <a href="{% url 'profiles:profile_update' %}" class="btn btn-outline-danger">Edit</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card mt-4" style="width: 100%;">
@@ -79,7 +82,9 @@
                                                         {{request.user.profile.address.country }}
                                                     {% endif %}
                                             </p>
-                                            <a href="#" class="btn btn-primary">Edit</a>
+                                            <div class="button-box">
+                                                <a href="{% url 'profiles:profile_update' %}" class="btn btn-outline-danger">Edit</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -30,27 +30,70 @@
                         </a>
                     </div>
                     <div class="tab-content">
-                        <div id="lg2" class="tab-pane active">
-                            <div class="login-form-container">
-                                <div class="login-register-form">
-                                    
-                                    <form action="#" method="post"> {% csrf_token %}
-                                        {{ user_form|crispy }}
-                                        {{ profile_form|crispy }}
-                                        {{ address_form|crispy }}
-                                        <div class="button-box">
-                                            <button type="submit"><span>Submit Changes</span></button>
+                        <!--1.panel start-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h5 class="panel-title"><span>1</span> <a data-toggle="collapse" data-parent="#faq" href="#my-account-1">Modify your Personal Informations  </a></h5>
+                            </div>
+                            <div id="my-account-1" class="panel-collapse collapse show">
+                                <div class="panel-body">
+                                    <div class="billing-information-wrapper">
+                                        <div class="" style="padding:30px;">
+                                            <div class="login-register-form">
+                                                <form action="" method="post" enctype="multipart/form-data" > {% csrf_token %}
+                                                    {{ user_form|crispy }}
+                                                    {{ profile_form|crispy }}
+                                                    <div style="display:none">
+                                                        {{ address_form|crispy }}
+                                                    </div>
+                                                    <div class="button-box" style="margin-top:40px !important">
+                                                        <button type="submit"><span>Submit Changes</span></button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!--1.panel end-->
+                        <!--2.panel start-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h5 class="panel-title"><span>2</span> <a data-toggle="collapse" data-parent="#faq" href="#my-account-2">Modify your Adress Informations  </a></h5>
+                            </div>
+                            <div id="my-account-2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="billing-information-wrapper">
+                                        <div class="" style="padding:30px;">
+                                            <div class="login-register-form">
+                                                <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
+                                                    <div style="visibility:hidden; display:none">
+                                                        {{ user_form|crispy }}
+                                                        {{ profile_form|crispy }}
+                                                    </div>
+                                                    {{ address_form|crispy }}
+                                                    <div class="button-box" style="margin-top:40px !important">
+                                                        <button type="submit"><span>Update Changes</span></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--panel end-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
+
+{% include "profiles/profile_update_ajax.html" %}
 
 {% endblock content %}  
