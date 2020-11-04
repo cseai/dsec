@@ -44,14 +44,14 @@ All Vendors
                                 type="text" name="search" class="form-control wd-250" placeholder="Search..." >
                         </div>
                         <div class="mg-l-10">
-                            <button type="submit" class="btn btn-info" value="5">Go</button>
+                            <button type="submit" class="btn btn-info" value="" name="sc_btn" >Go</button>
                         </div>
                     </div><!-- d-flex -->
                 </form>
             <!--form end-->
 
             {% if all_store %}
-                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10 mg-t-20">All Request For The Store</h6>
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-30 mg-t-30 text-center">All Request For The Store</h6>
             {% comment %} <p class="mg-b-25 mg-lg-b-50">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p> {% endcomment %}
 
             <div class="table-wrapper">
@@ -101,6 +101,95 @@ All Vendors
                     
                 </tbody>
                 </table>
+
+                <!--paginator-->
+                <div class="row">
+                {% if req == 'req' %}
+                    <div class="col-md-12">
+                        {% if all_store.has_other_pages %}
+                            <ul class="pagination">
+                                {% if all_store.has_previous %}
+                                <li class="page-item">
+                                    <a href="?keyword={{key}}&search={{sc}}&page={{all_store.previous_page_number}}&sc_btn=" class="page-link">
+                                        &laquo;
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">&laquo;</a>
+                                </li>
+                                {% endif %}
+                                {% for i in all_store.paginator.page_range %}
+                                    {% if all_store.number == i %}
+                                        <li class="page-item active">
+                                            <a class="page-link"> {{i}} </a>
+                                        </li>
+                                    {% else %}
+                                    <li class="page-item">
+                                        <a href="?keyword={{key}}&search={{sc}}&page={{i}}&sc_btn=" class="page-link"> {{i}} </a>
+                                    </li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if all_store.has_next %}
+                                <li class="page-item">
+                                    <a href="?keyword={{key}}&search={{sc}}&page={{all_store.next_page_number}}&sc_btn=" class="page-link">
+                                        &raquo;
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">&raquo;</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="col-md-12">
+                    
+                        {% if all_store.has_other_pages %}
+                            <ul class="pagination">
+                                {% if all_store.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{all_store.previous_page_number}}" class="page-link">
+                                        &laquo;
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">&laquo;</a>
+                                </li>
+                                {% endif %}
+                                {% for i in all_store.paginator.page_range %}
+                                    {% if all_store.number == i %}
+                                        <li class="page-item active">
+                                            <a class="page-link"> {{i}} </a>
+                                        </li>
+                                    {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{i}}" class="page-link"> {{i}} </a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if all_store.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{all_store.next_page_number}}" class="page-link">
+                                        &raquo;
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">&raquo;</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                    
+                </div>
             </div><!-- table-wrapper -->
             {% else %}
             <h2 class="mg-t-30">Store Not Found</h2>
