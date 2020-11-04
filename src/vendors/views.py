@@ -29,7 +29,7 @@ def vendor_home_view(request):
         'stores': stores,
     }
     return render(request, 'vendors/vendor_home.html', context)
-   
+
 
 
 @login_required
@@ -88,6 +88,9 @@ def register_store_view(request, *args, **kwargs):
 def store_detail_view(request, store_username, *args, **kwargs):
     store = get_object_or_404(Store, username=store_username)
     products = Product.objects.filter(store=store)
+    
+    #paginator
+    
 
     store_status_form = StoreStatusUpdateForm(request.POST or None, request.FILES or None, instance=store)
     if request.method =='POST':
@@ -97,12 +100,13 @@ def store_detail_view(request, store_username, *args, **kwargs):
     context = {
         'page_context': {
             'title': store.title,
-            'breadcrumb_active': "Store detail",
+            'breadcrumb_active': "Store Details",
             'main_heading': store.title,
         },
         'store': store,
         'store_status_form': store_status_form,
         'products': products,
+        'total_product':products.count(),
     }
     return render(request, 'vendors/store_detail.html', context)
 

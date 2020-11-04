@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
         <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
         <!--custom css-->
+        <link rel="stylesheet" href="{% static 'assets/css/vendor.css' %}"> 
+        <link rel="stylesheet" href="{% static 'all.css' %}"> 
         {% comment %} <link rel="stylesheet" href="{% static 'assets/css/user_profile.css' %}"> {% endcomment %}
         <!--font awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
@@ -39,9 +41,9 @@
         <!-- header start -->
         {% comment %} {% include 'partials/_header.html' %} {% endcomment %}
         <header class="header-area">
-          {% include 'partials/top_header.html' %} 
-          {% include 'partials/mid_header.html' %}
-          {% include 'partials/_navbar.html' %}
+            {% include 'partials/top_header.html' %} 
+            {% include 'partials/mid_header.html' %}
+            {% include 'partials/_navbar.html' %}
         </header>
 
         {% block content %}
