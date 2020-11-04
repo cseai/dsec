@@ -4,7 +4,7 @@
 .vscode/*
 
 # design/*
-static_cdn/media_root/*
+#static_cdn/media_root/*
 static_cdn/static_root/*
 
 # Byte-compiled / optimized / DLL files
