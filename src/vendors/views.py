@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
+from django.core.paginator import Paginator
+
 from .forms import (
     RegisterStoreForm, 
     StoreUpdateForm,
@@ -19,7 +21,9 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
+    
     stores = Store.objects.filter(user=request.user)
+    
     context = {
         'page_context': {
             'title': "Vendor",
@@ -34,7 +38,9 @@ def vendor_home_view(request):
 
 @login_required
 def register_store_view(request, *args, **kwargs):
+    
     form = RegisterStoreForm(request.POST or None, request.FILES or None)
+    
     if request.method =='POST':
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -90,7 +96,9 @@ def store_detail_view(request, store_username, *args, **kwargs):
     products = Product.objects.filter(store=store)
     
     #paginator
-    
+    paginator=Paginator(products,1)
+    page_number=request.GET.get('page')
+    product_page=paginator.get_page(page_number)
 
     store_status_form = StoreStatusUpdateForm(request.POST or None, request.FILES or None, instance=store)
     if request.method =='POST':
@@ -105,7 +113,7 @@ def store_detail_view(request, store_username, *args, **kwargs):
         },
         'store': store,
         'store_status_form': store_status_form,
-        'products': products,
+        'products': product_page,
         'total_product':products.count(),
     }
     return render(request, 'vendors/store_detail.html', context)
