@@ -2,13 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
-
+from django.core.paginator import Paginator
 
 from vendors.models import Store
 from products.models import Product
 
 
-@login_required
 def store_list_view(request):
     stores = Store.objects.all()
     context = {
@@ -20,26 +19,30 @@ def store_list_view(request):
         'stores': stores,
     }
     return render(request, 'home/stores/store_list.html', context)
-   
 
-@login_required
+
 def store_detail_view(request, store_username, *args, **kwargs):
     store = get_object_or_404(Store, username=store_username)
     products = Product.objects.filter(store=store)
+    
+    #paginator
+    paginator=Paginator(products,1)
+    page_number=request.GET.get('page')
+    product_page=paginator.get_page(page_number)
 
     context = {
         'page_context': {
             'title': store.title,
-            'breadcrumb_active': f"@{store.username}",
+            'breadcrumb_active': "Store Details",
             'main_heading': store.title,
         },
         'store': store,
-        'products': products,
+        'products': product_page,
+        'total_product': products.count(),
     }
     return render(request, 'home/stores/store_detail.html', context)
 
 
-@login_required
 def store_product_list_view(request, store_username):
     store = get_object_or_404(Store, username=store_username)
     store_products = Product.objects.filter(store=store)
@@ -56,7 +59,6 @@ def store_product_list_view(request, store_username):
     return render(request, 'home/stores/store_product_list.html', context)
 
 
-@login_required
 def store_product_detail_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
     product = get_object_or_404(Product, id=product_id, store=store)

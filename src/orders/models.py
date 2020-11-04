@@ -6,7 +6,15 @@ from products.models import Product
 User = get_user_model()
 
 class Order(models.Model):
+    """
+    This Model will work as a cart model with extra properties.
+    [is_ordered]: This property determine wheather user ordered or just added to cart.
+    If is_ordered==False then user just added item to cart.
+    Otherwise If is_ordered==True then user requested an order.
+    After requesting admin can see the requested order and can confirm that order or reject that order.
+    """
     customer                = models.ForeignKey(User, related_name="customer", null=True, on_delete=models.SET_NULL)
+    is_ordered              = models.BooleanField(default=False)
     ordered_date            = models.DateTimeField(null=True, blank=True)
     date_confirmed          = models.DateTimeField(null=True, blank=True)
     shipping_date           = models.DateTimeField(null=True, blank=True)
@@ -35,6 +43,9 @@ class Order(models.Model):
         return f"order_id:{self.id}"
 
 class OrderItem(models.Model):
+    """
+    This will represent the order-item with quantity.
+    """
     order                   = models.ForeignKey(Order, on_delete=models.CASCADE)
     product                 = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
     quantity                = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
