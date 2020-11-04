@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    $("#quick_view").on('click','.open_view',function(){
+        //console.log("Hello there");
+        let id =$(this).attr('data-sid');
+        //console.log(id)
+        
+        // hide the modal data
+        $('#modalContent').hide();
+        $('#modalSpinner').show();
+
+        mydata={'store_username':'Kashmeri','product_id':id}
+        mythis=this;
+
+        //ajax request
+        $.ajax({
+            url:"{% url 'vendors:api_store_product_detail' %}",
+            type:'GET',
+            data:mydata,
+            success:function(data){
+                // converts string of json to object
+                data = JSON.parse(data);
+                console.log(data);
+
+                if(data.status == '200'){
+                    // show modal data place after successfully data get 
+                    $('#modalContent').show();
+                    $('#modalSpinner').hide();
+                    //add data to html fields
+                    $('#modalTitle').append(data.title);
+                    $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
+                    $('#description').text(data.description);
+                    $('#discount-price').text('$'+data.sup_price);
+                    $('#selling-price').text('$'+data.selling_price);
+                }
+                else if(data.status=='404'){
+                    $('#modalContent').show();
+                    $('#modalContent').html('<h1>Please Reload!</h1>');
+                    $('#modalSpinner').hide();
+                }
+                
+            }
+        })
+
+        
+    })
+    
+</script>
