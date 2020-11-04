@@ -15,8 +15,7 @@
         <div class="breadcrumb-content">
             <ul>
                 <li><a href="{% url 'home:home' %}">Home</a></li>
-                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
-                <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
+                <li><a href="{% url 'stores:stores' %}">Stores</a></li>
                 <li class="active"> {{ page_context.breadcrumb_active }} </li>
             </ul>
         </div>
@@ -39,26 +38,27 @@
                             <div class="login-form-container">
                                 <div class="login-register-form">
                                     <div>
-                                        <h4>{{ store_product.title }}</h4>
+                                        <h4>{{ store.title }} [@{{ store.username }}]</h4>
+                                        <p>{{ store.description }}</p>
                                     </div>
-                                    <!-- <form action="" method="post"> {% csrf_token %}
-                                        {{ form.non_field_errors }}
-                                        {{form|crispy}}
-                                        <div class="button-box">
-                                            <button type="submit"><span>Submit</span></button>
-                                        </div>
-                                    </form> -->
-                                    <br>
-                                    <div class="button-box">
-                                        <button type="button"><a href={{ store_product.get_vendor_store_product_update_url }}><span>Update</span></a></button>
-                                    </div>
-                                    <br>
-                                    <div class="button-box">
-                                        <button type="button"><a href={{ store_product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button>
-                                    </div>
-                                    <br>
-                                    <div class="button-box">
-                                        <button type="button"><a href={{ store.get_vendor_store_product_add_url }}><span>Add another poduct</span></a></button>
+                                </div>
+                                <div>
+                                    <h4>Products</h4>
+                                    <div>
+                                        <ol>
+                                            {% for product in products %}
+                                                <div class="single-store">
+                                                    <h2>Title: <a href={{ product.get_store_product_detail_url }}>{{product.title}}</a></h2>
+                                                    <ul> 
+                                                        <li>SKU: {{product.sku}}</li>
+                                                        <li>Description: {{product.description}}</li>
+                                                        <li>selling_price: {{product.selling_price}}</li>
+                                                        <li>discount: {{product.discount}}</li>
+                                                    </ul>
+                                                    <br>
+                                                </div>
+                                            {% endfor %}
+                                        </ol>
                                     </div>
                                 </div>
                             </div>

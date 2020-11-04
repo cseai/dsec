@@ -57,6 +57,14 @@ class Product(models.Model):
         return self.title
 
 
+    def get_store_product_detail_url(self):
+        try:
+            url = reverse("stores:store_product_detail", kwargs={'store_username': self.store.username, 'product_id': self.id})
+        except:
+            url = '#product_detail'
+        return url
+
+
     def get_vendor_store_product_detail_url(self):
         try:
             url = reverse("vendors:store_product_detail", kwargs={'store_username': self.store.username, 'product_id': self.id})

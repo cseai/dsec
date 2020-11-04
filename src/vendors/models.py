@@ -53,6 +53,14 @@ class Store(models.Model):
     def __str__(self):
         return f"{self.title}[@{self.username}]"
     
+
+    def get_store_detail_url(self):
+        try:
+            url = reverse("stores:store_detail", kwargs={'store_username': self.username})
+        except:
+            url = '#store_detail'
+        return url
+
     
     def get_vendor_store_detail_url(self):
         try:

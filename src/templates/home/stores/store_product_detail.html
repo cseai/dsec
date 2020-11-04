@@ -15,8 +15,8 @@
         <div class="breadcrumb-content">
             <ul>
                 <li><a href="{% url 'home:home' %}">Home</a></li>
-                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
-                <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
+                <li><a href="{% url 'stores:stores' %}">Stores</a></li>
+                <li><a href="{{ store.get_store_detail_url }}">@{{store.username}}</a></li>
                 <li class="active"> {{ page_context.breadcrumb_active }} </li>
             </ul>
         </div>
@@ -38,18 +38,16 @@
                         <div id="lg2" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form action="" method="post"> {% csrf_token %}
-                                        {{ store_product_form.non_field_errors }}
-                                        {{store_product_form|crispy}}
-                                        <div class="button-box">
-                                            <button type="submit"><span>Save Changes</span></button>
-                                        </div>
-                                    </form>
-                                    <br>
-                                    <div class="button-box">
-                                        <button type="button"><a href={{ store_product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button>
+                                    <div class="single-store">
+                                        <h2>Title: {{product.title}}</h2>
+                                        <ul>
+                                            <li>SKU: {{product.sku}}</li>
+                                            <li>Description: {{product.description}}</li>
+                                            <li>selling_price: {{product.selling_price}}</li>
+                                            <li>discount: {{product.discount}}</li>
+                                        </ul>
+                                        <br>
                                     </div>
-                                    <br>
                                 </div>
                             </div>
                         </div>
