@@ -25,7 +25,6 @@
                 <!--store logo and details start-->
                 <div class="row mb-30">
                     <div class="col-lg-6 col-md-5">
-                        {% comment %} <div class="open">open now</div> {% endcomment %}
                         <div class="overview-img text-center">
                             <a href="#">
                                 <img src="{{store.logo.url}}" alt="store logo">
@@ -35,7 +34,11 @@
                     <div class="col-lg-6 col-md-7 d-flex align-items-start">
                         <div class="overview-content-2">
                             <h2><span class="color-pri" >
-                                <i class="fas fa-check-circle text-primary"></i>
+                                {% if product.is_verified %}
+                                    <i class="fas fa-check-circle text-success"></i>
+                                {% else %}
+                                    <i class="fas fa-check-circle text-danger"></i>
+                                {% endif %}
                                 {{store.title}}
                                 <div class="open">open now</div>
                             </span></h2>
@@ -145,22 +148,46 @@
                             
                         </div>
                     </div>
-                    <div class="pagination-total-pages">
-                        <div class="pagination-style">
-                            <ul>
-                                <li><a class="prev-next prev" href="#"><i class="ion-ios-arrow-left"></i> Prev</a></li>
-                                <li><a class="active" href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">...</a></li>
-                                <li><a href="#">10</a></li>
-                                <li><a class="prev-next next" href="#">Next<i class="ion-ios-arrow-right"></i> </a></li>
-                            </ul>
+                    {% if products.has_other_pages %}
+                        <div class="pagination-total-pages">
+                            <div class="pagination-style">
+                                <ul>
+                                    {% if products.has_previous %}
+                                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
+                                    </li>
+                                {% endif %}
+                                {% for i in products.paginator.page_range %}
+                                    {% if products.number == i %}
+                                        {% comment %} <li class="page-item active">
+                                            <a class="page-link"> {{i}} </a>
+                                        </li> {% endcomment %}
+                                    <li><a class="active" href="#">{{i}}</a></li>
+                                    {% else %}
+                                        {% comment %} <li class="page-item">
+                                            <a href="?page={{i}}" class="page-link"> {{i}} </a>
+                                        </li> {% endcomment %}
+                                        <li><a href="?page={{i}}">{{i}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if products.has_next %}
+                                    <li><a class="prev-next next" href="?page={{products.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                                    
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
+                                    </li>
+                                {% endif %}
+                                
+                                </ul>
+                            </div>
+                            <div class="total-pages">
+                                <p>Showing 1 - 20 of 30 results  </p>
+                            </div>
                         </div>
-                        <div class="total-pages">
-                            <p>Showing 1 - 20 of 30 results  </p>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-3">
