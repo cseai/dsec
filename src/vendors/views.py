@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
 from django.core.paginator import Paginator
-
+import json
 from .forms import (
     RegisterStoreForm, 
     StoreUpdateForm,
@@ -255,3 +255,30 @@ def store_product_remove_view(request, store_username, product_id):
     return render(request, 'vendors/store_product_remove.html', context)
 
 
+
+#api
+def api_store_product_detail_view(request):
+    if request.is_ajax() and request.method == 'GET':  
+        print("hello there")
+        store_username = request.GET['store_username']
+        store_product_id = request.GET['product_id']
+        
+        try:
+            store = Store.objects.get(username=store_username)
+            product = store.product_set.get(id=store_product_id)
+            print(product)
+            data={
+                'status' : '200',
+                'title' : str(product.title),
+                'image' : str(product.image.url),
+                'description' : str(product.description),
+                'sup_price' : int(product.sup_price),
+                'selling_price' : int(product.selling_price),
+            }
+            return HttpResponse(json.dumps(data))
+        except:
+            data={
+                'status':'404',
+            }
+            return HttpResponse(json.dumps(data))
+        

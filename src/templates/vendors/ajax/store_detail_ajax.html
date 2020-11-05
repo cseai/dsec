@@ -1,8 +1,8 @@
 <script type="text/javascript">
-    $("#quick_view").on('click','.open_view',function(){
-        //console.log("Hello there");
+    $("#quick_view , #quick_view_2").on('click','.open_view',function(){
+        console.log("Hello there");
         let id =$(this).attr('data-sid');
-        //console.log(id)
+        console.log(id)
         
         // hide the modal data
         $('#modalContent').hide();
@@ -29,7 +29,7 @@
                     $('#modalTitle').append(data.title);
                     $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
                     $('#description').text(data.description);
-                    $('#discount-price').text('$'+data.sup_price);
+                    $('#sup-price').text('$'+data.sup_price);
                     $('#selling-price').text('$'+data.selling_price);
                 }
                 else if(data.status=='404'){

@@ -25,14 +25,14 @@
                 <!--store logo and details start-->
                 <div class="row mb-30">
                     <div class="col-lg-6 col-md-5">
-                        <div class="overview-img text-center">
+                        <div class="overview-img text-center" style="height:410px; width:420px;">
                             <a href="#">
                                 <img src="{{store.logo.url}}" alt="store logo">
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-7 d-flex align-items-start">
-                        <div class="overview-content-2">
+                        <div class="overview-content-2" style="width:100%;">
                             <h2><span class="color-pri" >
                                 {% if product.is_verified %}
                                     <i class="fas fa-check-circle text-success"></i>
@@ -108,7 +108,7 @@
                                                 </div>
                                                 <div class="pro-action-right">
                                                     <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
-                                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
+                                                    <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,12 +130,13 @@
                                                 <span class="product-price-old">$120.00 </span>
                                             </div>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                            <div class="shop-list-cart-wishlist">
+                                            <div class="shop-list-cart-wishlist" >
                                                 <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
                                                 <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                                                    <i class="ion-android-open"></i>
-                                                </a>
+                                                {% comment %} <a href="#" id="quick_view" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                                                    <i data-sid="{{product.id}}"  class="ion-android-open open_view"></i>
+                                                </a> {% endcomment %}
+                                                <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -161,14 +162,8 @@
                                 {% endif %}
                                 {% for i in products.paginator.page_range %}
                                     {% if products.number == i %}
-                                        {% comment %} <li class="page-item active">
-                                            <a class="page-link"> {{i}} </a>
-                                        </li> {% endcomment %}
-                                    <li><a class="active" href="#">{{i}}</a></li>
+                                        <li><a class="active" href="#">{{i}}</a></li>
                                     {% else %}
-                                        {% comment %} <li class="page-item">
-                                            <a href="?page={{i}}" class="page-link"> {{i}} </a>
-                                        </li> {% endcomment %}
                                         <li><a href="?page={{i}}">{{i}}</a></li>
                                     {% endif %}
                                 {% endfor %}
@@ -309,15 +304,16 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
             </div>
-            <div class="modal-body">
-                <div class="row">
+            <div class="modal-body" >
+                <div class="vendor-spinner" id="modalSpinner">
+                    <img src="{% static 'spinner/spinner.gif' %}" alt="Loading">
+                </div>
+                <div class="row" id="modalContent">
                     <div class="col-md-5 col-sm-5 col-xs-12">
                         <!-- Thumbnail Large Image start -->
                         <div class="tab-content">
-                            <div id="pro-1" class="tab-pane fade show active">
-                                <img src="{% static 'assets/images/product-details/product-detalis-l1.jpg' %}" alt="">
-                            </div>
-                            <div id="pro-2" class="tab-pane fade">
+                            <div id="pro-1" class="tab-pane fade show active"></div>
+                            {% comment %} <div id="pro-2" class="tab-pane fade">
                                 <img src="{% static 'assets/images/product-details/product-detalis-l2.jpg' %}" alt="">
                             </div>
                             <div id="pro-3" class="tab-pane fade">
@@ -325,7 +321,7 @@
                             </div>
                             <div id="pro-4" class="tab-pane fade">
                                 <img src="{% static 'assets/images/product-details/product-detalis-l4.jpg' %}" alt="">
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                         <!-- Thumbnail Large Image End -->
                         <!-- Thumbnail Image End -->
@@ -341,12 +337,12 @@
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         <div class="modal-pro-content">
-                            <h3>PRODUCTS NAME HERE </h3>
+                            <h3 id="modalTitle"></h3>
                             <div class="product-price-wrapper">
-                                <span>$120.00</span>
-                                <span class="product-price-old">$162.00 </span>
+                                <span id="sup-price"></span>
+                                <span class="product-price-old" id="selling-price"></span>
                             </div>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet.</p>	
+                            <p id="description" ></p>	
                             <div class="quick-view-select">
                                 <div class="select-option-part">
                                     <label>Size*</label>
@@ -381,6 +377,9 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <!-- Modal end -->
-        
+    {% include "vendors/ajax/store_detail_ajax.html" %}
 {% endblock content %}

@@ -1836,7 +1836,7 @@ textarea:focus {
     padding-top: 2px;
 }
 .stick .main-menu ul li a {
-    color: #2f333a;
+    color: #fff;
 }
 .main-menu ul li a i {
     font-size: 10px;
@@ -1956,7 +1956,8 @@ textarea:focus {
 }
 .transparent-bar.stick {
     animation: 700ms ease-in-out 0s normal none 1 running fadeInDown;
-    background-color: #fff;
+    /* background-color: #fff; */
+    color: #fff !important;
     border-bottom: 0 solid #4a90e2;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.04);
     position: fixed;
