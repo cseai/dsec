@@ -195,6 +195,8 @@ class Address(models.Model):
 
 - FK: User
 
+### is_ordered
+
 ### ordered_date
 
 ### date_confirmed
@@ -278,7 +280,7 @@ class Address(models.Model):
 ## Delivery Service and E-Commerce System  Database Model for Django Framework
 Date: 19.09.2020
 Md. Belal Hossain & Md. Shariar Kabir
-Updated At: 19.10.2020
+Updated At: 04.11.2020
 
 ## Notes
 FK => ForeignKey
