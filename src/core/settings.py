@@ -157,7 +157,7 @@ PHONE_VERIFICATION = {
     'BACKEND': 'accounts.sms_backends.bdsms.BdsmsBackend',  # Path to the custom backend class which we will be creating in further steps
     'OPTIONS': {
         # define options required for your service
-        'BDSMS_TOKEN': 'd7b8a552f6c00b66408a47c00c1191bf',
+        'BDSMS_TOKEN': 'c49eb9555624fa7bc5babdb14f17af8c',
         'BDSMS_ENDPOINT': 'https://sms.greenweb.com.bd/api.php'
         # 'KEY': 'Fake Key',
         # 'SECRET': 'Fake secret',
