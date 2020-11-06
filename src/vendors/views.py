@@ -93,7 +93,7 @@ def register_store_view(request, *args, **kwargs):
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
     store = get_object_or_404(Store, username=store_username)
-    products = Product.objects.filter(store=store)
+    products = Product.objects.filter(store=store).order_by('-id')
     
     #paginator
     paginator=Paginator(products,1)
@@ -214,8 +214,9 @@ def store_product_update_view(request, store_username, product_id):
     
     if request.method =='POST':
         if store_product_form.is_valid():
+            print("product update --->>>>")
             store_product = store_product_form.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username,}))
 
     context = {
         'page_context': {

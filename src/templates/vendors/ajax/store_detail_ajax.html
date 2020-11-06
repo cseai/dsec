@@ -1,14 +1,17 @@
 <script type="text/javascript">
     $("#quick_view , #quick_view_2").on('click','.open_view',function(){
         console.log("Hello there");
-        let id =$(this).attr('data-sid');
-        console.log(id)
+        // product id
+        let id = $(this).attr('data-sid');
+        let store_username = $(this).attr('data-sname');
+        console.log(id);
+        console.log(store_username);
         
         // hide the modal data
         $('#modalContent').hide();
         $('#modalSpinner').show();
 
-        mydata={'store_username':'Kashmeri','product_id':id}
+        mydata={'store_username': store_username,'product_id':id}
         mythis=this;
 
         //ajax request
@@ -25,12 +28,32 @@
                     // show modal data place after successfully data get 
                     $('#modalContent').show();
                     $('#modalSpinner').hide();
+
                     //add data to html fields
                     $('#modalTitle').append(data.title);
                     $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
                     $('#description').text(data.description);
                     $('#sup-price').text('$'+data.sup_price);
                     $('#selling-price').text('$'+data.selling_price);
+
+                    //modal button for rediect
+                    $('#update-id').on('click', function(){
+                        console.log("update id clicked");
+                        let aval=$('#update-id').attr("href");
+
+                        var Obj={
+                            0: store_username, 
+                            1: id, 
+                        }
+                        var url = "{% url 'vendors:store_product_update' store_username=0 product_id=1 %}";
+                        
+                        //replace
+                        var urlLink = url.replace(/0|1/gi, function(matched){ 
+                            return Obj[matched]; 
+                        }); 
+                        console.log(urlLink);
+                        $(this).attr("href",urlLink)
+                    })
                 }
                 else if(data.status=='404'){
                     $('#modalContent').show();
@@ -45,3 +68,6 @@
     })
     
 </script>
+
+    {% comment %} $(this).attr('href','"{% url 'vendors:store_product_update' store_username='"+store_username+"'  product_id='"+id+"'  %}"') {% endcomment %}
+{% comment %} stores/Kashmeri/products/2/update/ {% endcomment %}

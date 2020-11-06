@@ -2641,10 +2641,11 @@ textarea:focus {
     opacity: 1;
 }
 .product-quantity button {
-    background: #333 none repeat scroll 0 0;
+    /* background: #333 none repeat scroll 0 0; */
+    background: #fff none repeat scroll 0 0;
     border: medium none;
     border-radius: 3px;
-    color: #fff;
+    color: #333;
     cursor: pointer;
     font-size: 13px;
     font-weight: 500;
@@ -2656,14 +2657,40 @@ textarea:focus {
     text-transform: uppercase;
     transition: all 0.3s ease 0s;
 }
+
+.product-quantity a {
+    background: #fff none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 3px;
+    color: #333;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    height: 40px;
+    letter-spacing: 0.025em;
+    line-height: 40px;
+    margin-left: 20px;
+    padding: 0 20px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+}
+
 product-quantity {
     display: block;
     margin: 0 0 16px;
     overflow: hidden;
 }
 .product-quantity button:hover {
-    background: #e02c2b none repeat scroll 0 0;
+    background: #f9aa33 none repeat scroll 0 0;
+    color: #333;
+
 }
+
+.product-quantity a:hover {
+    background: #f9aa33 none repeat scroll 0 0;
+    color:#fff;
+}
+
 .quickview-color-wrap {
     margin: 29px 0 0;
 }

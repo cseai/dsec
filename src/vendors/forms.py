@@ -1,8 +1,15 @@
 from django import forms
-
+from django.utils.safestring import mark_safe
 from .models import Store
 from addresses.models import  Address
 from products.models import Product
+
+class ImagePreviewWidget(forms.widgets.FileInput):
+    def render(self, name, value, attrs=None, **kwargs):
+        input_html = super().render(name, value, attrs=None, **kwargs)
+        img_html = mark_safe(f'<br><br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex; " id="imgUploadProduct"  /><br><br>')
+        return f'{img_html}{input_html}'
+
 
 class RegisterStoreForm(forms.ModelForm):
     address_line_1  = forms.CharField(label='', max_length=120)
@@ -231,9 +238,12 @@ class StoreStatusUpdateForm(forms.ModelForm):
 
 
 class StoreProductAddForm(forms.ModelForm):
+    
+    image = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', 'image',)
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
@@ -283,6 +293,14 @@ class StoreProductAddForm(forms.ModelForm):
                 'title': 'Product Category/Tag',
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(StoreProductAddForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({
+                'class': '',
+                'id':'imageUpload',
+            })
+        self.fields['image'].label = "Product Image"
 
 
     def save(self, commit=True):
@@ -295,9 +313,12 @@ class StoreProductAddForm(forms.ModelForm):
 
 
 class StoreProductUpdateForm(forms.ModelForm):
+    
+    image = forms.ImageField(label=('User Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', 'image',)
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
@@ -347,7 +368,13 @@ class StoreProductUpdateForm(forms.ModelForm):
                 'title': 'Product Category/Tag',
             }),
         }
-
+    def __init__(self, *args, **kwargs):
+        super(StoreProductUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({
+                'class': '',
+                'id':'imageUploadProduct',
+            })
+        self.fields['image'].label = "Product Image"
 
     def save(self, commit=True):
         # Save the provided information

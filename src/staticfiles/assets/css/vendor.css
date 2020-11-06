@@ -85,6 +85,14 @@
     }
 }
 
+/* modal spinner  */
+
+.modal-title{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
 .vendor-spinner{
     display: flex;
     justify-content: center;

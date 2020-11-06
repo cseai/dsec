@@ -25,7 +25,7 @@
                 <!--store logo and details start-->
                 <div class="row mb-30">
                     <div class="col-lg-6 col-md-5">
-                        <div class="overview-img text-center" style="height:410px; width:420px;">
+                        <div class="overview-img text-center" style="max-height:410px; max-width:420px;">
                             <a href="#">
                                 <img src="{{store.logo.url}}" alt="store logo">
                             </a>
@@ -99,10 +99,10 @@
                                 <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
                                     <div class="product-wrapper">
                                         <div class="product-img">
-                                            <a href="product-details.html">
-                                                <img src="{{product.image.url}}" alt="">
+                                            <a href="" data-toggle="modal" id="quick_view"  data-target="#exampleModal">
+                                                <img src="{{product.image.url}}" data-sid="{{product.id}}" data-sname={{ store.username }} alt="" class="open_view">
                                             </a>
-                                            <div class="product-action">
+                                            {% comment %} <div class="product-action">
                                                 <div class="pro-action-left">
                                                     <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
                                                 </div>
@@ -110,7 +110,7 @@
                                                     <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
                                                     <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
                                                 </div>
-                                            </div>
+                                            </div> {% endcomment %}
                                         </div>
                                         <div class="product-content">
                                             <h4>
@@ -337,7 +337,10 @@
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         <div class="modal-pro-content">
-                            <h3 id="modalTitle"></h3>
+                            <div class="modal-title">
+                                <h3 id="modalTitle" style="padding-right:10px;"></h3>
+                                <span><i class="fa fa-check" style="color: green !important"></i> Available</span>
+                            </div>
                             <div class="product-price-wrapper">
                                 <span id="sup-price"></span>
                                 <span class="product-price-old" id="selling-price"></span>
@@ -363,13 +366,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="product-quantity">
-                                <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="02">
-                                </div>
-                                <button>Add to cart</button>
+                            <div class="product-quantity" id="modal-btn">
+                                <a href="" class="" id="update-id">Update</a>
+                                <a href="" class="">Add Product</a>
+
                             </div>
-                            <span><i class="fa fa-check"></i> In stock</span>
+                            
                         </div>
                     </div>
                 </div>
@@ -378,7 +380,7 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
 
 <!-- Modal end -->
     {% include "vendors/ajax/store_detail_ajax.html" %}

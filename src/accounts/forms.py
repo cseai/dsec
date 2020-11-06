@@ -180,7 +180,7 @@ class RegisterForm(forms.ModelForm):
     
 class ImagePreviewWidget(forms.widgets.FileInput):
     def render(self, name, value, attrs=None, **kwargs):
-        input_html = super().render(name, value, attrs={'label':"User Image"}, **kwargs)
+        input_html = super().render(name, value, attrs={'label':""}, **kwargs)
         img_html = mark_safe(f'<br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex;" id="imgUpload" /><br><br>')
         return f'{img_html}{input_html}'
 
@@ -192,7 +192,7 @@ class UserUpdateForm(forms.ModelForm):
     # That means we have to remove phone from this form
     # IF we need to change phone we have to do it another form
     # with some constrains
-    image = forms.ImageField(label=('User Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    image = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
     image=forms.ImageField(widget=ImagePreviewWidget,)
 
     class Meta:
