@@ -1909,7 +1909,8 @@ textarea:focus {
     padding-top: 0px;
 }
 .main-menu ul li.top-hover ul li > a::before {
-    background: #e02c2b none repeat scroll 0 0;
+    /* background: #e02c2b none repeat scroll 0 0; */
+    background: #f9aa33 none repeat scroll 0 0;
     border-radius: 50%;
     content: "";
     height: 7px;

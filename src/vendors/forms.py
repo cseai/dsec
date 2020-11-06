@@ -240,7 +240,7 @@ class StoreStatusUpdateForm(forms.ModelForm):
 class StoreProductAddForm(forms.ModelForm):
     
     image = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
-    image=forms.ImageField(widget=ImagePreviewWidget,)
+    # image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
         fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', )
@@ -298,7 +298,7 @@ class StoreProductAddForm(forms.ModelForm):
         super(StoreProductAddForm, self).__init__(*args, **kwargs)
         self.fields['image'].widget.attrs.update({
                 'class': '',
-                'id':'imageUpload',
+                'id':'imageUploadProductAdd',
             })
         self.fields['image'].label = "Product Image"
 

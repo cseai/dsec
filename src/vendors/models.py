@@ -7,7 +7,7 @@ from accounts.helpers import UploadTo
 
 User = get_user_model()
 
-
+# verbose_name='user',related_name='store',
 class Store(models.Model):
     CATEGORY_COMPANY        = 'C'
     CATEGORY_PERSONAL       = 'P'

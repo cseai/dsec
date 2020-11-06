@@ -38,7 +38,7 @@
                         <div id="lg2" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form action="" method="post"> {% csrf_token %}
+                                    <form action="" method="post" enctype= "multipart/form-data"> {% csrf_token %}
                                         {{ form.non_field_errors }}
                                         {{form|crispy}}
                                         <div class="button-box">

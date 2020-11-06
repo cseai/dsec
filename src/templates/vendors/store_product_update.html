@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "vendors/vendor_left_bar.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -7,166 +7,45 @@
     {{ block.super }} | {{ page_context.title }}
 {% endblock  %}
 
-{% block content %}
+{% block vendor_breadcrumb %}
+    <li><a href="{% url 'home:home' %}">Home</a></li>
+    <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
+    <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
+    <li class="active"> {{ page_context.breadcrumb_active }} </li>
+{% endblock vendor_breadcrumb %}
 
 
-<div class="breadcrumb-area gray-bg">
+
+{% block vendor_main %}
+<!--- basic-->
+<div class="login-register-area pt-0 pb-100">
     <div class="container">
-        <div class="breadcrumb-content">
-            <ul>
-                <li><a href="{% url 'home:home' %}">Home</a></li>
-                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
-                <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
-                <li class="active"> {{ page_context.breadcrumb_active }} </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="shop-page-area pt-20 pb-100">
-    <div class="container">
-        <div class="row flex-row-reverse">
-            <div class="col-lg-9">
-                <!--- basic-->
-                <div class="login-register-area pt-0 pb-100">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 ml-auto mr-auto">
-                                <div class="login-register-wrapper">
-                                    <div class="login-register-tab-list nav mb-0">
-                                        {% comment %} <a class="active" data-toggle="tab" href="#lg2">
-                                            <h4> {{ page_context.main_heading }} </h4>
-                                        </a> {% endcomment %}
-                                    </div>
-                                    <div class="tab-content">
-                                        <div id="lg2" class="tab-pane active">
-                                            <div class="login-form-container">
-                                                <div class="login-register-form">
-                                                    <form action="" method="post"> {% csrf_token %}
-                                                        {{ store_product_form.non_field_errors }}
-                                                        {{store_product_form|crispy}}
-                                                        <div class="button-box mt-50" style="display:flex; justify-content:center;" >
-                                                            <button type="submit" ><span>Save Changes</span></button>
-                                                        </div>
-                                                    </form>
-                                                    <br>
-                                                    <div class="button-box">
-                                                        {% comment %} <button type="button"><a href={{ store_product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button> {% endcomment %}
-                                                    </div>
-                                                    <br>
-                                                </div>
-                                            </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav mb-0">
+                        {% comment %} <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ page_context.main_heading }} </h4>
+                        </a> {% endcomment %}
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container" style="box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);" >
+                                <div class="login-register-form" >
+                                    <form action="" method="post" enctype= "multipart/form-data"> {% csrf_token %}
+                                        {{ store_product_form.non_field_errors }}
+                                        {{store_product_form|crispy}}
+                                        <div class="button-box mt-50" style="display:flex; justify-content:center;" >
+                                            <button type="submit" ><span>Save Changes</span></button>
                                         </div>
+                                    </form>
+                                    <br>
+                                    <div class="button-box">
+                                        {% comment %} <button type="button"><a href={{ store_product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button> {% endcomment %}
                                     </div>
+                                    <br>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-lg-3">
-                <div class="shop-sidebar-wrapper gray-bg-7 shop-sidebar-mrg">
-                    <div class="shop-widget">
-                        <h4 class="shop-sidebar-title">Shop By Categories</h4>
-                        <div class="shop-catigory">
-                            <ul id="faq">
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1">Fast Foods <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-1" class="panel-collapse collapse show">
-                                        <li><a href="#">Pizza </a></li>
-                                        <li><a href="#">Hamburgers</a></li>
-                                        <li><a href="#">Sandwiches</a></li>
-                                        <li><a href="#">French fries</a></li>
-                                        <li><a href="#">Fried chicken</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-2">Rich Foods <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-2" class="panel-collapse collapse">
-                                        <li><a href="#">Eggs</a></li>
-                                        <li><a href="#">Milk</a></li>
-                                        <li><a href="#">Almonds</a></li>
-                                        <li><a href="#">Cottage Cheese</a></li>
-                                        <li><a href="#">Lean Beef</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-3">Soft Drinks <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-3" class="panel-collapse collapse">
-                                        <li><a href="#"> Pepsi Cola</a></li>
-                                        <li><a href="#"> Fruit juices</a></li>
-                                        <li><a href="#">Diet Pepsi</a></li>
-                                        <li><a href="#">Bitter lemon</a></li>
-                                        <li><a href="#">Barley water</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a href="#">Vegetables</a> </li>
-                                <li> <a href="#">Fruits</a></li>
-                                <li> <a href="#">Red Meat</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-price-filter mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Price Filter</h4>
-                        <div class="price_filter mt-25">
-                            <span>Range:  $100.00 - 1.300.00 </span>
-                            <div id="slider-range"></div>
-                            <div class="price_slider_amount">
-                                <div class="label-input">
-                                    <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
-                                </div>
-                                <button type="button">Filter</button> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">By Brand</h4>
-                        <div class="sidebar-list-style mt-20">
-                            <ul>
-                                <li><input type="checkbox"><a href="#">Poure </a></li>
-                                <li><input type="checkbox"><a href="#">Eveman </a></li>
-                                <li><input type="checkbox"><a href="#">Iccaso </a></li>
-                                <li><input type="checkbox"><a href="#">Annopil </a></li>
-                                <li><input type="checkbox"><a href="#">Origina </a></li>
-                                <li><input type="checkbox"><a href="#">Perini  </a></li>
-                                <li><input type="checkbox"><a href="#">Dolloz </a></li>
-                                <li><input type="checkbox"><a href="#">Spectry </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">By Color</h4>
-                        <div class="sidebar-list-style mt-20">
-                            <ul>
-                                <li><input type="checkbox"><a href="#">Black </a></li>
-                                <li><input type="checkbox"><a href="#">Blue </a></li>
-                                <li><input type="checkbox"><a href="#">Green </a></li>
-                                <li><input type="checkbox"><a href="#">Grey </a></li>
-                                <li><input type="checkbox"><a href="#">Red</a></li>
-                                <li><input type="checkbox"><a href="#">White  </a></li>
-                                <li><input type="checkbox"><a href="#">Yellow   </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Compare Products</h4>
-                        <div class="compare-product">
-                            <p>You have no item to compare. </p>
-                            <div class="compare-product-btn">
-                                <span>Clear all </span>
-                                <a href="#">Compare <i class="fa fa-check"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Popular Tags</h4>
-                        <div class="shop-tags mt-25">
-                            <ul>
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Cheesy</a></li>
-                                <li><a href="#">Fast Food</a></li>
-                                <li><a href="#">French Fries</a></li>
-                                <li><a href="#">Hamburger </a></li>
-                                <li><a href="#">Pizza</a></li>
-                                <li><a href="#">Red Meat</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -174,8 +53,9 @@
         </div>
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 
 {% include "vendors/ajax/store_product_update_ajax.html" %}
-{% endblock content %}    
+{% endblock vendor_main %}    
 

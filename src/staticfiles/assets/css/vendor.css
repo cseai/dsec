@@ -72,9 +72,9 @@
 }
 .vendor_close p:nth-child(2){
     margin-bottom: 10px;
-
-
 }
+
+
 
 @media only screen and (min-width: 991.5px) and (max-width: 1199.5px)  {
     .vendor_open p:nth-child(1){
@@ -99,3 +99,13 @@
     align-items: center;
     height:450px;
 }
+
+/* vendor add product start  */
+.vendor-product-add{
+    display:block; 
+    margin:0 auto; 
+    max-width:324px; 
+    max-height:324px; 
+    padding-bottom:50px
+}
+/* vendor add product end  */

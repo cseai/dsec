@@ -21,8 +21,14 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
+
+    stores = Store.objects.filter(user=request.user).order_by('-id')
     
-    stores = Store.objects.filter(user=request.user)
+    #paginator
+    paginator=Paginator(stores,1)
+    page_number=request.GET.get('page')
+    store_page=paginator.get_page(page_number)
+    
     
     context = {
         'page_context': {
@@ -30,7 +36,8 @@ def vendor_home_view(request):
             'breadcrumb_active': "Home",
             'main_heading': "Vendor Home",
         },
-        'stores': stores,
+        'stores': store_page,
+        'total_stores':stores.count(),
     }
     return render(request, 'vendors/vendor_home.html', context)
 
@@ -92,11 +99,12 @@ def register_store_view(request, *args, **kwargs):
 
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
+        
     store = get_object_or_404(Store, username=store_username)
     products = Product.objects.filter(store=store).order_by('-id')
     
     #paginator
-    paginator=Paginator(products,1)
+    paginator=Paginator(products,2)
     page_number=request.GET.get('page')
     product_page=paginator.get_page(page_number)
 
@@ -175,7 +183,7 @@ def store_product_add_view(request, store_username):
             # set product's store
             store_product.store = store
             store_product.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username }))
 
     context = {
         'page_context': {

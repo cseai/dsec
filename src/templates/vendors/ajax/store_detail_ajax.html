@@ -53,7 +53,15 @@
                         }); 
                         console.log(urlLink);
                         $(this).attr("href",urlLink)
-                    })
+                    });
+
+                    //add product modal button
+                    $('#addproduct-id').on('click', function(){
+                        console.log("add product id clicked");
+                        var url = "{% url 'vendors:store_product_add' store_username=0  %}".replace('0',store_username);
+                        $(this).attr("href",url)
+                    });
+
                 }
                 else if(data.status=='404'){
                     $('#modalContent').show();
