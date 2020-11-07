@@ -56,7 +56,7 @@
                                 <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
                             </div>
                             <div class="pro-action-right">
-                                <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
+                                <a title="Wishlist" href=""><i class="ion-ios-heart-outline"></i></a>
                                 <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                         </div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                         <div class="shop-list-cart-wishlist">
-                            <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
+                            <a href="{% url 'vendors:store_update' store_username=store.username  %}" title="Wishlist"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
                             <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
                             <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
                                 <i class="ion-android-open"></i>

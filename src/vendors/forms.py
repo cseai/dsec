@@ -95,10 +95,20 @@ class RegisterStoreForm(forms.ModelForm):
         return store
 
 
+class ImagePreviewWidget(forms.widgets.FileInput):
+    def render(self, name, value, attrs=None, **kwargs):
+        input_html = super().render(name, value, attrs=None, **kwargs)
+        img_html = mark_safe(f'<br><br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex; " id="imgUploadStore"  /><br><br>')
+        return f'{img_html}{input_html}'
+
 class StoreUpdateForm(forms.ModelForm):
+    
+    logo = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    logo = forms.ImageField(widget=ImagePreviewWidget,)
+    
     class Meta:
         model= Store
-        fields=('title', 'tagline', 'username', 'category', 'logo', 'description', 'opening_time', 'closing_time', 'store_status', )
+        fields=('logo','title', 'tagline', 'username', 'category', 'description', 'opening_time', 'closing_time', 'store_status', )
 
         # customize form attrs
         # labels = {
@@ -148,6 +158,15 @@ class StoreUpdateForm(forms.ModelForm):
                 'title': 'Current Store Status',
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(StoreUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['logo'].widget.attrs.update({
+                'class': '',
+                'id':'imageUploadStore',
+            })
+        self.fields['logo'].label = "Product Image"
+    
     
     def save(self, commit=True):
         # Save the provided information
@@ -213,6 +232,7 @@ class StoreAddressUpdateForm(forms.ModelForm):
 
 
 class StoreStatusUpdateForm(forms.ModelForm):
+
     class Meta:
         model = Store
         fields = ('store_status',)
@@ -227,7 +247,7 @@ class StoreStatusUpdateForm(forms.ModelForm):
                 'required': True,
             }),
         }
-    
+        
     def save(self, commit=True):
         # Save the provided information
         store = super(StoreStatusUpdateForm, self).save(commit=False)
@@ -294,15 +314,6 @@ class StoreProductAddForm(forms.ModelForm):
             }),
         }
     
-    def __init__(self, *args, **kwargs):
-        super(StoreProductAddForm, self).__init__(*args, **kwargs)
-        self.fields['image'].widget.attrs.update({
-                'class': '',
-                'id':'imageUploadProductAdd',
-            })
-        self.fields['image'].label = "Product Image"
-
-
     def save(self, commit=True):
         # Save the provided information
         store_product = super(StoreProductAddForm, self).save(commit=False)
@@ -334,8 +345,8 @@ class StoreProductUpdateForm(forms.ModelForm):
             'unit_in_stock': "Quantity in stock", 
             'unit_on_order': "Quantity on order", 
             'category': "Product Category", 
-            # 'is_available': "", 
-            # 'is_discount_available': "", 
+            'is_available': "Available", 
+            'is_discount_available': "Discount", 
             # 'image': "",
         }
 

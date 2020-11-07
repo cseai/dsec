@@ -14,6 +14,8 @@
 
 
 {% block vendor_main %}
+
+{% include "partials/_alerts.html" %}
 <!--store logo and details start-->
 <div class="row mb-30">
     <div class="col-lg-6 col-md-5">
@@ -46,8 +48,7 @@
                 </div>
             </div>
             <div style="margin-top:10px">
-                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>
-                {{ store.address }}
+                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
             </div>
             {% comment %} <di class="overview-btn mt-45">
                 <a class="btn-style-2" href="shop.html">Visit Store</a>

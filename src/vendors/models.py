@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from addresses.models import Address
-
 from accounts.helpers import UploadTo
+
+from PIL import Image
 
 User = get_user_model()
 
@@ -84,3 +85,5 @@ class Store(models.Model):
         except:
             url = '#store_product_add'
         return url
+    
+    

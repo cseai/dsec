@@ -3,7 +3,9 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
 from django.core.paginator import Paginator
+from django.contrib import messages
 import json
+
 from .forms import (
     RegisterStoreForm, 
     StoreUpdateForm,
@@ -29,6 +31,7 @@ def vendor_home_view(request):
     page_number=request.GET.get('page')
     store_page=paginator.get_page(page_number)
     
+    print(stores)
     
     context = {
         'page_context': {
@@ -36,6 +39,7 @@ def vendor_home_view(request):
             'breadcrumb_active': "Home",
             'main_heading': "Vendor Home",
         },
+        'store_username':'h',
         'stores': store_page,
         'total_stores':stores.count(),
     }
@@ -141,8 +145,9 @@ def store_update_view(request, store_username):
             if store_address:
                 store.address = store_address
             store.save()
-            
+            messages.add_message(request,messages.SUCCESS,"Your Store Updated!")
             return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
+    
     context = {
         'page_context': {
             'title': "Store Update",
@@ -216,6 +221,7 @@ def store_product_detail_view(request, store_username, product_id):
 
 @login_required
 def store_product_update_view(request, store_username, product_id):
+    
     store = get_object_or_404(Store, username=store_username)
     product = get_object_or_404(Product, id=product_id, store=store)
 
@@ -224,7 +230,8 @@ def store_product_update_view(request, store_username, product_id):
     if request.method =='POST':
         if product_update_form.is_valid():
             product = product_update_form.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': product.id}))
+            messages.add_message(request,messages.SUCCESS,"Your Product Updated!")
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username,}))
 
     context = {
         'page_context': {
@@ -249,6 +256,7 @@ def store_product_remove_view(request, store_username, product_id):
     # if request.method =='POST':
         # if product_remove_form.is_valid():
     product = product_remove_form.save()
+    messages.add_message(request,messages.ERROR,"Your Product Removed!")
     
     return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
 
