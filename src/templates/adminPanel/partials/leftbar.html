@@ -5,7 +5,7 @@
         <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
         <div class="br-sideleft-menu">
             <a href="{% url 'adminpanel:home' %}"
-                {% if '/adminpanel/' == request.path%}
+                {% if '/adminpanel/' == request.path %}
                     class="br-menu-link active"
                 {% else %}
                     class="br-menu-link"

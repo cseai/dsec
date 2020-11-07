@@ -5,6 +5,8 @@ from vendors.models import Store
 
 from accounts.helpers import UploadTo
 
+# from PIL import Image
+
 # User = get_user_model()
 
 class ProductManager(models.Manager):
@@ -85,3 +87,12 @@ class Product(models.Model):
         except:
             url = '#product_remove'
         return url
+    
+    # def save(self,*args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     img = Image(self.image.path)
+        
+    #     if img.height > 300 and img.width > 300:
+    #         output_size=(100,100)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)

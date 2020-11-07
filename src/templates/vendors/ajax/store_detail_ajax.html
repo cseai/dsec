@@ -1,0 +1,107 @@
+<script type="text/javascript">
+    $("#quick_view , #quick_view_2").on('click','.open_view',function(){
+        console.log("Hello there");
+        // product id
+        let id = $(this).attr('data-sid');
+        let store_username = $(this).attr('data-sname');
+        console.log(id);
+        console.log(store_username);
+        
+        // hide the modal data
+        $('#modalContent').hide();
+        $('#modalSpinner').show();
+
+        mydata={'store_username': store_username,'product_id':id}
+        mythis=this;
+
+        //ajax request
+        $.ajax({
+            url:"{% url 'vendors:api_store_product_detail' %}",
+            type:'GET',
+            data:mydata,
+            success:function(data){
+                // converts string of json to object
+                data = JSON.parse(data);
+                console.log(data);
+
+                if(data.status == '200'){
+                    // show modal data place after successfully data get 
+                    $('#modalContent').show();
+                    $('#modalSpinner').hide();
+
+                    //add data to html fields
+                    $('#modalTitle').append(data.title);
+                    $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
+                    $('#description').text(data.description);
+
+                    $('#takaicon').html('<img id="takaicon" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.sup_price+'</span> ');
+                    $('#takaicon2').html('<img id="takaicon2" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.selling_price+'</span> ');
+                    {% comment %} $('#sup-price').append(data.sup_price);
+                    $('#selling-price').append(data.selling_price); {% endcomment %}
+
+                    //modal button for rediect
+                    $('#update-id').on('click', function(){
+                        console.log("update id clicked");
+                        let aval=$('#update-id').attr("href");
+
+                        var Obj={
+                            0: store_username, 
+                            1: id, 
+                        }
+                        var url = "{% url 'vendors:store_product_update' store_username=0 product_id=1 %}";
+                        
+                        //replace
+                        var urlLink = url.replace(/0|1/gi, function(matched){ 
+                            return Obj[matched]; 
+                        }); 
+                        console.log(urlLink);
+                        $(this).attr("href",urlLink)
+                    });
+
+                    //add product modal button
+                    $('#addproduct-id').on('click', function(){
+                        console.log("add product id clicked");
+                        var url = "{% url 'vendors:store_product_add' store_username=0  %}".replace('0',store_username);
+                        $(this).attr("href",url)
+                    });
+
+                    $('#removeproduct-id').on('click', function(){
+                        console.log("remove id clicked");
+                        var Obj={
+                            0: store_username, 
+                            1: id, 
+                        }
+                        var url = "{% url 'vendors:store_product_remove' store_username=0 product_id=1 %}";
+                        
+                        //replace
+                        var urlLink = url.replace(/0|1/gi, function(matched){ 
+                            return Obj[matched]; 
+                        }); 
+                        console.log(urlLink);
+                        $(this).attr("href",urlLink)
+                    });
+
+                }
+                else if(data.status=='404'){
+                    $('#modalContent').show();
+                    $('#modalContent').html('<h1>Please Reload!</h1>');
+                    $('#modalSpinner').hide();
+                }
+                
+            }
+        })
+
+        
+    })
+    
+
+    //function that preview confirm
+    function Alert(){
+        alert("Are You Sure Delete The Product!");
+    }
+</script>
+
+    {% comment %} $(this).attr('href','"{% url 'vendors:store_product_update' store_username='"+store_username+"'  product_id='"+id+"'  %}"') {% endcomment %}
+{% comment %} stores/Kashmeri/products/2/update/ {% endcomment %}
+                    {% comment %} <img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" />  {% endcomment %}
+{% comment %} {% url 'vendors:store_product_remove'  store_username=0 product_id=1 %} {% endcomment %}

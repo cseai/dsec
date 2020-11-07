@@ -2,12 +2,13 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from addresses.models import Address
-
 from accounts.helpers import UploadTo
+
+from PIL import Image
 
 User = get_user_model()
 
-
+# verbose_name='user',related_name='store',
 class Store(models.Model):
     CATEGORY_COMPANY        = 'C'
     CATEGORY_PERSONAL       = 'P'
@@ -84,3 +85,5 @@ class Store(models.Model):
         except:
             url = '#store_product_add'
         return url
+    
+    

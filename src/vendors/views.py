@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
 from django.core.paginator import Paginator
+from django.contrib import messages
+import json
 
 from .forms import (
     RegisterStoreForm, 
@@ -21,8 +23,15 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
+
+    stores = Store.objects.filter(user=request.user).order_by('-id')
     
-    stores = Store.objects.filter(user=request.user)
+    #paginator
+    paginator=Paginator(stores,1)
+    page_number=request.GET.get('page')
+    store_page=paginator.get_page(page_number)
+    
+    print(stores)
     
     context = {
         'page_context': {
@@ -30,7 +39,9 @@ def vendor_home_view(request):
             'breadcrumb_active': "Home",
             'main_heading': "Vendor Home",
         },
-        'stores': stores,
+        'store_username':'h',
+        'stores': store_page,
+        'total_stores':stores.count(),
     }
     return render(request, 'vendors/vendor_home.html', context)
 
@@ -92,11 +103,12 @@ def register_store_view(request, *args, **kwargs):
 
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
+        
     store = get_object_or_404(Store, username=store_username)
-    products = Product.objects.filter(store=store)
+    products = Product.objects.filter(store=store).order_by('-id')
     
     #paginator
-    paginator=Paginator(products,1)
+    paginator=Paginator(products,2)
     page_number=request.GET.get('page')
     product_page=paginator.get_page(page_number)
 
@@ -133,14 +145,16 @@ def store_update_view(request, store_username):
             if store_address:
                 store.address = store_address
             store.save()
-            
+            messages.add_message(request,messages.SUCCESS,"Your Store Updated!")
             return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
+    
     context = {
         'page_context': {
             'title': "Store Update",
             'breadcrumb_active': "Store Update",
             'main_heading': "Store Update",
         },
+        'store': store,
         'form': form,
         'store_address_form': store_address_form,
     }
@@ -150,16 +164,16 @@ def store_update_view(request, store_username):
 @login_required
 def store_product_list_view(request, store_username):
     store = get_object_or_404(Store, username=store_username)
-    store_products = Product.objects.filter(store=store)
+    products = Product.objects.filter(store=store)
 
     context = {
         'page_context': {
-            'title': "store_product_list",
-            'breadcrumb_active': "",
-            'main_heading': "store_product_list",
+            'title': f"{store.title}'s products",
+            'breadcrumb_active': "Products",
+            'main_heading': "All Products",
         },
         'store': store,
-        'store_products': store_products,
+        'products': products,
     }
     return render(request, 'vendors/store_product_list.html', context)
 
@@ -175,7 +189,7 @@ def store_product_add_view(request, store_username):
             # set product's store
             store_product.store = store
             store_product.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username }))
 
     context = {
         'page_context': {
@@ -192,30 +206,32 @@ def store_product_add_view(request, store_username):
 @login_required
 def store_product_detail_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
     context = {
         'page_context': {
             'title': store.title,
             'breadcrumb_active': "Product Detail",
-            'main_heading': store_product.title,
+            'main_heading': product.title,
         },
         'store': store,
-        'store_product': store_product,
+        'product': product,
     }
     return render(request, 'vendors/store_product_detail.html', context)
 
 
 @login_required
 def store_product_update_view(request, store_username, product_id):
+    
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
 
-    store_product_form = StoreProductUpdateForm(request.POST or None, request.FILES or None, instance=store_product)
+    product_update_form = StoreProductUpdateForm(request.POST or None, request.FILES or None, instance=product)
     
     if request.method =='POST':
-        if store_product_form.is_valid():
-            store_product = store_product_form.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': store_product.id }))
+        if product_update_form.is_valid():
+            product = product_update_form.save()
+            messages.add_message(request,messages.SUCCESS,"Your Product Updated!")
+            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username,}))
 
     context = {
         'page_context': {
@@ -224,8 +240,8 @@ def store_product_update_view(request, store_username, product_id):
             'main_heading': "Product Update",
         },
         'store': store,
-        'store_product': store_product,
-        'store_product_form': store_product_form,
+        'product': product,
+        'product_update_form': product_update_form,
     }
     return render(request, 'vendors/store_product_update.html', context)
 
@@ -233,25 +249,54 @@ def store_product_update_view(request, store_username, product_id):
 @login_required
 def store_product_remove_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
 
-    store_product_form = StoreProductRemoveForm(request.POST or None, request.FILES or None, instance=store_product)
+    product_remove_form = StoreProductRemoveForm(request.POST or None, request.FILES or None, instance=product)
     
-    if request.method =='POST':
-        if store_product_form.is_valid():
-            store_product = store_product_form.save()
-            return HttpResponseRedirect(reverse('vendors:store_product_list', kwargs={'store_username': store.username}))
+    # if request.method =='POST':
+        # if product_remove_form.is_valid():
+    product = product_remove_form.save()
+    messages.add_message(request,messages.ERROR,"Your Product Removed!")
+    
+    return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
 
-    context = {
-        'page_context': {
-            'title': store.title,
-            'breadcrumb_active': "Product Remove",
-            'main_heading': f"Confirm Remove Product: {store_product.title}",
-        },
-        'store': store,
-        'store_product': store_product,
-        'store_product_form': store_product_form,
-    }
-    return render(request, 'vendors/store_product_remove.html', context)
+    # context = {
+    #     'page_context': {
+    #         'title': store.title,
+    #         'breadcrumb_active': "Product Remove",
+    #         'main_heading': f"Confirm Remove Product: {product.title}",
+    #     },
+    #     'store': store,
+    #     'product': product,
+    #     'product_remove_form': product_remove_form,
+    # }
+    # return render(request, 'vendors/store_product_remove.html', context)
 
 
+
+#api
+def api_store_product_detail_view(request):
+    if request.is_ajax() and request.method == 'GET':  
+        print("hello there")
+        store_username = request.GET['store_username']
+        store_product_id = request.GET['product_id']
+        
+        try:
+            store = Store.objects.get(username=store_username)
+            product = store.product_set.get(id=store_product_id)
+            print(product)
+            data={
+                'status' : '200',
+                'title' : str(product.title),
+                'image' : str(product.image.url),
+                'description' : str(product.description),
+                'sup_price' : int(product.sup_price),
+                'selling_price' : int(product.selling_price),
+            }
+            return HttpResponse(json.dumps(data))
+        except:
+            data={
+                'status':'404',
+            }
+            return HttpResponse(json.dumps(data))
+        

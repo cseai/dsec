@@ -1,5 +1,5 @@
 {% load static %}
-<div class="header-bottom transparent-bar black-bg">
+<div class="header-bottom transparent-bar bg-pri">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-12">
@@ -93,6 +93,11 @@
 								<li><a href="shop.html">burger</a></li>
 								<li><a href="shop.html">pizza</a></li>
 								<li><a href="shop.html">cold drink</a></li>
+								{% if request.user.store_set.all.count == 0 %}
+									<li><a href="{% url 'vendors:register_store' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+								{% else %}
+									<li><a href="{% url 'vendors:home' %}"><i class="fas fa-store"></i> Your Store</a></li>
+								{% endif %}
 							</ul>
 						</nav>
 					</div>
@@ -192,6 +197,11 @@
 								</li>
 								<li><a href="contact.html">contact us</a></li>
 								<li><a href="shop.html">burger</a></li>
+								{% if request.user.store_set.all.count == 0 %}
+									<li><a href="{% url 'vendors:register_store' %}">Become a Seller</a></li>
+								{% else %}
+									<li><a href="{% url 'vendors:home' %}">Your Store</a></li>
+								{% endif %}
 							</ul>
 						</nav>
 					</div>
