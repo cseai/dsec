@@ -109,17 +109,17 @@
                                 <a href="product-details.html">{{product.title}}</a>
                             </h4>
                             <div class="product-price-wrapper">
-                                <span>$100.00</span>
-                                <span class="product-price-old">$120.00 </span>
+                                <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
+                                <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
                             </div>
                         </div>
                         <div class="product-list-details">
                             <h4>
-                                <a href="product-details.html">{{product.title}} </a>
+                                <a href="product-details.html">{{product.title}}</a>
                             </h4>
                             <div class="product-price-wrapper">
-                                <span>$100.00</span>
-                                <span class="product-price-old">$120.00 </span>
+                                <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
+                                <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                             <div class="shop-list-cart-wishlist" >
@@ -182,11 +182,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="margin: 4px;color: red;display: block;font-size: 25px;" ><i class="fas fa-times"></i></span></button>
             </div>
             <div class="modal-body" >
                 <div class="vendor-spinner" id="modalSpinner">
-                    <img src="{% static 'spinner/spinner.gif' %}" alt="Loading">
+                    {% comment %} <img src="{% static 'spinner/spinner.gif' %}" alt="Loading"> {% endcomment %}
+                    <img src="{% static 'assets/img/loading.gif' %}" alt="Loading">
                 </div>
                 <div class="row" id="modalContent">
                     <div class="col-md-5 col-sm-5 col-xs-12">
@@ -205,14 +206,14 @@
                         </div>
                         <!-- Thumbnail Large Image End -->
                         <!-- Thumbnail Image End -->
-                        <div class="product-thumbnail">
+                        {% comment %} <div class="product-thumbnail">
                             <div class="thumb-menu owl-carousel nav nav-style" role="tablist">
                                 <a class="active" data-toggle="tab" href="#pro-1"><img src="{% static 'assets/images/product-details/product-detalis-s1.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-2"><img src="{% static 'assets/images/product-details/product-detalis-s2.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-3"><img src="{% static 'assets/images/product-details/product-detalis-s3.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-4"><img src="{% static 'assets/images/product-details/product-detalis-s4.jpg' %}" alt=""></a>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <!-- Thumbnail image end -->
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -222,11 +223,11 @@
                                 <span><i class="fa fa-check" style="color: green !important"></i> Available</span>
                             </div>
                             <div class="product-price-wrapper">
-                                <span id="sup-price"></span>
-                                <span class="product-price-old" id="selling-price"></span>
+                                <span id='takaicon' >  </span>
+                                <span class="product-price-old"  id='takaicon2'>  </span>
                             </div>
                             <p id="description" ></p>	
-                            <div class="quick-view-select">
+                            {% comment %} <div class="quick-view-select"><img src="" class="taka-icon" id='takaicon' /> 
                                 <div class="select-option-part">
                                     <label>Size*</label>
                                     <select class="select">
@@ -245,11 +246,11 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="product-quantity" id="modal-btn">
+                            </div> {% endcomment %}
+                            <div class="product-quantity" id="modal-btn" style="margin-top:30px;">
                                 <a href="" class="" id="update-id">Update</a>
-                                <a href="" class="" id="addproduct-id">Add Product</a>
-                                <a href="" class="">Remove Product</a>
+                                <a href="" class="" id="addproduct-id">Add</a>
+                                <a href="" onclick="Alert(); " class="" id="removeproduct-id">Remove</a>
                             </div>
                         </div>
                     </div>

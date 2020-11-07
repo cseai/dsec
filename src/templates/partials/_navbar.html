@@ -94,9 +94,9 @@
 								<li><a href="shop.html">pizza</a></li>
 								<li><a href="shop.html">cold drink</a></li>
 								{% if request.user.store_set.all.count == 0 %}
-									<li><a href="{% url 'vendors:register_store' %}">Become a Seller</a></li>
+									<li><a href="{% url 'vendors:register_store' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
 								{% else %}
-									<li><a href="{% url 'vendors:home' %}">Your Store</a></li>
+									<li><a href="{% url 'vendors:home' %}"><i class="fas fa-store"></i> Your Store</a></li>
 								{% endif %}
 							</ul>
 						</nav>

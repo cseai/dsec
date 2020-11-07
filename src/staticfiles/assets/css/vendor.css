@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+/* vendor store detail start */
 .open{
     position: absolute;
     top: 0px;
@@ -84,6 +85,14 @@
         font-size: 12px;
     }
 }
+
+.taka-icon{
+    height:22px; 
+    width:22px; 
+    margin-right:7px;
+}
+
+/* vendor store detail end */
 
 /* modal spinner  */
 

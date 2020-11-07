@@ -33,8 +33,11 @@
                     $('#modalTitle').append(data.title);
                     $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
                     $('#description').text(data.description);
-                    $('#sup-price').text('$'+data.sup_price);
-                    $('#selling-price').text('$'+data.selling_price);
+
+                    $('#takaicon').html('<img id="takaicon" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.sup_price+'</span> ');
+                    $('#takaicon2').html('<img id="takaicon2" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.selling_price+'</span> ');
+                    {% comment %} $('#sup-price').append(data.sup_price);
+                    $('#selling-price').append(data.selling_price); {% endcomment %}
 
                     //modal button for rediect
                     $('#update-id').on('click', function(){
@@ -62,6 +65,22 @@
                         $(this).attr("href",url)
                     });
 
+                    $('#removeproduct-id').on('click', function(){
+                        console.log("remove id clicked");
+                        var Obj={
+                            0: store_username, 
+                            1: id, 
+                        }
+                        var url = "{% url 'vendors:store_product_remove' store_username=0 product_id=1 %}";
+                        
+                        //replace
+                        var urlLink = url.replace(/0|1/gi, function(matched){ 
+                            return Obj[matched]; 
+                        }); 
+                        console.log(urlLink);
+                        $(this).attr("href",urlLink)
+                    });
+
                 }
                 else if(data.status=='404'){
                     $('#modalContent').show();
@@ -75,7 +94,14 @@
         
     })
     
+
+    //function that preview confirm
+    function Alert(){
+        alert("Are You Sure Delete The Product!");
+    }
 </script>
 
     {% comment %} $(this).attr('href','"{% url 'vendors:store_product_update' store_username='"+store_username+"'  product_id='"+id+"'  %}"') {% endcomment %}
 {% comment %} stores/Kashmeri/products/2/update/ {% endcomment %}
+                    {% comment %} <img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" />  {% endcomment %}
+{% comment %} {% url 'vendors:store_product_remove'  store_username=0 product_id=1 %} {% endcomment %}

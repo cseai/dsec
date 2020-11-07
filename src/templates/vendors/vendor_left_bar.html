@@ -37,7 +37,7 @@
                                     <li > <a href="{% url 'vendors:home' %}" >Vendor</a> </li>
                                 {% endif %}
                                 {% if '/vendor/stores/' in request.path %}
-                                    <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" style="color:#f9aa33 !important;">All Stores <i class="ion-ios-arrow-down"></i></a>
+                                    <li><a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" style="color:#f9aa33 !important;">All Stores <i class="ion-ios-arrow-down"></i></a>
                                         <ul id="shop-catigory-1" class="panel-collapse collapse show">
                                             {% for st in request.user.store_set.all  %}
                                                 {% url 'vendors:store_detail' store_username=st.username as the_url %}
@@ -77,8 +77,15 @@
                                         <li><a href="#">Barley water</a></li>
                                     </ul>
                                 </li>
-                                
-                                <li> <a href="#">Fruits </a></li>
+                                {% if '/vendor/stores/' in request.path %}
+                                    {% for st in request.user.store_set.all %}
+                                        {% url 'vendors:store_detail' st.username as the_url %}
+                                        {% if request.path == the_url %}
+                                        <li> <a href="{% url 'vendors:store_product_add' store_username=st.username %}"><i class="fas fa-plus-square color-sec" ></i>Add Product</a></li>
+                                        {% else %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 {% comment %} <li> <a href="#">{{ request.user.store.title }} </a></li> {% endcomment %}
                                 
                                 
