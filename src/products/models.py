@@ -16,19 +16,18 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
-    title                   = models.CharField(max_length=255)
+    title                   = models.CharField(max_length=50)
     store                   = models.ForeignKey(Store, null=True, on_delete=models.SET_NULL)
-    sku                     = models.CharField(max_length=100, null=True, blank=True)
+    sku                     = models.CharField(max_length=20, null=True, blank=True)
     description             = models.TextField(null=True, blank=True)
-    manufacturer            = models.CharField(max_length=100, null=True, blank=True)
-    # margin                  = 
+    manufacturer            = models.CharField(max_length=40, null=True, blank=True)
     is_hot                  = models.BooleanField(default=False)
     sup_price               = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
     selling_price           = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
     discount                = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
-    measuring_type          = models.CharField(max_length=50, null=True, blank=True)
-    unit_in_stock           = models.DecimalField(default=0.00, max_digits=40, decimal_places=2)
-    unit_on_order           = models.DecimalField(default=0.00, max_digits=40, decimal_places=2)
+    measuring_type          = models.CharField(max_length=40, null=True, blank=True)
+    unit_in_stock           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
+    unit_on_order           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
     category                = models.CharField(max_length=100, null=True, blank=True)
     is_available            = models.BooleanField(default=True)
     is_discount_available   = models.BooleanField(default=False)
@@ -42,7 +41,6 @@ class Product(models.Model):
                             )
     height_field            = models.IntegerField(default=0, null=True)
     width_field             = models.IntegerField(default=0, null=True)
-    # more_images             = 
     active                  = models.BooleanField(default=True)
     updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)

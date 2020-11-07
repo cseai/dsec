@@ -12,13 +12,131 @@ class Address(models.Model):
         (ADDRESS_TYPE_SHIPPING, 'Shipping Address'),
     ]
 
+    CITY_CHOICES    = [
+        (None, 'Select City'),
+        # Barisal Division
+        ('Barisal Division', (
+                ('Barguna', 'Barguna'),
+                ('Barisal', 'Barisal'),
+                ('Bhola', 'Bhola'),
+                ('Jhalokati', 'Jhalokati'),
+                ('Patuakhali', 'Patuakhali'),
+                ('Pirojpur', 'Pirojpur'),
+            )
+        ),
+        # Chittagong Division
+        ('Chittagong Division', (
+                ('Bandarban', 'Bandarban'),
+                ('Brahmanbaria', 'Brahmanbaria'),
+                ('Chandpur', 'Chandpur'),
+                ('Chittagong', 'Chittagong'),
+                ('Comilla', 'Comilla'),
+                ("Cox's Bazar", "Cox's Bazar"),
+                ('Feni', 'Feni'),
+                ('Khagrachari', 'Khagrachari'),
+                ('Lakshmipur', 'Lakshmipur'),
+                ('Noakhali', 'Noakhali'),
+                ('Rangamati', 'Rangamati'),
+            )
+        ),
+        # Dhaka Division
+        ('Dhaka Division', (
+                ('Dhaka', 'Dhaka'),
+                ('Faridpur', 'Faridpur'),
+                ('Gazipur', 'Gazipur'),
+                ('Gopalganj', 'Gopalganj'),
+                ('Kishoreganj', 'Kishoreganj'),
+                ('Madaripur', 'Madaripur'),
+                ('Manikganj', 'Manikganj'),
+                ('Munshiganj', 'Munshiganj'),
+                ('Narayanganj', 'Narayanganj'),
+                ('Narsingdi', 'Narsingdi'),
+                ('Rajbari', 'Rajbari'),
+                ('Shariatpur', 'Shariatpur'),
+                ('Tangail', 'Tangail'),
+            )
+        ),
+        # Khulna Division
+        ('Khulna Division', (
+                ('Bagerhat', 'Bagerhat'),
+                ('Chuadanga', 'Chuadanga'),
+                ('Jessore', 'Jessore'),
+                ('Jhenaidah', 'Jhenaidah'),
+                ('Khulna', 'Khulna'),
+                ('Kushtia', 'Kushtia'),
+                ('Magura', 'Magura'),
+                ('Meherpur', 'Meherpur'),
+                ('Narail', 'Narail'),
+                ('Satkhira', 'Satkhira'),
+            )
+        ),
+        # Mymensingh Division
+        ('Mymensingh Division', (
+                ('Jamalpur', 'Jamalpur'),
+                ('Mymensingh', 'Mymensingh'),
+                ('Netrokona', 'Netrokona'),
+                ('Sherpur', 'Sherpur'),
+            )
+        ),
+        # Rajshahi Division
+        ('Rajshahi Division', (
+                ('Bogra', 'Bogra'),
+                ('Jaipurhat', 'Jaipurhat'),
+                ('Naogaon', 'Naogaon'),
+                ('Natore', 'Natore'),
+                ('Nawabganj', 'Nawabganj'),
+                ('Pabna', 'Pabna'),
+                ('Rajshahi', 'Rajshahi'),
+                ('Sirajganj', 'Sirajganj'),
+            )
+        ),
+        # Rangpur Division
+        ('Rangpur Division', (
+                ('Dinajpur', 'Dinajpur'),
+                ('Gaibandha', 'Gaibandha'),
+                ('Kurigram', 'Kurigram'),
+                ('Lalmonirhat', 'Lalmonirhat'),
+                ('Nilphamari', 'Nilphamari'),
+                ('Panchagarh', 'Panchagarh'),
+                ('Rangpur', 'Rangpur'),
+                ('Thakurgaon', 'Thakurgaon'),
+            )
+        ),
+        # Sylhet Division
+        ('Sylhet Division', (
+                ('Habiganj', 'Habiganj'),
+                ('Moulvibazar', 'Moulvibazar'),
+                ('Sunamganj', 'Sunamganj'),
+                ('Sylhet', 'Sylhet'),
+            )
+        ),
+    ]
+
+    STATE_CHOICES   = [
+        (None, 'Select State/Division'),
+        ('Barisal', 'Barisal'),
+        ('Chittagong', 'Chittagong'),
+        ('Dhaka', 'Dhaka'),
+        ('Khulna', 'Khulna'),
+        ('Mymensingh', 'Mymensingh'),
+        ('Rajshahi', 'Rajshahi'),
+        ('Rangpur', 'Rangpur'),
+        ('Sylhet', 'Sylhet'),
+    ]
+
+    COUNTRY_CHOICE_BANGLADESH   = "Bangladesh"
+    COUNTRY_CHOICES = [
+        (COUNTRY_CHOICE_BANGLADESH, 'Bangladesh'),
+    ]
+
     address_type        = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES)
     line_1              = models.CharField(max_length=120)
     line_2              = models.CharField(max_length=120, null=True, blank=True)
-    city                = models.CharField(max_length=120)
-    state               = models.CharField(max_length=120)
-    postal_code         = models.CharField(max_length=40)
-    country             = models.CharField(max_length=50, default='Bangladesh')
+    city                = models.CharField(max_length=20, choices=CITY_CHOICES)
+    state               = models.CharField(max_length=20, choices=STATE_CHOICES)
+    postal_code         = models.CharField(max_length=10)
+    country             = models.CharField(max_length=20, choices=COUNTRY_CHOICES, default=COUNTRY_CHOICE_BANGLADESH)
+    updated             = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp           = models.DateTimeField(auto_now_add=True)
 
     class Meta:
