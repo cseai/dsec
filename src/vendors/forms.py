@@ -14,10 +14,10 @@ class ImagePreviewWidget(forms.widgets.FileInput):
 class RegisterStoreForm(forms.ModelForm):
     address_line_1  = forms.CharField(label='', max_length=120)
     address_line_2  = forms.CharField(label='', max_length=120, required=False)
-    city            = forms.CharField(label='', max_length=120)
-    state           = forms.CharField(label='', max_length=120)
-    postal_code     = forms.CharField(label='', max_length=40)
-    country         = forms.CharField(label='', max_length=50)
+    city            = forms.ChoiceField(label='', choices=Address.CITY_CHOICES)
+    state           = forms.ChoiceField(label='', choices=Address.STATE_CHOICES)
+    postal_code     = forms.CharField(label='', max_length=10)
+    country         = forms.ChoiceField(label='', choices=Address.COUNTRY_CHOICES)
     
     address_line_1.widget.attrs.update({
         'placeholder': "Address line 1", 'title': 'Address line 1',
@@ -108,7 +108,7 @@ class StoreUpdateForm(forms.ModelForm):
     
     class Meta:
         model= Store
-        fields=('logo','title', 'tagline', 'username', 'category', 'description', 'opening_time', 'closing_time', 'store_status', )
+        fields=('title', 'tagline', 'username', 'category', 'logo', 'description', 'opening_time', 'closing_time', 'is_open', )
 
         # customize form attrs
         # labels = {
@@ -119,7 +119,7 @@ class StoreUpdateForm(forms.ModelForm):
         #     # 'description': '',
         #     # 'opening_time': '',
         #     # 'closing_time': '',
-        #     # 'store_status': ''
+        #     # 'is_open': ''
         # }
 
         widgets = {
@@ -153,10 +153,6 @@ class StoreUpdateForm(forms.ModelForm):
                 'placeholder': "Closing time. e.g. 22:00",
                 'title': 'Store closing time',
             }),
-            'store_status': forms.TextInput(attrs={
-                'placeholder': "Store Status. E.g: Open",
-                'title': 'Current Store Status',
-            }),
         }
     
     def __init__(self, *args, **kwargs):
@@ -179,13 +175,14 @@ class StoreUpdateForm(forms.ModelForm):
 class StoreAddressUpdateForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ('line_1', 'line_2', 'city', 'state', 'postal_code',)
+        fields = ('line_1', 'line_2', 'city', 'state', 'postal_code', 'country',)
         labels = {
             'line_1': "Address line 1", 
             'line_2': "Address line 2", 
             'city': "City",
             'state': "State",
             'postal_code': "Postal code",
+            'country': "Country",
         }
         widgets = {
             # 'address_type': forms.Select(attrs={
@@ -203,11 +200,11 @@ class StoreAddressUpdateForm(forms.ModelForm):
                 'placeholder': "Address line 2",
                 'title': 'Address line 2',
             }),
-            'city': forms.TextInput(attrs={
+            'city': forms.Select(attrs={
                 'placeholder': "City",
                 'title': 'City',
             }),
-            'state': forms.TextInput(attrs={
+            'state': forms.Select(attrs={
                 'placeholder': "State",
                 'title': 'State',
             }),
@@ -215,12 +212,10 @@ class StoreAddressUpdateForm(forms.ModelForm):
                 'placeholder': "Postal code",
                 'title': 'Postal code',
             }),
-            # 'country': forms.TextInput(attrs={
-            #     'placeholder': "Country",
-            #     'title': 'Country',
-            #     'disabled': True,
-            #     'required': False,
-            # }),
+            'country': forms.Select(attrs={
+                'placeholder': "Country",
+                'title': 'Country',
+            }),
         }
 
     def save(self, commit=True):
@@ -235,19 +230,19 @@ class StoreStatusUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Store
-        fields = ('store_status',)
+        fields = ('is_open',)
 
-        labels = {
-            'store_status': "Current Store Status", 
-        }
-        widgets = {
-            'store_status': forms.TextInput(attrs={
-                'placeholder': "e.g. Open/Close/Offday",
-                'title': 'Current Store Status',
-                'required': True,
-            }),
-        }
-        
+        # labels = {
+        #     'is_open': "Open or Close", 
+        # }
+        # widgets = {
+        #     'is_open': forms.TextInput(attrs={
+        #         'placeholder': "e.g. Open/Close",
+        #         'title': 'Current Store Status',
+        #         'required': True,
+        #     }),
+        # }
+    
     def save(self, commit=True):
         # Save the provided information
         store = super(StoreStatusUpdateForm, self).save(commit=False)

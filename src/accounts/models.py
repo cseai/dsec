@@ -66,8 +66,8 @@ class User(AbstractBaseUser):
     ]
 
     phone = PhoneNumberField(null=False, blank=False, unique=True)
-    first_name = models.CharField(max_length=150, blank=True, null=True)
-    last_name = models.CharField(max_length=150, blank=True, null=True)
+    first_name = models.CharField(max_length=20, blank=True, null=True)
+    last_name = models.CharField(max_length=20, blank=True, null=True)
     gender = models.CharField(
         max_length=1,
         choices=GENDER_CHOICES,

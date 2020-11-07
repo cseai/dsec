@@ -12,24 +12,24 @@ User = get_user_model()
 class Store(models.Model):
     CATEGORY_COMPANY        = 'C'
     CATEGORY_PERSONAL       = 'P'
-    CATEGORY_OTHER          = 'O'
     STORE_CATEGORY_CHOICES  = [
         ('', 'Select store category'),
         (CATEGORY_COMPANY, 'Company'),
         (CATEGORY_PERSONAL, 'Personal'),
-        (CATEGORY_OTHER, 'Other'),
     ]
-    title                   = models.CharField(max_length=255)
-    tagline                 = models.CharField(max_length=255, blank=True, null=True)
-    username                = models.CharField(max_length=50, unique=True)
+    title                   = models.CharField(max_length=50)
+    tagline                 = models.CharField(max_length=50, blank=True, null=True)
+    username                = models.CharField(max_length=20, unique=True)
     user                    = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     category                = models.CharField(max_length=20, choices=STORE_CATEGORY_CHOICES)
     parent                  = models.ForeignKey("self", blank=True, null=True, on_delete=models.SET_NULL)
-    description             = models.TextField(blank=True, null=True)
+    description             = models.TextField(max_length=120, blank=True, null=True) # It does not validate max_length
     opening_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     closing_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    store_status            = models.CharField(max_length=255, blank=True, null=True)
-    address                 = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL)
+    # store_status            = models.CharField(max_length=255, blank=True, null=True)
+    is_open                 = models.BooleanField(default=False)
+    off_days                = models.CharField(max_length=30, blank=True, null=True)
+    address                 = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL) # always parmanent address
     logo                    = models.ImageField(
                                 default='vendors/store/logo/default.png',
                                 upload_to=UploadTo('logo', plus_id=True),

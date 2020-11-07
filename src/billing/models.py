@@ -10,6 +10,8 @@ class StoreOrderTrx(models.Model):
     store                   = models.ForeignKey(Store, null=True, on_delete=models.SET_NULL)
     order                   = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
     amount                  = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
+    # TRX should not update but we want to keep track if something happen or forcely update
+    updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -27,6 +29,8 @@ class VendorAdminTrx(models.Model):
     vendor_user             = models.ForeignKey(User, related_name="vendor_user", null=True, on_delete=models.SET_NULL)
     store                   = models.ForeignKey(Store, null=True, on_delete=models.SET_NULL)
     vouchar_amount          = models.DecimalField(default=0.00, max_digits=20, decimal_places=2)
+    # TRX should not update but we want to keep track if something happen or forcely update
+    updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp               = models.DateTimeField(auto_now_add=True)
 
     class Meta:
