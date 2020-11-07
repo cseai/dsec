@@ -39,8 +39,10 @@
                             <div class="login-form-container">
                                 <div class="login-register-form">
                                     <form action="" method="post" enctype= "multipart/form-data"> {% csrf_token %}
-                                        {{ store_product_form.non_field_errors }}
-                                        {{store_product_form|crispy}}
+                                        {{ form.non_field_errors }}
+                                        {{ store_address_form.non_field_errors }}
+                                        {{form|crispy}}
+                                        {{store_address_form|crispy}}
                                         <div class="button-box">
                                             <button type="submit"><span>Save Changes</span></button>
                                         </div>

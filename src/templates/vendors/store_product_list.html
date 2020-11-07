@@ -38,14 +38,22 @@
                         <div id="lg2" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form action="" method="post" enctype= "multipart/form-data"> {% csrf_token %}
-                                        {{ form.non_field_errors }}
-                                        {{form|crispy}}
-                                        <div class="button-box">
-                                            <button type="submit"><span>Submit</span></button>
-                                        </div>
-                                    </form>
+                                    {% for product in products %}
+                                    <div>
+                                        <h5><a class="text-info" href={{ product.get_vendor_store_product_detail_url }}>{{product.title}}</a></h5>
+                                        <ul>
+                                            <li>Title: {{ product.title}}</li>
+                                            <li>SKU: {{ product.sku}}</li>
+                                            <li>Price: {{ product.selling_price}}</li>
+                                            <li>Description: {{ product.description }}</li>
+                                        </ul>
+                                        <hr>
+                                    </div>
+                                    {% endfor %}
                                 </div>
+                                
+                                    <button class="btn btn-info"><a class="text-white" href={{ store.get_vendor_store_product_add_url }}>Add Another Product</a></button>
+                                
                             </div>
                         </div>
                     </div>

@@ -149,6 +149,7 @@ def store_update_view(request, store_username):
             'breadcrumb_active': "Store Update",
             'main_heading': "Store Update",
         },
+        'store': store,
         'form': form,
         'store_address_form': store_address_form,
     }
@@ -158,16 +159,16 @@ def store_update_view(request, store_username):
 @login_required
 def store_product_list_view(request, store_username):
     store = get_object_or_404(Store, username=store_username)
-    store_products = Product.objects.filter(store=store)
+    products = Product.objects.filter(store=store)
 
     context = {
         'page_context': {
-            'title': "store_product_list",
-            'breadcrumb_active': "",
-            'main_heading': "store_product_list",
+            'title': f"{store.title}'s products",
+            'breadcrumb_active': "Products",
+            'main_heading': "All Products",
         },
         'store': store,
-        'store_products': store_products,
+        'products': products,
     }
     return render(request, 'vendors/store_product_list.html', context)
 
@@ -200,15 +201,15 @@ def store_product_add_view(request, store_username):
 @login_required
 def store_product_detail_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
     context = {
         'page_context': {
             'title': store.title,
             'breadcrumb_active': "Product Detail",
-            'main_heading': store_product.title,
+            'main_heading': product.title,
         },
         'store': store,
-        'store_product': store_product,
+        'product': product,
     }
     return render(request, 'vendors/store_product_detail.html', context)
 
@@ -216,14 +217,14 @@ def store_product_detail_view(request, store_username, product_id):
 @login_required
 def store_product_update_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
 
-    store_product_form = StoreProductUpdateForm(request.POST or None, request.FILES or None, instance=store_product)
+    product_update_form = StoreProductUpdateForm(request.POST or None, request.FILES or None, instance=product)
     
     if request.method =='POST':
-        if store_product_form.is_valid():
-            store_product = store_product_form.save()
-            return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username,}))
+        if product_update_form.is_valid():
+            product = product_update_form.save()
+            return HttpResponseRedirect(reverse('vendors:store_product_detail', kwargs={'store_username': store.username, 'product_id': product.id}))
 
     context = {
         'page_context': {
@@ -232,8 +233,8 @@ def store_product_update_view(request, store_username, product_id):
             'main_heading': "Product Update",
         },
         'store': store,
-        'store_product': store_product,
-        'store_product_form': store_product_form,
+        'product': product,
+        'product_update_form': product_update_form,
     }
     return render(request, 'vendors/store_product_update.html', context)
 
@@ -241,13 +242,13 @@ def store_product_update_view(request, store_username, product_id):
 @login_required
 def store_product_remove_view(request, store_username, product_id):
     store = get_object_or_404(Store, username=store_username)
-    store_product = get_object_or_404(Product, id=product_id, store=store)
+    product = get_object_or_404(Product, id=product_id, store=store)
 
-    store_product_form = StoreProductRemoveForm(request.POST or None, request.FILES or None, instance=store_product)
+    product_remove_form = StoreProductRemoveForm(request.POST or None, request.FILES or None, instance=product)
     
     # if request.method =='POST':
-        # if store_product_form.is_valid():
-    store_product = store_product_form.save()
+        # if product_remove_form.is_valid():
+    product = product_remove_form.save()
     
     return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username}))
 
@@ -255,11 +256,11 @@ def store_product_remove_view(request, store_username, product_id):
     #     'page_context': {
     #         'title': store.title,
     #         'breadcrumb_active': "Product Remove",
-    #         'main_heading': f"Confirm Remove Product: {store_product.title}",
+    #         'main_heading': f"Confirm Remove Product: {product.title}",
     #     },
     #     'store': store,
-    #     'store_product': store_product,
-    #     'store_product_form': store_product_form,
+    #     'product': product,
+    #     'product_remove_form': product_remove_form,
     # }
     # return render(request, 'vendors/store_product_remove.html', context)
 

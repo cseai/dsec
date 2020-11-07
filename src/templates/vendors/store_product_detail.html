@@ -38,23 +38,21 @@
                         <div id="lg2" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <div>
-                                        <h4>{{ store_product.title }}</h4>
-                                    </div>
-                                    <!-- <form action="" method="post"> {% csrf_token %}
-                                        {{ form.non_field_errors }}
-                                        {{form|crispy}}
-                                        <div class="button-box">
-                                            <button type="submit"><span>Submit</span></button>
-                                        </div>
-                                    </form> -->
+                                    <h5>{{product.title}}</h5>
+                                    <ul>
+                                        <li>Title: {{ product.title}}</li>
+                                        <li>SKU: {{ product.sku}}</li>
+                                        <li>Price: {{ product.selling_price}}</li>
+                                        <li>Description: {{ product.description }}</li>
+                                    </ul>
+                                    <hr>
                                     <br>
                                     <div class="button-box">
-                                        <button type="button"><a href={{ store_product.get_vendor_store_product_update_url }}><span>Update</span></a></button>
+                                        <button type="button"><a href={{ product.get_vendor_store_product_update_url }}><span>Update</span></a></button>
                                     </div>
                                     <br>
                                     <div class="button-box">
-                                        <button type="button"><a href={{ store_product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button>
+                                        <button type="button"><a href={{ product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button>
                                     </div>
                                     <br>
                                     <div class="button-box">
