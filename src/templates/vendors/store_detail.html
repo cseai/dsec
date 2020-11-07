@@ -1,323 +1,201 @@
-{% extends 'base.html' %}
+{% extends "vendors/vendor_left_bar.html" %}
 {% load static %}
 
 {% block title %}
 {{ block.super }}|{{ page_context.main_heading }}
 {% endblock title %}
 
-{% block content %}
-<div class="breadcrumb-area gray-bg">
-    <div class="container">
-        <div class="breadcrumb-content">
-            <ul>
-                <li><a href="{% url 'home:home' %}">Home</a></li>
-                <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
-                <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
-                <li class="active"> {{ page_context.breadcrumb_active }} </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="shop-page-area pt-20 pb-100">
-    <div class="container">
-        <div class="row flex-row-reverse">
-            <div class="col-lg-9">
-                <!--store logo and details start-->
-                <div class="row mb-30">
-                    <div class="col-lg-6 col-md-5">
-                        <div class="overview-img text-center">
-                            <a href="#">
-                                <img src="{{store.logo.url}}" alt="store logo">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-7 d-flex align-items-start">
-                        <div class="overview-content-2">
-                            <h2><span class="color-pri" >
-                                {% if product.is_verified %}
-                                    <i class="fas fa-check-circle text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-check-circle text-danger"></i>
-                                {% endif %}
-                                {{store.title}}
-                                <div class="open">open now</div>
-                            </span></h2>
-                            <p class="mb-10" style="font-size:14px;font-weight:400;" >
-                                {{ store.description }} 
-                            </p>
-                            <div class="vendor_open_close">
-                                <div class="vendor_open">
-                                    <p class="bg-success">Open Time:</p> <p> {{ store.opening_time }} </p>
-                                </div>
-                                <div class="vendor_close">
-                                    <p class="bg-warning">Close Time:</p> <p> {{ store.closing_time }} </p>
-                                </div>
-                            </div>
-                            <div style="margin-top:10px">
-                                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>
-                                {{ store.address }}
-                            </div>
-                            {% comment %} <di class="overview-btn mt-45">
-                                <a class="btn-style-2" href="shop.html">Visit Store</a>
-                            </> {% endcomment %}
-                        </div>
-                    </div>
-                </div>
-                <!--store logo and details end-->
-                <div class="shop-topbar-wrapper">
-                    <div class="shop-topbar-left">
-                        <ul class="view-mode">
-                            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
-                            <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
-                        </ul>
-                        <p>Showing 1 - 20 of {{ total_product }} results  </p>
-                    </div>
-                    <div class="product-sorting-wrapper">
-                        <!--<div class="product-shorting shorting-style">
-                            <label>View:</label>
-                            <select>
-                                <option value=""> 20</option>
-                                <option value=""> 23</option>
-                                <option value=""> 30</option>
-                            </select>
-                        </div>-->
-                        <div class="product-show shorting-style">
-                            <label>Sort by:</label>
-                            <select>
-                                <option value="">Default</option>
-                                <option value=""> Name</option>
-                                <option value=""> price</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-list-product-wrapper">
-                    <div class="product-grid product-view pb-20">
-                        <div class="row">
-                            {% if products %}
-                                {% for product in products  %}
-                                <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
-                                    <div class="product-wrapper">
-                                        <div class="product-img">
-                                            <a href="product-details.html">
-                                                <img src="{{product.image.url}}" alt="">
-                                            </a>
-                                            <div class="product-action">
-                                                <div class="pro-action-left">
-                                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
-                                                </div>
-                                                <div class="pro-action-right">
-                                                    <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
-                                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <h4>
-                                                <a href="product-details.html">{{product.title}}</a>
-                                            </h4>
-                                            <div class="product-price-wrapper">
-                                                <span>$100.00</span>
-                                                <span class="product-price-old">$120.00 </span>
-                                            </div>
-                                        </div>
-                                        <div class="product-list-details">
-                                            <h4>
-                                                <a href="product-details.html">{{product.title}} </a>
-                                            </h4>
-                                            <div class="product-price-wrapper">
-                                                <span>$100.00</span>
-                                                <span class="product-price-old">$120.00 </span>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                            <div class="shop-list-cart-wishlist">
-                                                <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
-                                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                                                    <i class="ion-android-open"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <h6>No Products Available</h6>
-                            {% endif %}
-                            
-                            
-                        </div>
-                    </div>
-                    {% if products.has_other_pages %}
-                        <div class="pagination-total-pages">
-                            <div class="pagination-style">
-                                <ul>
-                                    {% if products.has_previous %}
-                                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
-                                {% else %}
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
-                                    </li>
-                                {% endif %}
-                                {% for i in products.paginator.page_range %}
-                                    {% if products.number == i %}
-                                        {% comment %} <li class="page-item active">
-                                            <a class="page-link"> {{i}} </a>
-                                        </li> {% endcomment %}
-                                    <li><a class="active" href="#">{{i}}</a></li>
-                                    {% else %}
-                                        {% comment %} <li class="page-item">
-                                            <a href="?page={{i}}" class="page-link"> {{i}} </a>
-                                        </li> {% endcomment %}
-                                        <li><a href="?page={{i}}">{{i}}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if products.has_next %}
-                                    <li><a class="prev-next next" href="?page={{products.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
-                                    
-                                {% else %}
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
-                                    </li>
-                                {% endif %}
-                                
-                                </ul>
-                            </div>
-                            <div class="total-pages">
-                                <p>Showing 1 - 20 of 30 results  </p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="shop-sidebar-wrapper gray-bg-7 shop-sidebar-mrg">
-                    <div class="shop-widget">
-                        <h4 class="shop-sidebar-title">Shop By Categories</h4>
-                        <div class="shop-catigory">
-                            <ul id="faq">
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1">Fast Foods <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-1" class="panel-collapse collapse show">
-                                        <li><a href="#">Pizza </a></li>
-                                        <li><a href="#">Hamburgers</a></li>
-                                        <li><a href="#">Sandwiches</a></li>
-                                        <li><a href="#">French fries</a></li>
-                                        <li><a href="#">Fried chicken</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-2">Rich Foods <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-2" class="panel-collapse collapse">
-                                        <li><a href="#">Eggs</a></li>
-                                        <li><a href="#">Milk</a></li>
-                                        <li><a href="#">Almonds</a></li>
-                                        <li><a href="#">Cottage Cheese</a></li>
-                                        <li><a href="#">Lean Beef</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-3">Soft Drinks <i class="ion-ios-arrow-down"></i></a>
-                                    <ul id="shop-catigory-3" class="panel-collapse collapse">
-                                        <li><a href="#"> Pepsi Cola</a></li>
-                                        <li><a href="#"> Fruit juices</a></li>
-                                        <li><a href="#">Diet Pepsi</a></li>
-                                        <li><a href="#">Bitter lemon</a></li>
-                                        <li><a href="#">Barley water</a></li>
-                                    </ul>
-                                </li>
-                                <li> <a href="#">Vegetables</a> </li>
-                                <li> <a href="#">Fruits</a></li>
-                                <li> <a href="#">Red Meat</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-price-filter mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Price Filter</h4>
-                        <div class="price_filter mt-25">
-                            <span>Range:  $100.00 - 1.300.00 </span>
-                            <div id="slider-range"></div>
-                            <div class="price_slider_amount">
-                                <div class="label-input">
-                                    <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
-                                </div>
-                                <button type="button">Filter</button> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">By Brand</h4>
-                        <div class="sidebar-list-style mt-20">
-                            <ul>
-                                <li><input type="checkbox"><a href="#">Poure </a></li>
-                                <li><input type="checkbox"><a href="#">Eveman </a></li>
-                                <li><input type="checkbox"><a href="#">Iccaso </a></li>
-                                <li><input type="checkbox"><a href="#">Annopil </a></li>
-                                <li><input type="checkbox"><a href="#">Origina </a></li>
-                                <li><input type="checkbox"><a href="#">Perini  </a></li>
-                                <li><input type="checkbox"><a href="#">Dolloz </a></li>
-                                <li><input type="checkbox"><a href="#">Spectry </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">By Color</h4>
-                        <div class="sidebar-list-style mt-20">
-                            <ul>
-                                <li><input type="checkbox"><a href="#">Black </a></li>
-                                <li><input type="checkbox"><a href="#">Blue </a></li>
-                                <li><input type="checkbox"><a href="#">Green </a></li>
-                                <li><input type="checkbox"><a href="#">Grey </a></li>
-                                <li><input type="checkbox"><a href="#">Red</a></li>
-                                <li><input type="checkbox"><a href="#">White  </a></li>
-                                <li><input type="checkbox"><a href="#">Yellow   </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Compare Products</h4>
-                        <div class="compare-product">
-                            <p>You have no item to compare. </p>
-                            <div class="compare-product-btn">
-                                <span>Clear all </span>
-                                <a href="#">Compare <i class="fa fa-check"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
-                        <h4 class="shop-sidebar-title">Popular Tags</h4>
-                        <div class="shop-tags mt-25">
-                            <ul>
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Cheesy</a></li>
-                                <li><a href="#">Fast Food</a></li>
-                                <li><a href="#">French Fries</a></li>
-                                <li><a href="#">Hamburger </a></li>
-                                <li><a href="#">Pizza</a></li>
-                                <li><a href="#">Red Meat</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% block vendor_breadcrumb %}
+    <li><a href="{% url 'home:home' %}">Home</a></li>
+    <li><a href="{% url 'vendors:home' %}">Vendor</a></li>
+    <li><a href={{ store.get_vendor_store_detail_url }}>@{{store.username}}</a></li>
+    <li class="active"> {{ page_context.breadcrumb_active }} </li>
+{% endblock vendor_breadcrumb %}
 
+
+{% block vendor_main %}
+
+{% include "partials/_alerts.html" %}
+<!--store logo and details start-->
+<div class="row mb-30">
+    <div class="col-lg-6 col-md-5">
+        <div class="overview-img text-center" style="max-height:410px; max-width:420px;">
+            <a href="#">
+                <img src="{{store.logo.url}}" alt="store logo">
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-7 d-flex align-items-start">
+        <div class="overview-content-2" style="width:100%;">
+            <h2><span class="color-pri" >
+                {% if product.is_verified %}
+                    <i class="fas fa-check-circle text-success"></i>
+                {% else %}
+                    <i class="fas fa-check-circle text-danger"></i>
+                {% endif %}
+                {{store.title}}
+                <div class="open">open now</div>
+            </span></h2>
+            <p class="mb-10" style="font-size:14px;font-weight:400;" >
+                {{ store.description }} 
+            </p>
+            <div class="vendor_open_close">
+                <div class="vendor_open">
+                    <p class="bg-success">Open Time:</p> <p> {{ store.opening_time }} </p>
+                </div>
+                <div class="vendor_close">
+                    <p class="bg-warning">Close Time:</p> <p> {{ store.closing_time }} </p>
+                </div>
+            </div>
+            <div style="margin-top:10px">
+                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
+            </div>
+            {% comment %} <di class="overview-btn mt-45">
+                <a class="btn-style-2" href="shop.html">Visit Store</a>
+            </> {% endcomment %}
+        </div>
+    </div>
+</div>
+<!--store logo and details end-->
+<div class="shop-topbar-wrapper">
+    <div class="shop-topbar-left">
+        <ul class="view-mode">
+            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
+            <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
+        </ul>
+        <p>Showing 1 - 20 of {{ total_product }} results  </p>
+    </div>
+    <div class="product-sorting-wrapper">
+        <!--<div class="product-shorting shorting-style">
+            <label>View:</label>
+            <select>
+                <option value=""> 20</option>
+                <option value=""> 23</option>
+                <option value=""> 30</option>
+            </select>
+        </div>-->
+        <div class="product-show shorting-style">
+            <label>Sort by:</label>
+            <select>
+                <option value="">Default</option>
+                <option value=""> Name</option>
+                <option value=""> price</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="grid-list-product-wrapper">
+    <div class="product-grid product-view pb-20">
+        <div class="row">
+            {% if products %}
+                {% for product in products  %}
+                <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
+                    <div class="product-wrapper">
+                        <div class="product-img">
+                            <a href="" data-toggle="modal" id="quick_view"  data-target="#exampleModal">
+                                <img src="{{product.image.url}}" data-sid="{{product.id}}" data-sname={{ store.username }} alt="" class="open_view">
+                            </a>
+                            {% comment %} <div class="product-action">
+                                <div class="pro-action-left">
+                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
+                                </div>
+                                <div class="pro-action-right">
+                                    <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
+                                    <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                        <div class="product-content">
+                            <h4>
+                                <a href="product-details.html">{{product.title}}</a>
+                            </h4>
+                            <div class="product-price-wrapper">
+                                <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
+                                <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
+                            </div>
+                        </div>
+                        <div class="product-list-details">
+                            <h4>
+                                <a href="product-details.html">{{product.title}}</a>
+                            </h4>
+                            <div class="product-price-wrapper">
+                                <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
+                                <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                            <div class="shop-list-cart-wishlist" >
+                                <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
+                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                                {% comment %} <a href="#" id="quick_view" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                                    <i data-sid="{{product.id}}"  class="ion-android-open open_view"></i>
+                                </a> {% endcomment %}
+                                <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <h6>No Products Available</h6>
+            {% endif %}
+            
+            
+        </div>
+    </div>
+    {% if products.has_other_pages %}
+        <div class="pagination-total-pages">
+            <div class="pagination-style">
+                <ul>
+                    {% if products.has_previous %}
+                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
+                    </li>
+                {% endif %}
+                {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                        <li><a class="active" href="#">{{i}}</a></li>
+                    {% else %}
+                        <li><a href="?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                    <li><a class="prev-next next" href="?page={{products.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                    
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
+                    </li>
+                {% endif %}
+                
+                </ul>
+            </div>
+            <div class="total-pages">
+                <p>Showing 1 - 20 of 30 results  </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="margin: 4px;color: red;display: block;font-size: 25px;" ><i class="fas fa-times"></i></span></button>
             </div>
-            <div class="modal-body">
-                <div class="row">
+            <div class="modal-body" >
+                <div class="vendor-spinner" id="modalSpinner">
+                    {% comment %} <img src="{% static 'spinner/spinner.gif' %}" alt="Loading"> {% endcomment %}
+                    <img src="{% static 'assets/img/loading.gif' %}" alt="Loading">
+                </div>
+                <div class="row" id="modalContent">
                     <div class="col-md-5 col-sm-5 col-xs-12">
                         <!-- Thumbnail Large Image start -->
                         <div class="tab-content">
-                            <div id="pro-1" class="tab-pane fade show active">
-                                <img src="{% static 'assets/images/product-details/product-detalis-l1.jpg' %}" alt="">
-                            </div>
-                            <div id="pro-2" class="tab-pane fade">
+                            <div id="pro-1" class="tab-pane fade show active"></div>
+                            {% comment %} <div id="pro-2" class="tab-pane fade">
                                 <img src="{% static 'assets/images/product-details/product-detalis-l2.jpg' %}" alt="">
                             </div>
                             <div id="pro-3" class="tab-pane fade">
@@ -325,29 +203,32 @@
                             </div>
                             <div id="pro-4" class="tab-pane fade">
                                 <img src="{% static 'assets/images/product-details/product-detalis-l4.jpg' %}" alt="">
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                         <!-- Thumbnail Large Image End -->
                         <!-- Thumbnail Image End -->
-                        <div class="product-thumbnail">
+                        {% comment %} <div class="product-thumbnail">
                             <div class="thumb-menu owl-carousel nav nav-style" role="tablist">
                                 <a class="active" data-toggle="tab" href="#pro-1"><img src="{% static 'assets/images/product-details/product-detalis-s1.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-2"><img src="{% static 'assets/images/product-details/product-detalis-s2.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-3"><img src="{% static 'assets/images/product-details/product-detalis-s3.jpg' %}" alt=""></a>
                                 <a data-toggle="tab" href="#pro-4"><img src="{% static 'assets/images/product-details/product-detalis-s4.jpg' %}" alt=""></a>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <!-- Thumbnail image end -->
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         <div class="modal-pro-content">
-                            <h3>PRODUCTS NAME HERE </h3>
-                            <div class="product-price-wrapper">
-                                <span>$120.00</span>
-                                <span class="product-price-old">$162.00 </span>
+                            <div class="modal-title">
+                                <h3 id="modalTitle" style="padding-right:10px;"></h3>
+                                <span><i class="fa fa-check" style="color: green !important"></i> Available</span>
                             </div>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet.</p>	
-                            <div class="quick-view-select">
+                            <div class="product-price-wrapper">
+                                <span id='takaicon' >  </span>
+                                <span class="product-price-old"  id='takaicon2'>  </span>
+                            </div>
+                            <p id="description" ></p>	
+                            {% comment %} <div class="quick-view-select"><img src="" class="taka-icon" id='takaicon' /> 
                                 <div class="select-option-part">
                                     <label>Size*</label>
                                     <select class="select">
@@ -366,14 +247,12 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div> {% endcomment %}
+                            <div class="product-quantity" id="modal-btn" style="margin-top:30px;">
+                                <a href="" class="" id="update-id">Update</a>
+                                <a href="" class="" id="addproduct-id">Add</a>
+                                <a href="" onclick="Alert(); " class="" id="removeproduct-id">Remove</a>
                             </div>
-                            <div class="product-quantity">
-                                <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="02">
-                                </div>
-                                <button>Add to cart</button>
-                            </div>
-                            <span><i class="fa fa-check"></i> In stock</span>
                         </div>
                     </div>
                 </div>
@@ -381,6 +260,9 @@
         </div>
     </div>
 </div>
+
+{% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
+
 <!-- Modal end -->
-        
-{% endblock content %}
+    {% include "vendors/ajax/store_detail_ajax.html" %}
+{% endblock vendor_main %}

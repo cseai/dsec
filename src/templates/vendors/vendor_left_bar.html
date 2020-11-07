@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block content %}
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                {% block vendor_breadcrumb %}
+                {% endblock vendor_breadcrumb %}
+            </ul>
+        </div>
+    </div>
+</div>
+    
+<div class="shop-page-area pt-10 pb-100">
+    <div class="container">
+        <div class="row flex-row-reverse">
+            <div class="col-lg-9">
+                {% block vendor_main %}
+                {% endblock vendor_main %}
+            </div>
+            <div class="col-lg-3">
+                <div class="shop-sidebar-wrapper gray-bg-7 shop-sidebar-mrg">
+                    <div class="shop-widget">
+                        <h4 class="shop-sidebar-title">Menu</h4>
+                        <div class="shop-catigory">
+                            <ul id="faq">
+                                
+                                {% if '/vendor/' == request.path %}
+                                    <li > <a href="{% url 'vendors:home' %}" style="color:#f9aa33 !important;">Vendor</a> </li>
+                                {% else %}
+                                    <li > <a href="{% url 'vendors:home' %}" >Vendor</a> </li>
+                                {% endif %}
+                                {% if '/vendor/stores/' in request.path %}
+                                    <li><a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" style="color:#f9aa33 !important;">All Stores <i class="ion-ios-arrow-down"></i></a>
+                                        <ul id="shop-catigory-1" class="panel-collapse collapse show">
+                                            {% for st in request.user.store_set.all  %}
+                                                {% url 'vendors:store_detail' store_username=st.username as the_url %}
+                                                {% if  the_url in request.path %}
+                                                    <li><a href="{% url 'vendors:store_detail' st.username %}" style="color:#f9aa33 !important;">{{st.title}}</a></li>
+                                                {% else %}
+                                                    <li><a href="{% url 'vendors:store_detail' st.username %}">{{st.title}}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" >All Stores <i class="ion-ios-arrow-down"></i></a>
+                                        <ul id="shop-catigory-1" class="panel-collapse collapse">
+                                            {% for st in request.user.store_set.all  %}
+                                                <li> <a href="{% url 'vendors:store_detail' st.username %}">{{st.title}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                                
+                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-2">Rich Foods <i class="ion-ios-arrow-down"></i></a>
+                                    <ul id="shop-catigory-2" class="panel-collapse collapse">
+                                        <li><a href="#">Eggs</a></li>
+                                        <li><a href="#">Milk</a></li>
+                                        <li><a href="#">Almonds</a></li>
+                                        <li><a href="#">Cottage Cheese</a></li>
+                                        <li><a href="#">Lean Beef</a></li>
+                                    </ul>
+                                </li>
+                                <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-3">Soft Drinks <i class="ion-ios-arrow-down"></i></a>
+                                    <ul id="shop-catigory-3" class="panel-collapse collapse">
+                                        <li><a href="#"> Pepsi Cola</a></li>
+                                        <li><a href="#"> Fruit juices</a></li>
+                                        <li><a href="#">Diet Pepsi</a></li>
+                                        <li><a href="#">Bitter lemon</a></li>
+                                        <li><a href="#">Barley water</a></li>
+                                    </ul>
+                                </li>
+                                {% if '/vendor/stores/' in request.path %}
+                                    {% for st in request.user.store_set.all %}
+                                        {% url 'vendors:store_detail' st.username as the_url %}
+                                        {% if request.path == the_url %}
+                                        <li> <a href="{% url 'vendors:store_product_add' store_username=st.username %}"><i class="fas fa-plus-square color-sec" ></i>Add Product</a></li>
+                                        {% else %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% comment %} <li> <a href="#">{{ request.user.store.title }} </a></li> {% endcomment %}
+                                
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="shop-price-filter mt-40 shop-sidebar-border pt-35">
+                        {% comment %} <h4 class="shop-sidebar-title">Price Filter</h4>
+                        <div class="price_filter mt-25">
+                            <span>Range:  $100.00 - 1.300.00 </span>
+                            <div id="slider-range"></div>
+                            <div class="price_slider_amount">
+                                <div class="label-input">
+                                    <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
+                                </div>
+                                <button type="button">Filter</button> 
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
+                        {% comment %} <h4 class="shop-sidebar-title">By Brand</h4>
+                        <div class="sidebar-list-style mt-20">
+                            <ul>
+                                <li><input type="checkbox"><a href="#">Poure </a></li>
+                                <li><input type="checkbox"><a href="#">Eveman </a></li>
+                                <li><input type="checkbox"><a href="#">Iccaso </a></li>
+                                <li><input type="checkbox"><a href="#">Annopil </a></li>
+                                <li><input type="checkbox"><a href="#">Origina </a></li>
+                                <li><input type="checkbox"><a href="#">Perini  </a></li>
+                                <li><input type="checkbox"><a href="#">Dolloz </a></li>
+                                <li><input type="checkbox"><a href="#">Spectry </a></li>
+                            </ul>
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
+                        {% comment %} <h4 class="shop-sidebar-title">By Color</h4>
+                        <div class="sidebar-list-style mt-20">
+                            <ul>
+                                <li><input type="checkbox"><a href="#">Black </a></li>
+                                <li><input type="checkbox"><a href="#">Blue </a></li>
+                                <li><input type="checkbox"><a href="#">Green </a></li>
+                                <li><input type="checkbox"><a href="#">Grey </a></li>
+                                <li><input type="checkbox"><a href="#">Red</a></li>
+                                <li><input type="checkbox"><a href="#">White  </a></li>
+                                <li><input type="checkbox"><a href="#">Yellow   </a></li>
+                            </ul>
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
+                        {% comment %} <h4 class="shop-sidebar-title">Compare Products</h4>
+                        <div class="compare-product">
+                            <p>You have no item to compare. </p>
+                            <div class="compare-product-btn">
+                                <span>Clear all </span>
+                                <a href="#">Compare <i class="fa fa-check"></i></a>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="shop-widget mt-40 shop-sidebar-border pt-35">
+                        {% comment %} <h4 class="shop-sidebar-title">Popular Tags</h4>
+                        <div class="shop-tags mt-25">
+                            <ul>
+                                <li><a href="#">All</a></li>
+                                <li><a href="#">Cheesy</a></li>
+                                <li><a href="#">Fast Food</a></li>
+                                <li><a href="#">French Fries</a></li>
+                                <li><a href="#">Hamburger </a></li>
+                                <li><a href="#">Pizza</a></li>
+                                <li><a href="#">Red Meat</a></li>
+                            </ul>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}    
+

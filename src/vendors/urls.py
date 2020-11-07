@@ -10,6 +10,7 @@ from .views import (
         store_product_detail_view,
         store_product_update_view,
         store_product_remove_view,
+        api_store_product_detail_view,
     )
 
 app_name = 'vendors'
@@ -23,4 +24,7 @@ urlpatterns = [
     path('stores/<str:store_username>/products/<int:product_id>/', store_product_detail_view, name='store_product_detail'),
     path('stores/<str:store_username>/products/<int:product_id>/update/', store_product_update_view, name='store_product_update'),
     path('stores/<str:store_username>/products/<int:product_id>/remove/', store_product_remove_view, name='store_product_remove'),
+    #api
+    path('api/stores/store_username/products/product_id/', api_store_product_detail_view, name='api_store_product_detail'),
+
 ]
