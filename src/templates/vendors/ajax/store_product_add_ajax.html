@@ -1,7 +1,14 @@
 <script>
-    $('#imageUploadProductAdd').change(function(){
-        console.log("hello there the angel from ")
-        let mythis=this;
+    
+    if(Math.round(mythis.files[0].size/(1024*1024)) > 0.5){
+        $("#imageUploadStore").val('').clone(true)
+        alert("Your Image Size Can't Upper Than 0.5MB!");
+    }
+    {% comment %} else if((mythis.files[0].width >= 500 && mythis.files[0].height >= 500) && (mythis.files[0].width <= 1500 && mythis.files[0].height <= 1500) ){
+        $("#imageUploadStore").val('').clone(true)
+        alert("Resulation Min : 500x500 and Max : 1500x1500 !");
+    } {% endcomment %}
+    else{
         if(mythis.files[0] && mythis.files){
             var reader=new FileReader();
             reader.onload=function(e){
@@ -12,5 +19,6 @@
             }
             reader.readAsDataURL(mythis.files[0])
         }
-    })
+    }
+    
 </script>
