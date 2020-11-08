@@ -55,6 +55,33 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    """
+    [NOTE] [How add group for custom user in django?]
+    (https://stackoverflow.com/questions/36961180/how-add-group-for-custom-user-in-django)
+    """
+    class Role(models.TextChoices):
+        """
+        According to the given instruction User Role List are given bellow:
+        1.  Super adminstrator: Somebody with access to site network 
+            administration features and all other features of Adminstrator.
+        2.  Adminstrator: Somebody who has access to all the administration 
+            features within a single site 
+        3.  Editor: Somebody who can Publish and manage store and marchent 
+            including post/content of user
+        4.  Moderator: Somebody who can handle and help to the marchent if 
+            they faces any small issue and communicate with them if needed
+        5.  Sub Moderator: Somebody who can access and create Ad campaign 
+            and do Accounts management.
+        6.  Analyst/Auditor: Somebody who can check and Advise about whole 
+            operation/management but can’t do a single change to anything to the site.
+        """
+        SUPER_ADMIN     = 'SUPER_ADMIN', 'Super adminstrator'
+        ADMIN           = 'ADMIN', 'Adminstrator'
+        EDITOR          = 'EDITOR', 'Editor' 
+        MODERATOR       = 'MODERATOR', 'Moderator'
+        SUB_MODERATOR   = 'SUB_MODERATOR', 'Sub Moderator'
+        ANALYST         = 'ANALYST', 'Analyst'
+
     GENDER_MALE = 'M'
     GENDER_FEMALE = 'F'
     GENDER_OTHER = 'O'

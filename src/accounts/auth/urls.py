@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.views import (
         LogoutView, 
         PasswordChangeView, 
@@ -29,16 +31,16 @@ urlpatterns = [
 
     # password change
     path('password-change/', 
-        PasswordChangeView.as_view(
+        login_required(PasswordChangeView.as_view(
             template_name='auth/password_change.html',
             success_url='/auth/password-change/done/'
-        ), 
+        )), 
         name='password_change'
     ),
     path('password-change/done/', 
-        PasswordChangeDoneView.as_view(
+        login_required(PasswordChangeDoneView.as_view(
             template_name='auth/password_change_done.html'
-        ), 
+        )), 
         name='password_change_done'
     ),
 
