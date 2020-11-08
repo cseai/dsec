@@ -104,7 +104,7 @@ def register_store_view(request, *args, **kwargs):
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
         
-    store = get_object_or_404(Store, username=store_username)
+    store = get_object_or_404(Store, username=store_username.lower())
     products = Product.objects.filter(store=store).order_by('-id')
     
     #paginator
@@ -112,11 +112,42 @@ def store_detail_view(request, store_username, *args, **kwargs):
     page_number=request.GET.get('page')
     product_page=paginator.get_page(page_number)
 
+    #post request
     store_status_form = StoreStatusUpdateForm(request.POST or None, request.FILES or None, instance=store)
     if request.method =='POST':
         if store_status_form.is_valid():
             store = store_status_form.save()
             store.save()
+            
+    
+    # get request 
+    if request.method == 'GET':
+        # print
+        if 'search' in request.GET:
+            title = request.GET['search']
+            #query
+            products = products.filter(title__icontains=title)
+            # paginator
+            print("filter query : ===> ",products)
+            paginator = Paginator(products,1)
+            page_number = request.GET.get('page')
+            product_page = paginator.get_page(page_number)
+            
+            context={
+                'page_context': {
+                    'title': store.title,
+                    'breadcrumb_active': "Store Details",
+                    'main_heading': store.title,
+                },
+                'store' : store,
+                'store_status_form' : store_status_form,
+                'products' : product_page,
+                'total_product' : products.count(),
+                'sc':title,
+                'req':'req'
+            }
+            return render(request,'vendors/store_detail.html',context)
+    
     context = {
         'page_context': {
             'title': store.title,
@@ -127,6 +158,7 @@ def store_detail_view(request, store_username, *args, **kwargs):
         'store_status_form': store_status_form,
         'products': product_page,
         'total_product':products.count(),
+        'req':''
     }
     return render(request, 'vendors/store_detail.html', context)
 
@@ -299,4 +331,68 @@ def api_store_product_detail_view(request):
                 'status':'404',
             }
             return HttpResponse(json.dumps(data))
+        
+        
+def api_store_status_update(request):
+    if request.method == 'POST' and request.is_ajax():
+
+        # get store username
+        store_username = request.POST.get('store_username')
+        curr_state = request.POST.get('curr_state')
+        
+        if curr_state == 'open':
+            print("current state : ",curr_state)
+            store = Store.objects.filter(user=request.user).get(username=store_username)
+            print(store.is_open)
+            if store.is_open:
+                try:
+                    store.is_open=False;
+                    store.save()
+                    data={
+                        'status':'200',
+                        'msg':"Your Store Closed!",
+                    }
+                    # messages.add_message(request,messages.ERROR,"Your Store Closed!")
+                    return HttpResponse(json.dumps(data))
+                except :
+                    data={
+                        'status':'500',
+                        'msg':"Opps Somethings Went Wrong!",
+                    }
+                    # messages.add_message(request,messages.ERROR,"Your Store Closed!")
+                    return HttpResponse(json.dumps(data))
+        
+        elif curr_state == 'close':
+            print("current state : ",curr_state)
+            
+            store = Store.objects.filter(user=request.user).get(username=store_username)
+            
+            if store.is_open == False:
+                print(store.is_open)
+                try:
+                    store.is_open=True;
+                    store.save()
+                    data={
+                        'status':'200',
+                        'msg':"Your Store Open Now!",
+                    }
+                    return HttpResponse(json.dumps(data))
+                except:
+                    data={
+                        'status':'500',
+                        'msg':"Opps Somethings Went Wrong!",
+                    }
+                    return HttpResponse(json.dumps(data))
+                
+            
+        
+        else:
+            data={
+                'status':'404',
+                'msg':"Opps Somethings Went Wrong!",
+            }
+            
+            return HttpResponse(json.dumps(data))
+        
+        
         
