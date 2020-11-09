@@ -8,6 +8,7 @@ colorama==0.4.3
 Deprecated==1.2.10
 Django==3.1.1
 django-crispy-forms==1.9.2
+django-extensions==3.0.9
 django-mathfilters==1.0.0
 django-model-utils==4.0.0
 django-phone-verify==2.0.0
