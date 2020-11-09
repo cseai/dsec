@@ -1,31 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 /* vendor store detail start */
-.open{
-    position: absolute;
+.open-btn{
+    /* position: absolute; */
     top: 0px;
     right: 0px;
     color: white;
     background: green;
     padding: 10px 15px;
     font-size: 16px;
-    border-radius: 7px;
+    border-radius: 5px;
     text-transform: uppercase;
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
-
+    cursor: pointer;
 }
-.close{
-    position: absolute;
+.close-btn{
+    /* position: absolute; */
     top: 0px;
     right: 0px;
     color: white;
     background: red;
     padding: 10px 15px;
     font-size: 16px;
-    border-radius: 7px;
+    border-radius: 5px;
     text-transform: uppercase;
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+    cursor: pointer;
 }
+
 
 @keyframes open {
     50% {

@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'crispy_forms',
     'phone_verify',
+    'mathfilters',
     
-
     # Local Apps
     'accounts',
     'addresses',

@@ -145,3 +145,6 @@ static_cdn
 │           └───logo
 └───static_root
 ```
+
+# Third Party App Links
+[django-mathfilters](https://pypi.org/project/django-mathfilters/)

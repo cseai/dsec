@@ -108,7 +108,7 @@ class StoreUpdateForm(forms.ModelForm):
     
     class Meta:
         model= Store
-        fields=('title', 'tagline', 'username', 'category', 'logo', 'description', 'opening_time', 'closing_time', 'is_open', )
+        fields=('logo','title', 'tagline', 'username', 'category',  'description', 'opening_time', 'closing_time', 'is_open', )
 
         # customize form attrs
         # labels = {
@@ -308,6 +308,14 @@ class StoreProductAddForm(forms.ModelForm):
                 'title': 'Product Category/Tag',
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(StoreProductAddForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({
+                'class': '',
+                'id':'imageUploadProductAdd',
+            })
+        self.fields['image'].label = "Product Image"
     
     def save(self, commit=True):
         # Save the provided information

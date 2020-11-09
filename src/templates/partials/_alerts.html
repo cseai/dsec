@@ -19,14 +19,14 @@
 {% endif %}
 
 <script>
-    $(document).ready(function(){
+    {% comment %} $(document).ready(function(){
         var msg = document.getElementById("message");
 
         setTimeout(function(){
-            msg.style.display = "none"; 
+            document.getElementById("message").style.display = "none"; 
         }, 3000);
 
-    })
+    }) {% endcomment %}
     var msg = document.getElementById("message");
 
     setTimeout(function(){ 

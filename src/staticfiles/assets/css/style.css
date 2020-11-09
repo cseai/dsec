@@ -1325,7 +1325,8 @@ textarea:focus {
     background: #fff;
 }
 .black-bg {
-    background: #2f333a
+    background: #344955;
+    /* background: #2f333a; */
 }
 .black-bg-2 {
     background: #26292e

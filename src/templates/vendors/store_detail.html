@@ -1,5 +1,6 @@
 {% extends "vendors/vendor_left_bar.html" %}
 {% load static %}
+{% load mathfilters %}
 
 {% block title %}
 {{ block.super }}|{{ page_context.main_heading }}
@@ -16,10 +17,12 @@
 {% block vendor_main %}
 
 {% include "partials/_alerts.html" %}
+<div id="msg"></div>
+<div id="msg1"></div>
 <!--store logo and details start-->
 <div class="row mb-30">
     <div class="col-lg-6 col-md-5">
-        <div class="overview-img text-center" style="max-height:410px; max-width:420px;">
+        <div class="overview-img text-center" style="max-height:350px; max-width:420px;">
             <a href="#">
                 <img src="{{store.logo.url}}" alt="store logo">
             </a>
@@ -27,14 +30,26 @@
     </div>
     <div class="col-lg-6 col-md-7 d-flex align-items-start">
         <div class="overview-content-2" style="width:100%;">
-            <h2><span class="color-pri" >
-                {% if product.is_verified %}
-                    <i class="fas fa-check-circle text-success"></i>
-                {% else %}
-                    <i class="fas fa-check-circle text-danger"></i>
-                {% endif %}
-                {{store.title}}
-                <div class="open">open now</div>
+            <h2><span class="color-pri" style="display: flex;justify-content: space-between;align-items: center;" >
+                <div id="">
+                    {% comment %} {% if product.is_verified %}
+                        <i class="fas fa-check-circle text-success"></i>
+                    {% else %}
+                        <i class="fas fa-check-circle text-danger"></i>
+                    {% endif %} {% endcomment %}
+                    <div id="title-id">{{store.title}} </div>
+                </div>
+                <div>
+                    <form action="POST">{% csrf_token %}
+                        <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
+                        {% if store.is_open %}
+                            <div class="open-btn" id="open-id">open</div>
+                        {% else %}
+                            <div class="close-btn" id="open-id">close</div>
+                        {% endif %}
+                    </form>
+                </div>
+                
             </span></h2>
             <p class="mb-10" style="font-size:14px;font-weight:400;" >
                 {{ store.description }} 
@@ -57,15 +72,43 @@
     </div>
 </div>
 <!--store logo and details end-->
-<div class="shop-topbar-wrapper">
+<div class="shop-topbar-wrapper" style="align-items:center">
     <div class="shop-topbar-left">
         <ul class="view-mode">
             <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
             <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
         </ul>
-        <p>Showing 1 - 20 of {{ total_product }} results  </p>
+        <p>Showing 
+            {% with products.number|sub:1 as first_sub %}
+                {% with 2|mul:first_sub as first_page  %}
+                    {{ first_page|add:1 }} - 
+                {% endwith %}
+            {% endwith %}
+            
+            {% if products.has_next %}
+                {{ 2|mul:products.number }} of {{ total_product }} results  </p>
+            {% else %}
+                {% with products.number|sub:1 as pre_page %}
+                    {% with pre_page|mul:2 as curr_products %}
+                        {% with total_product|sub:curr_products as last_rem %}
+                            {% with curr_products|add:last_rem as pre_total %}
+                                {{ pre_total }} of {{ total_product }} results  </p>
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endwith %}
+            {% endif %}
     </div>
     <div class="product-sorting-wrapper">
+        <form action="{% url 'vendors:store_detail' store.username %}" method="get">
+            <div class="input-group mb-3" style="width:250px;">
+                <input name="search" type="text" class="form-control" placeholder="Food name" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                <div class="input-group-append" style="display:none">
+                    <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
+                </div>
+            </div>
+        </form>
+
         <!--<div class="product-shorting shorting-style">
             <label>View:</label>
             <select>
@@ -74,14 +117,14 @@
                 <option value=""> 30</option>
             </select>
         </div>-->
-        <div class="product-show shorting-style">
+        {% comment %} <div class="product-show shorting-style">
             <label>Sort by:</label>
             <select>
                 <option value="">Default</option>
                 <option value=""> Name</option>
                 <option value=""> price</option>
             </select>
-        </div>
+        </div> {% endcomment %}
     </div>
 </div>
 <div class="grid-list-product-wrapper">
@@ -126,9 +169,7 @@
                             <div class="shop-list-cart-wishlist" >
                                 <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
                                 <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                {% comment %} <a href="#" id="quick_view" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                                    <i data-sid="{{product.id}}"  class="ion-android-open open_view"></i>
-                                </a> {% endcomment %}
+                                
                                 <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
                             </div>
                         </div>
@@ -136,32 +177,33 @@
                 </div>
                 {% endfor %}
             {% else %}
-                <h6>No Products Available</h6>
+                <h6 style="display:block; margin:0 auto; font-size:25px; color:red;">No Products Available</h6>
             {% endif %}
             
             
         </div>
     </div>
+    {% if req == 'req' %}
     {% if products.has_other_pages %}
         <div class="pagination-total-pages">
             <div class="pagination-style">
                 <ul>
                     {% if products.has_previous %}
-                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
+                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}&search={{ sc }}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
                 {% else %}
                     <li class="page-item disabled">
-                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
+                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i>Prev</a>
                     </li>
                 {% endif %}
                 {% for i in products.paginator.page_range %}
                     {% if products.number == i %}
                         <li><a class="active" href="#">{{i}}</a></li>
                     {% else %}
-                        <li><a href="?page={{i}}">{{i}}</a></li>
+                        <li><a href="?page={{i}}&search={{ sc }}">{{i}}</a></li>
                     {% endif %}
                 {% endfor %}
                 {% if products.has_next %}
-                    <li><a class="prev-next next" href="?page={{products.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                    <li><a class="prev-next next" href="?page={{products.next_page_number}}&search={{sc}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
                     
                 {% else %}
                     <li class="page-item disabled">
@@ -176,6 +218,60 @@
             </div>
         </div>
     {% endif %}
+    {% else %}
+        {% if products.has_other_pages %}
+            <div class="pagination-total-pages">
+                <div class="pagination-style">
+                    <ul>
+                        {% if products.has_previous %}
+                            <li><a class="prev-next prev" href="?page={{products.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
+                        </li>
+                    {% endif %}
+                    {% for i in products.paginator.page_range %}
+                        {% if products.number == i %}
+                            <li><a class="active" href="#">{{i}}</a></li>
+                        {% else %}
+                            <li><a href="?page={{i}}">{{i}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if products.has_next %}
+                        <li><a class="prev-next next" href="?page={{products.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                        
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
+                        </li>
+                    {% endif %}
+                    
+                    </ul>
+                </div>
+                <div class="total-pages">
+                    {% with products.number|sub:1 as first_sub %}
+                        {% with 2|mul:first_sub as first_page  %}
+                            {{ first_page|add:1 }} - 
+                        {% endwith %}
+                    {% endwith %}
+                {% if products.has_next %}
+                    {{ 2|mul:products.number }} of {{ total_product }} results  </p>
+                {% else %}
+                    {% with products.number|sub:1 as pre_page %}
+                        {% with pre_page|mul:2 as curr_products %}
+                            {% with total_product|sub:curr_products as last_rem %}
+                                {% with curr_products|add:last_rem as pre_total %}
+                                    {{ pre_total }} of {{ total_product }} results  </p>
+                                {% endwith %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endif %}>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    
 </div>
 
 <!-- Modal -->
