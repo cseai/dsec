@@ -1,6 +1,7 @@
 {% load static %}
-<header class="header-area">
-	<div class="header-top black-bg">
+{% comment %} <header class="header-area"> {% endcomment %}
+	<div class="header-top black-bg top-bar" id="topbar-dismiss">
+		<div class="container-fluid top-bar-cross" id="top-cross">X</div>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-12 col-sm-4">
@@ -49,7 +50,7 @@
 			</div>
 		</div>
 	</div>
-{% include "partials/mid_header.html" %}
-{% include "partials/_navbar.html" %}
-
-</header>
+{% comment %} {% include "partials/mid_header.html" %}
+{% include "partials/_navbar.html" %} {% endcomment %}
+{% include "partials/ajax.html" %}
+{% comment %} </header> {% endcomment %}

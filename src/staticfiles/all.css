@@ -26,3 +26,27 @@
 .color-sec{
 	color:#f9aa33 !important;
 }
+
+.top-bar{
+	position: fixed;
+    z-index: 100;
+    background: green;
+    width: 100%;
+    height: 60px;
+}
+
+.top-bar-cross{
+	display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    z-index: 18;
+    position: absolute;
+    padding-right: 19px;
+    color: red;
+	font-size: 20px;
+	cursor:pointer;
+}
+
+#headbar-cross{
+	padding-top:55px;
+}

@@ -1533,7 +1533,7 @@ textarea:focus {
 /* header top */
 .welcome-area > p {
     color: #fff;
-    margin: 9px 0 0;
+    margin: 0px 0 0;
 }
 .account-curr-lang-wrap ul li {
     display: inline-block;
@@ -1969,7 +1969,8 @@ textarea:focus {
     float: right;
 }
 .transparent-bar.stick {
-    animation: 700ms ease-in-out 0s normal none 1 running fadeInDown;
+    margin-top:58px;
+    /* animation: 300ms ease-in-out 0s normal none 1 running fadeInDown; */
     /* background-color: #fff; */
     color: #fff !important;
     border-bottom: 0 solid #4a90e2;
@@ -1977,7 +1978,10 @@ textarea:focus {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 100;
+}
+#navbar-cross{
+    /* margin-top:0px; */
 }
 .stick .main-menu ul li a {
     line-height: 60px;

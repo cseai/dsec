@@ -43,10 +43,10 @@
     <body>
         <!-- header start -->
         {% comment %} {% include 'partials/_header.html' %} {% endcomment %}
-        <header class="header-area">
-            {% include 'partials/top_header.html' %} 
-            {% comment %} {% include 'partials/mid_header.html' %}
-            {% include 'partials/navbar.html' %} {% endcomment %}
+        {% include 'partials/top_header.html' %} 
+        <header class="header-area" id="headbar-cross">
+            {% include 'partials/mid_header.html' %}
+            {% include 'partials/_navbar.html' %}
         </header>
 
         {% block content %}
