@@ -3,7 +3,7 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager
+    AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
 from model_utils import FieldTracker
 from phonenumber_field.modelfields import PhoneNumberField
@@ -54,7 +54,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     [NOTE] [How add group for custom user in django?]
     (https://stackoverflow.com/questions/36961180/how-add-group-for-custom-user-in-django)
@@ -101,7 +101,7 @@ class User(AbstractBaseUser):
         blank=True,
         null=True,
     )
-    email = models.EmailField(max_length=255, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     image = models.ImageField(
         default='accounts/user/image/default.png',
         upload_to=UploadTo('image', plus_id=True),
@@ -143,6 +143,10 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+    
+    @property
+    def is_superuser(self):
+        return self.is_admin
     
     # custom functions
     def get_profile_url(self):

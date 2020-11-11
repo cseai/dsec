@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
-LOCAL_DATABASE = False
+LOCAL_DATABASE = True
 if LOCAL_DATABASE:
     DATABASES = {
         'default': {
