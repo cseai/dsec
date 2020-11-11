@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'orders',
     'billing',
     'home',
-    'adminPanel'
+    'adminPanel',
+    'express',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'  # changes the built-in user model to ours
@@ -105,7 +106,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
-LOCAL_DATABASE = False
+LOCAL_DATABASE = True
 if LOCAL_DATABASE:
     DATABASES = {
         'default': {

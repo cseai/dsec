@@ -6,10 +6,10 @@ from .helpers import get_urls
 
 from phone_verify.models import SMSVerification
 
-# from accounts.utils.decorators import allowed_users
-# User = get_user_model()
+from accounts.utils.decorators import allowed_users
+User = get_user_model()
 
-# @allowed_users(allowed_roles=[User.Role.ADMIN])
+@allowed_users(allowed_roles=[User.Role.SUPER_ADMIN, User.Role.ADMIN])
 def dev_home(request):
     url_list_dict, url_dict_list = get_urls()
     try:
