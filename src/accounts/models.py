@@ -12,50 +12,54 @@ from accounts.helpers import UploadTo
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, phone, email=None, first_name=None, last_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    use_in_migrations = True
+
+    def _create_user(self, phone, email, password, **extra_fields):
+        """
+        Create and save a user with the given phone, email, and password.
+        """
         if not phone:
-            raise ValueError("Users must have a phone number")
-        if not password:
-            raise ValueError("Users must have a password")
-        user_obj = self.model(
-            phone=phone,  # phone number should validate
-            email=self.normalize_email(email) if email else email,
-            first_name=first_name,
-            last_name=last_name
-        )
-        user_obj.set_password(password)  # change user password
-        user_obj.is_staff = is_staff
-        user_obj.is_admin = is_admin
-        user_obj.is_active = is_active
-        user_obj.save(using=self._db)
-        return user_obj
-
-    def create_staffuser(self, phone, email=None, first_name=None, last_name=None, password=None):
-        user = self.create_user(
-            phone=phone,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            password=password,
-            is_staff=True
-        )
+            raise ValueError('The given phone must be set')
+        email = self.normalize_email(email)
+        # phone = self.model.normalize_phone(phone)
+        user = self.model(phone=phone, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, email=None, first_name=None, last_name=None, password=None):
-        user = self.create_user(
-            phone=phone,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            password=password,
-            is_staff=True,
-            is_admin=True
-        )
-        return user
+    def create_user(self, phone, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(phone, email, password, **extra_fields)
+
+    def create_superuser(self, phone, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(phone, email, password, **extra_fields)
+    
+    def create_staffuser(self, phone, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', False)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Staffuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not False:
+            raise ValueError('Staffuser must have is_superuser=False.')
+
+        return self._create_user(phone, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     """
+    This is User Model is inheriting from two abstruct class AbstractBaseUser and PermissionsMixin.
+    There are some predefined fields and methods. If developer want to update something he/she should
+    see the details of those abstruct class.
     [NOTE] [How add group for custom user in django?]
     (https://stackoverflow.com/questions/36961180/how-add-group-for-custom-user-in-django)
     """
@@ -115,7 +119,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)  # can login
     is_staff = models.BooleanField(default=False)  # staff user non superuser
-    is_admin = models.BooleanField(default=False)  # superuser
+    # is_superuser => This is already defined in PermissionsMixin abstruct class
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     # to track field changes using FieldTracker
@@ -138,16 +142,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.phone.as_e164
 
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-    
-    @property
-    def is_superuser(self):
-        return self.is_admin
-    
     # custom functions
     def get_profile_url(self):
         try:
