@@ -3,9 +3,12 @@
 /* vendor store detail start */
 .open-btn{
     /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0px;
     right: 0px;
-    color: white;
+    color: white !important;
     background: green;
     padding: 10px 15px;
     font-size: 16px;
@@ -14,11 +17,20 @@
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
     cursor: pointer;
 }
+.open-btn p{
+    color: white;
+    font-size: 16px;
+    margin:0px;
+}
+
 .close-btn{
     /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0px;
     right: 0px;
-    color: white;
+    color: white !important;
     background: red;
     padding: 10px 15px;
     font-size: 16px;
@@ -27,7 +39,11 @@
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
     cursor: pointer;
 }
-
+.close-btn p{
+    color: white;
+    font-size: 16px;
+    margin:0px;
+}
 
 @keyframes open {
     50% {

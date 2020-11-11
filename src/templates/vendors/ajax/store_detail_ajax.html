@@ -109,6 +109,14 @@
         
         if($("#open-id").text() == "open"){
             console.log("open clicked")
+            // let's work with css and btn
+            $("#open-id").fadeOut(500);
+            setTimeout(function(){
+                $("#open-id").removeClass().addClass("close-btn");
+                $("#open-id").empty().append("close");
+            },600)
+            $("#open-id").fadeIn(500);
+            
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'open',csrfmiddlewaretoken:csrf}
             
@@ -136,6 +144,8 @@
                     
                 },
                 error: function (jqXHR, exception) {
+                    console.log("hello error?")
+
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -153,19 +163,14 @@
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
                     $("#msg1").show();
-                    $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-success alert-dismissible' role='alert'></button>"+msg+"</div></div>");
+                    $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+msg+"</div></div>");
                     setTimeout(function(){
                         $("#msg1").hide();
                     },2500);
                 },
             })
 
-            $("#open-id").fadeOut(500);
-            setTimeout(function(){
-                $("#open-id").removeClass().addClass("close-btn");
-                $("#open-id").empty().append("close");
-            },600)
-            $("#open-id").fadeIn(500);
+            
         }
         else if($("#open-id").text() == "close" ){
             console.log("close clicked")
@@ -196,6 +201,7 @@
                     
                 },
                 error: function (jqXHR, exception) {
+                    console.log("hello error?")
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -213,7 +219,7 @@
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
                     $("#msg1").show()
-                        $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-success alert-dismissible' role='alert'></button>"+msg+"</div></div>");
+                        $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+msg+"</div></div>");
                         setTimeout(function(){
                             $("#msg1").hide()
                         },2500);
