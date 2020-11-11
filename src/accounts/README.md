@@ -39,3 +39,14 @@ Installation
 -   [ans for using django-model-utils](https://stackoverflow.com/a/26026613)
 
 There are huge discusion about this topic. I am selecting solution which is suitable for my application.
+
+
+## PROBLEM Q [How add group for custom user in django?](https://stackoverflow.com/questions/36961180/how-add-group-for-custom-user-in-django)
+-   [Custom users and permissions](https://docs.djangoproject.com/es/3.1/topics/auth/customizing/#custom-users-and-permissions)
+```python
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ...
+```
+BUT IMPORTANT COMMENT: 
+Thank you. This answer was helpful. Just I want to add one more in here for newbie. If you inherit PermissionsMixin after you already have done migration and migrate with your custom user model, It doesn't create relationship between your custom user model and group or permissions. I was confused for awhile because after inheriting PermissionMixin, I couldn't find tables in db for relationship between user and Group or user and Permission.
+

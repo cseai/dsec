@@ -4,6 +4,8 @@ from django.views.generic import CreateView, FormView, DetailView, View, UpdateV
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect, Http404
+from django.utils.decorators import method_decorator
+from accounts.utils.decorators import unauthenticated_user_only
 
 import phonenumbers
 
@@ -26,6 +28,7 @@ from .forms import (
 User = get_user_model()
 
 
+@method_decorator(unauthenticated_user_only, name='dispatch')
 class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
     success_url = '/'
@@ -37,6 +40,7 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
         return redirect(next_path)
 
 
+@unauthenticated_user_only
 def verify_then_redirect_register(request):
     """
     [PROBLEM]: When someone submitting (hitting multiple time very quickly) 
@@ -120,6 +124,7 @@ def verify_then_redirect_register(request):
     return render(request, 'auth/verify_then_redirect_register.html', context)
 
 
+@unauthenticated_user_only
 def verify_and_register(request, phone_number, security_code, session_token, *args, **kwargs):
     # AT FIRST CHECK GIVEN phone_number, security_code, session_token ARE VALID
     # IF NOT, IT MEANS THE URL IS FAKE OR phone_verify EXPIRED OR DELETED
@@ -172,6 +177,7 @@ def verify_and_register(request, phone_number, security_code, session_token, *ar
     return render(request, 'auth/verify_and_register.html', context)
 
 
+@unauthenticated_user_only
 def verify_then_redirect_password_reset(request):
     """
     [PROBLEM]: When someone submitting (hitting multiple time very quickly) 
@@ -252,6 +258,7 @@ def verify_then_redirect_password_reset(request):
     return render(request, 'auth/verify_then_redirect_password_reset.html', context)
 
 
+@unauthenticated_user_only
 def verify_and_password_reset(request, phone_number, security_code, session_token, *args, **kwargs):
     # AT FIRST CHECK GIVEN phone_number, security_code, session_token ARE VALID
     # IF NOT, IT MEANS THE URL IS FAKE OR phone_verify EXPIRED OR DELETED
@@ -305,6 +312,7 @@ def verify_and_password_reset(request, phone_number, security_code, session_toke
     return render(request, 'auth/verify_and_password_reset.html', context)
 
 
+@unauthenticated_user_only
 def password_reset_done(request):
     password_reset_done_message = "Password reset success. Now you can login with your new password!"
     context = {
@@ -315,6 +323,7 @@ def password_reset_done(request):
     return render(request, 'auth/password_reset_done.html', context)
 
 
+@unauthenticated_user_only
 def password_reset_failed(request):
     password_reset_failed_message = "Password reset failed. Please check everything right then try again!"
     context = {
