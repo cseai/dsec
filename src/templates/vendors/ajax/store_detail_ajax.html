@@ -107,15 +107,9 @@
         
         console.log("store name : "+csrf)
         
-        if($("#open-id").text() == "open"){
+        if($("#open-btn-text").text() == "open"){
             console.log("open clicked")
-            // let's work with css and btn
-            $("#open-id").fadeOut(500);
-            setTimeout(function(){
-                $("#open-id").removeClass().addClass("close-btn");
-                $("#open-id").empty().append("close");
-            },600)
-            $("#open-id").fadeIn(500);
+            
             
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'open',csrfmiddlewaretoken:csrf}
@@ -128,6 +122,26 @@
                     data = JSON.parse(data)
                     console.log(data)
                     if(data.status == '200'){
+                        //remove btn
+                        $("#open-id").fadeOut(200);
+                        setTimeout(function(){
+                            // add css
+                            $("#open-id").removeClass('open-btn').addClass("close-btn");
+                            $("#open-id").removeAttr("style")
+                            //change opacity
+                            $(".close-btn").css({'opacity': '1 !important'})
+
+                            //disappear loading
+                            $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
+                            $("#open-btn-text").attr("id","close-btn-text")
+                            //add OPEN text to CLOSE text
+                            $("#close-btn-text").append("close");
+
+                        },600)
+                        {% comment %} .animate({ opacity: 1 }); {% endcomment %}
+                        $("#open-id").animate({ opacity: 1 });
+                        $("#open-id").removeAttr("style")
+                        //
                         $("#msg").show()
                         $("#msg").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+data.msg+"</div></div>");
                         setTimeout(function(){
@@ -170,9 +184,14 @@
                 },
             })
 
+            // let's work with css and btn
+            $("#open-btn-text").empty();
+            $("#open-btn-loading").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
+            $(".open-btn").css({"opacity":'.5 '})
+
             
         }
-        else if($("#open-id").text() == "close" ){
+        else if($("#close-btn-text").text() == "close" ){
             console.log("close clicked")
 
             let store_username = $("#openClose-input").attr("data-store");

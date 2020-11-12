@@ -43,18 +43,18 @@
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
                         {% if store.is_open %}
-                            <div class="open-btn" id="open-id">
-                                <div id="open-btn-loading" class="spinner-border" style="width:25px;height:25px; display:none;padding-right:5px;"  role="status">
+                            <div class="open-btn" id="open-id"> <!--openbtn-loading-close-->
+                                <div id="open-btn-loading" class="spinner-border openbtn-loading-close"   role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
-                                <p>open</p>
+                                <p id="open-btn-text">open</p>
                             </div>
                         {% else %}
                             <div class="close-btn" id="open-id">
                                 <div id="close-btn-loading" class="spinner-border" style="width:25px;height:25px; display:none;padding-right:5px;" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
-                                <p>close</p>
+                                <p id="close-btn-text">close</p>
                             </div>
                         {% endif %}
                     </form>
