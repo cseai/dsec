@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'home',
     'adminPanel',
     'express',
+    'trxs',
+    'payment_accounts',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'  # changes the built-in user model to ours

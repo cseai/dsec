@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),    
     path('auth/', include('accounts.auth.urls')),
     path('profile/', include('profiles.urls')),
+    path('express/', include("express.urls")),
     path('vendor/', include("vendors.urls")),
     path('adminpanel/',include('adminPanel.urls')),
     # api

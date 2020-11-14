@@ -1,6 +1,16 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
+
 from addresses.models import Address
+
+# Payment Accounts Models
+from payment_accounts.models import (
+    BankAccount,
+    BkashAccount,
+)
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -16,6 +26,7 @@ class Merchant(models.Model):
         (CATEGORY_COMPANY, 'Company'),
         (CATEGORY_PERSONAL, 'Personal'),
     ]
+
     name                        = models.CharField(max_length=50)
     business_name               = models.CharField(max_length=50)
     username                    = models.CharField(max_length=20, unique=True)
@@ -36,12 +47,50 @@ class Merchant(models.Model):
     updated                     = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp                   = models.DateTimeField(auto_now_add=True)
 
+    # payment_accounts
+    payment_account_type        = models.ForeignKey(ContentType, null=True, blank=True, on_delete=models.CASCADE)
+    payment_account_object_id   = models.PositiveIntegerField(null=True, blank=True)
+    payment_account_object      = GenericForeignKey('payment_account_type', 'payment_account_object_id')
+    
+
     class Meta:
         verbose_name            = "merchant"
         verbose_name_plural     = "merchants"
 
     def __str__(self):
         return f"@{self.username}:{self.business_name}"
+
+    
+    def get_express_merchant_detail_url(self):
+        try:
+            url = reverse("express:merchant_detail", kwargs={'merchant_username': self.username})
+        except:
+            url = '#merchant_detail'
+        return url
+    
+
+    def get_express_merchant_update_url(self):
+        try:
+            url = reverse("express:merchant_update", kwargs={'merchant_username': self.username})
+        except:
+            url = '#merchant_update'
+        return url
+
+
+    def get_express_merchant_parcel_add_url(self):
+        try:
+            url = reverse("express:merchant_parcel_add", kwargs={'merchant_username': self.username})
+        except:
+            url = '#merchant_parcel_add'
+        return url
+    
+
+    def get_express_merchant_parcel_list_url(self):
+        try:
+            url = reverse("express:merchant_parcel_list", kwargs={'merchant_username': self.username})
+        except:
+            url = '#merchant_parcel_list'
+        return url
 
 
 
@@ -77,3 +126,27 @@ class Parcel(models.Model):
 
     def __str__(self):
         return f"ID:{self.id}, @{self.merchant.username} -> {self.shipping_address}"
+
+
+    def get_express_merchant_parcel_detail_url(self):
+        try:
+            url = reverse("express:merchant_parcel_detail", kwargs={'merchant_username': self.merchant.username, 'parcel_id': self.id})
+        except:
+            url = '#parcel_detail'
+        return url
+
+
+    def get_express_merchant_parcel_update_url(self):
+        try:
+            url = reverse("express:merchant_parcel_update", kwargs={'merchant_username': self.merchant.username, 'parcel_id': self.id})
+        except:
+            url = '#parcel_update'
+        return url
+    
+
+    def get_express_merchant_parcel_remove_url(self):
+        try:
+            url = reverse("express:merchant_parcel_remove", kwargs={'merchant_username': self.merchant.username, 'parcel_id': self.id})
+        except:
+            url = '#parcel_remove'
+        return url
