@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | {{ page_context.title }}
+{% endblock  %}
+
+{% block content %}
+
+
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{% url 'express:home' %}">Express</a></li>
+                <li><a href="{{merchant.get_express_merchant_detail_url}}">@{{merchant.username}}</a></li>
+                <li class="active"> {{ page_context.breadcrumb_active }} </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- basic-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ page_context.main_heading }} </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    <form action="" method="post"> {% csrf_token %}
+                                        {{ form.non_field_errors }}
+                                        {{form|crispy}}
+                                        <div><h4>Business Address</h4></div>
+                                        <hr>
+                                        {{ business_address_form.non_field_errors }}
+                                        {{business_address_form|crispy}}
+                                        <div><h4>Pickup Address</h4></div>
+                                        <hr>
+                                        {{ pickup_address_form.non_field_errors }}
+                                        {{pickup_address_form|crispy}}
+                                        <div class="button-box">
+                                            <button type="submit"><span>Save Changes</span></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+{% endblock content %}    
+
