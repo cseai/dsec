@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'home',
     'adminPanel',
     'express',
-    'trxs',
     'payment_accounts',
 ]
 
@@ -108,7 +107,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
-LOCAL_DATABASE = True
+LOCAL_DATABASE = False
 if LOCAL_DATABASE:
     DATABASES = {
         'default': {
