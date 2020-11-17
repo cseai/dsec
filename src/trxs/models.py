@@ -1,3 +1,4 @@
+"""
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -45,3 +46,5 @@ class MerchantAdminTrx(TrxCommonInfo, TrxGenericRelation):
     def __str__(self):
         return f"ID:{self.id}, MANT:{self.amount}"
 
+
+"""
