@@ -4,8 +4,8 @@ from django.db import models
 
 
 class TrxGenericRelation(models.Model):
-    content_type    = models.ForeignKey(ContentType, null=True, on_delete=models.CASCADE)
-    object_id       = models.PositiveIntegerField()
+    content_type    = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+    object_id       = models.PositiveIntegerField(null=True)
     content_object  = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
@@ -13,7 +13,7 @@ class TrxGenericRelation(models.Model):
 
 
 
-class TrxCommonInfo(models.Model):
+class TrxCommonInfo(TrxGenericRelation):
     amount          = models.DecimalField(editable=False, default=0.00, max_digits=20, decimal_places=2)
     message         = models.CharField(editable=False, max_length=200, null=True, blank=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
