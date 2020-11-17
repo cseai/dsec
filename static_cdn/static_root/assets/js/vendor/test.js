@@ -1,6 +1,7 @@
-<script type="text/javascript">
+$(document).ready(function(){
+    
+    //open modal
     $("#quick_view , #quick_view_2").on('click','.open_view',function(){
-        console.log("Hello there");
         // product id
         let id = $(this).attr('data-sid');
         let store_username = $(this).attr('data-sname');
@@ -13,10 +14,17 @@
 
         mydata={'store_username': store_username,'product_id':id}
         mythis=this;
+        //get url
+        let url_it=$(this).attr("data-url");
+        let url_it_add_pro=$(this).attr('data-addpro');
+        let url_it_update_pro=$(this).attr('data-updatepro')
+        let url_it_delete_pro=$(this).attr('data-deletepro')
 
+        // console.log("Hello there",document.location.href+url_it);
+        console.log(url_it_add_pro)
         //ajax request
-        $.ajax({
-            url:"{% url 'vendors:api_store_product_detail' %}",
+        $.ajax(url_it,{
+            url:url_it,
             type:'GET',
             data:mydata,
             success:function(data){
@@ -36,49 +44,24 @@
 
                     $('#takaicon').html('<img id="takaicon" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.sup_price+'</span> ');
                     $('#takaicon2').html('<img id="takaicon2" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.selling_price+'</span> ');
-                    {% comment %} $('#sup-price').append(data.sup_price);
-                    $('#selling-price').append(data.selling_price); {% endcomment %}
+                    
 
                     //modal button for rediect
                     $('#update-id').on('click', function(){
-                        console.log("update id clicked");
-                        let aval=$('#update-id').attr("href");
-
-                        var Obj={
-                            0: store_username, 
-                            1: id, 
-                        }
-                        var url = "{% url 'vendors:store_product_update' store_username=0 product_id=1 %}";
                         
-                        //replace
-                        var urlLink = url.replace(/0|1/gi, function(matched){ 
-                            return Obj[matched]; 
-                        }); 
-                        console.log(urlLink);
-                        $(this).attr("href",urlLink)
+                        $(this).attr("href",url_it_update_pro)
                     });
 
                     //add product modal button
                     $('#addproduct-id').on('click', function(){
                         console.log("add product id clicked");
-                        var url = "{% url 'vendors:store_product_add' store_username=0  %}".replace('0',store_username);
-                        $(this).attr("href",url)
+                        $(this).attr("href",url_it_add_pro)
                     });
 
                     $('#removeproduct-id').on('click', function(){
                         console.log("remove id clicked");
-                        var Obj={
-                            0: store_username, 
-                            1: id, 
-                        }
-                        var url = "{% url 'vendors:store_product_remove' store_username=0 product_id=1 %}";
-                        
-                        //replace
-                        var urlLink = url.replace(/0|1/gi, function(matched){ 
-                            return Obj[matched]; 
-                        }); 
-                        console.log(urlLink);
-                        $(this).attr("href",urlLink)
+                        Alert();
+                        $(this).attr("href",url_it_delete_pro)
                     });
                 }
                 else if(data.status=='404'){
@@ -87,19 +70,20 @@
                     $('#modalSpinner').hide();
                 }
                 
+            },
+            error:function(){
+                //todo add more code for error handle
             }
         })
-
-        
     })
-    
-
+    //end of modal 
     //function that preview confirm
     function Alert(){
         alert("Are You Sure Delete The Product!");
     }
 
-    // store open and close 
+
+    // store open and close start
     $("#open-id").click(function(e){
         e.preventDefault();
         //get csrf token
@@ -113,9 +97,13 @@
             
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'open',csrfmiddlewaretoken:csrf}
-            
+
+            //get url
+            let url_it_store_status = $('#open-id div').attr('data-url')
+            console.log(url_it_store_status)
+
             $.ajax({
-                url:"{% url 'vendors:api_store_status_update' %}",
+                url:url_it_store_status,
                 method:'POST',
                 data,
                 success:function(data){
@@ -194,8 +182,7 @@
             // let's work with css and btn
             $("#open-btn-text").empty();
             $("#open-btn-loading").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
-            $(".open-btn").css({"opacity":'.5 '})
-
+            $("#open-id").css({"opacity":'.5 '});
             
         }
         else if($("#close-btn-text").text() == "close" ){
@@ -203,8 +190,13 @@
 
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'close',csrfmiddlewaretoken:csrf}
+
+            //get url
+            let url_it_store_status = $('#open-id div').attr('data-url')
+            console.log(url_it_store_status)
+
             $.ajax({
-                url:"{% url 'vendors:api_store_status_update' %}",
+                url:url_it_store_status,
                 method:'POST',
                 data,
                 success:function(data){
@@ -219,7 +211,7 @@
                             $("#open-id").removeClass('close-btn').addClass("open-btn");
                             $("#open-id").removeAttr("style");
                             //change opacity
-                            $(".open-btn").css({'opacity': '1 !important'});
+                            // $(".open-btn").css({'opacity': '1 !important'});
 
                             //disappear loading
                             $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
@@ -278,19 +270,12 @@
                     },2500);
                 },
             })
-            //
-            $("#open-btn-loading").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
+            //end of ajax
+            $("#open-id div").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
             $("#close-btn-text").empty();
             $('#open-id').animate({opacity:.5})
         }
     });
 
-    $(document).ready(function(){
-        let title = $("#title-id").text();
-        console.log(title.length);
-        let len = (title.length/7)+2;
-        let text_size = (63- Math.ceil((len*4)+25))+25;
-        console.log(text_size)
-        $("#title-id").css({"font-size": ""+text_size+"px","text-align": "start", "padding-right": "10px"})
-    });
-</script>
+    //end of the ready function
+});

@@ -1,4 +1,4 @@
-<script type="text/javascript">
+$(document).ready(function(){
     $("#quick_view , #quick_view_2").on('click','.open_view',function(){
         console.log("Hello there");
         // product id
@@ -13,6 +13,7 @@
 
         mydata={'store_username': store_username,'product_id':id}
         mythis=this;
+        //
 
         //ajax request
         $.ajax({
@@ -36,8 +37,7 @@
 
                     $('#takaicon').html('<img id="takaicon" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.sup_price+'</span> ');
                     $('#takaicon2').html('<img id="takaicon2" class="taka-icon" src="/static/favicon_io/taka-gold.svg" alt="img..." /> <span id="sup-price">'+data.selling_price+'</span> ');
-                    {% comment %} $('#sup-price').append(data.sup_price);
-                    $('#selling-price').append(data.selling_price); {% endcomment %}
+                    
 
                     //modal button for rediect
                     $('#update-id').on('click', function(){
@@ -89,8 +89,6 @@
                 
             }
         })
-
-        
     })
     
 
@@ -293,4 +291,4 @@
         console.log(text_size)
         $("#title-id").css({"font-size": ""+text_size+"px","text-align": "start", "padding-right": "10px"})
     });
-</script>
+});
