@@ -21,22 +21,15 @@
 <div id="msg1"></div>
 <!--store logo and details start-->
 <div class="row mb-30">
-    <div class="col-lg-6 col-md-5">
-        <div class="overview-img text-center" style="max-height:350px; max-width:420px;">
-            <a href="#">
-                <img src="{{store.logo.url}}" alt="store logo">
-            </a>
+    <div class="col-lg-5 col-md-5 " style="padding-right:0;">
+        <div class="overview-img text-center" >
+            <img src="{{store.logo.url}}" alt="store logo"  class="vendor-img">
         </div>
     </div>
-    <div class="col-lg-6 col-md-7 d-flex align-items-start">
+    <div class="col-lg-7 col-md-7 d-flex align-items-start vendor-text">
         <div class="overview-content-2" style="width:100%;">
             <h2><span class="color-pri" style="display: flex;justify-content: space-between;align-items: center;" >
                 <div id="">
-                    {% comment %} {% if product.is_verified %}
-                        <i class="fas fa-check-circle text-success"></i>
-                    {% else %}
-                        <i class="fas fa-check-circle text-danger"></i>
-                    {% endif %} {% endcomment %}
                     <div id="title-id">{{store.title}} </div>
                 </div>
                 <div>
@@ -129,22 +122,6 @@
             </div>
         </form>
 
-        <!--<div class="product-shorting shorting-style">
-            <label>View:</label>
-            <select>
-                <option value=""> 20</option>
-                <option value=""> 23</option>
-                <option value=""> 30</option>
-            </select>
-        </div>-->
-        {% comment %} <div class="product-show shorting-style">
-            <label>Sort by:</label>
-            <select>
-                <option value="">Default</option>
-                <option value=""> Name</option>
-                <option value=""> price</option>
-            </select>
-        </div> {% endcomment %}
     </div>
 </div>
 <div class="grid-list-product-wrapper">
@@ -165,17 +142,9 @@
                                     data-deletepro="{% url 'vendors:store_product_remove' store.username product.id %}"
                                     data-sname={{ store.username }} 
                                     alt="" 
-                                    class="open_view">
+                                    class="open_view product-img"
+                                >
                             </a>
-                            {% comment %} <div class="product-action">
-                                <div class="pro-action-left">
-                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
-                                </div>
-                                <div class="pro-action-right">
-                                    <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
-                                </div>
-                            </div> {% endcomment %}
                         </div>
                         <div class="product-content">
                             <h4>
@@ -390,5 +359,5 @@
 
 <!-- Modal end -->
     {% comment %} {% include "vendors/ajax/store_detail_ajax.html" %} {% endcomment %}
-        <script  type="text/javascript" src="{% static 'assets/js/vendor/test.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'assets/js/vendor/vendor.js' %}"></script>
 {% endblock vendor_main %}

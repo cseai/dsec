@@ -1,5 +1,5 @@
 <script>
-    $('#imageUploadProductAdd').change(function(){
+    {% comment %} $('#imageUploadProductAdd').change(function(){
         console.log("hello there the angel from ")
         let mythis=this;
         if(mythis.files[0] && mythis.files){
@@ -12,5 +12,5 @@
             }
             reader.readAsDataURL(mythis.files[0])
         }
-    })
+    }); {% endcomment %}
 </script> 

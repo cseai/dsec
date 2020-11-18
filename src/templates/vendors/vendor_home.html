@@ -23,10 +23,6 @@
 </div>
 <div class="shop-topbar-wrapper">
     <div class="shop-topbar-left">
-        {% comment %} <ul class="view-mode">
-            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
-            <li class="active"><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
-        </ul> {% endcomment %}
         <p>Showing 1 - 20 of 30 results  </p>
     </div>
     <div class="product-sorting-wrapper">
@@ -49,7 +45,7 @@
                 <div class="product-wrapper">
                     <div class="product-img" style="height:324px; width:324px;">
                         <a href="{% url 'vendors:store_detail'  store_username=store.username %}">
-                            <img src="{{store.logo.url}}" alt="Vendor Logo">
+                            <img src="{{store.logo.url}}" alt="Vendor Logo" style="width:324px; height:324px; object-fit:cover;">
                         </a>
                         <div class="product-action">
                             <div class="pro-action-left">

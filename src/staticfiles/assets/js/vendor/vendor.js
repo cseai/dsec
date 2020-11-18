@@ -20,8 +20,7 @@ $(document).ready(function(){
         let url_it_update_pro=$(this).attr('data-updatepro')
         let url_it_delete_pro=$(this).attr('data-deletepro')
 
-        // console.log("Hello there",document.location.href+url_it);
-        console.log(url_it_add_pro)
+        // console.log(url_it_add_pro)
         //ajax request
         $.ajax(url_it,{
             url:url_it,
@@ -30,7 +29,7 @@ $(document).ready(function(){
             success:function(data){
                 // converts string of json to object
                 data = JSON.parse(data);
-                console.log(data);
+                // console.log(data);
 
                 if(data.status == '200'){
                     // show modal data place after successfully data get 
@@ -54,12 +53,12 @@ $(document).ready(function(){
 
                     //add product modal button
                     $('#addproduct-id').on('click', function(){
-                        console.log("add product id clicked");
+                        // console.log("add product id clicked");
                         $(this).attr("href",url_it_add_pro)
                     });
 
                     $('#removeproduct-id').on('click', function(){
-                        console.log("remove id clicked");
+                        // console.log("remove id clicked");
                         Alert();
                         $(this).attr("href",url_it_delete_pro)
                     });
@@ -89,10 +88,10 @@ $(document).ready(function(){
         //get csrf token
         let csrf = $("input[name=csrfmiddlewaretoken]").val();
         
-        console.log("store name : "+csrf)
+        // console.log("store name : "+csrf)
         
         if($("#open-btn-text").text() == "open"){
-            console.log("open clicked")
+            // console.log("open clicked");
             
             
             let store_username = $("#openClose-input").attr("data-store");
@@ -100,7 +99,7 @@ $(document).ready(function(){
 
             //get url
             let url_it_store_status = $('#open-id div').attr('data-url')
-            console.log(url_it_store_status)
+            // console.log(url_it_store_status)
 
             $.ajax({
                 url:url_it_store_status,
@@ -108,7 +107,7 @@ $(document).ready(function(){
                 data,
                 success:function(data){
                     data = JSON.parse(data)
-                    console.log(data)
+                    // console.log(data);
                     if(data.status == '200'){
                         //remove btn
                         $("#open-id").fadeOut(200);
@@ -146,7 +145,7 @@ $(document).ready(function(){
                     
                 },
                 error: function (jqXHR, exception) {
-                    console.log("hello error?")
+                    // console.log("hello error?");
 
                     var msg = '';
                     if (jqXHR.status === 0) {
@@ -186,14 +185,14 @@ $(document).ready(function(){
             
         }
         else if($("#close-btn-text").text() == "close" ){
-            console.log("close clicked")
+            // console.log("close clicked");
 
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'close',csrfmiddlewaretoken:csrf}
 
             //get url
             let url_it_store_status = $('#open-id div').attr('data-url')
-            console.log(url_it_store_status)
+            // console.log(url_it_store_status);
 
             $.ajax({
                 url:url_it_store_status,
@@ -201,7 +200,7 @@ $(document).ready(function(){
                 data,
                 success:function(data){
                     data = JSON.parse(data)
-                    console.log(data);
+                    // console.log(data);
                     if(data.status == '200'){
                         //
                         //remove btn
@@ -241,7 +240,7 @@ $(document).ready(function(){
                     
                 },
                 error: function (jqXHR, exception) {
-                    console.log("hello error?")
+                    // console.log("hello error?");
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -277,5 +276,70 @@ $(document).ready(function(){
         }
     });
 
-    //end of the ready function
+    // vendor title resize start 
+    let title = $("#title-id").text();
+    // console.log(title.length);
+    let len = (title.length/7)+2;
+    let text_size = (63- Math.ceil((len*4)+25))+25;
+    // console.log(text_size);
+    $("#title-id").css({"font-size": ""+text_size+"px","text-align": "start", "padding-right": "10px"})
+    
+    // vendor title resize end
+    
+    // vendor product image add start 
+    $('#imageUploadProductAdd').change(function(){
+        // console.log("hello there the angel from ");
+        let mythis=this;
+        if(mythis.files[0] && mythis.files){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                //$("#fileup + img").remove();
+                //$("#fileup").after("<img src="+e.target.result+" width='50px' height='50px' />");
+                //$('#fileup').css('visibility','visible');
+                $('#imgUploadProductAdd').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(mythis.files[0])
+        }
+    });
+    // vendor product image add end 
+    
+    //vendor product upate start
+    $("#imageUploadProduct").change(function(){
+        mythis=this;
+        if(Math.round(mythis.files[0].size/(1024*1024)) > 0.5){
+            $("#imageUploadStore").val('').clone(true)
+            alert("Your Image Size Can't Upper Than 0.5MB!");
+        }
+        else{
+            if(mythis.files[0] && mythis.files){
+                var reader=new FileReader();
+                reader.onload=function(e){
+                    //$("#fileup + img").remove();
+                    //$("#fileup").after("<img src="+e.target.result+" width='50px' height='50px' />");
+                    //$('#fileup').css('visibility','visible');
+                    $('#imgUploadStore').attr('src',e.target.result);
+                }
+                reader.readAsDataURL(mythis.files[0])
+            }
+        }
+    });
+    //vendor product upate end
+
+    //vendor update start
+    $('#imageUploadStore').change(function(){
+        let mythis=this;
+        if(mythis.files[0] && mythis.files){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                //$("#fileup + img").remove();
+                //$("#fileup").after("<img src="+e.target.result+" width='50px' height='50px' />");
+                //$('#fileup').css('visibility','visible');
+                $('#imgUploadStore').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(mythis.files[0])
+        }
+    });
+    //vendor update end
+    
+        //end of the ready function
 });
