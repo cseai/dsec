@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | {{ page_context.title }}
+{% endblock  %}
+
+{% block content %}
+
+
+<div class="breadcrumb-area gray-bg">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="{% url 'home:home' %}">Home</a></li>
+                <li><a href="{% url 'express:home' %}">Express</a></li>
+                <li><a href="{{merchant.get_express_merchant_detail_url}}">@{{merchant.username}}</a></li>
+                <li class="active"> {{ page_context.breadcrumb_active }} </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--- basic-->
+<div class="login-register-area pt-20 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        
+                        <a class="active" data-toggle="tab" href="#lg2">
+                            <h4> {{ page_context.main_heading }} </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg2" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    <h4>ID: {{parcel.id}}</h4>
+                                    <ul>
+                                        <li>customer_name: {{parcel.customer_name}}</li>
+                                        <li>description: {{parcel.description}}</li>
+                                        <li>is_ordered: {{parcel.is_ordered}}</li>
+                                        <li>is_pending: {{parcel.is_pending}}</li>
+                                    </ul>
+                                    <div class="button-box">
+                                        <button type="button"><a href="{{parcel.get_express_merchant_parcel_update_url}}"><span>Update Parcel</span></a></button>
+                                    </div>
+                                    <br>
+                                    <div class="button-box">
+                                        <button type="button"><a href="{{parcel.get_express_merchant_parcel_remove_url}}"><span>Remove Parcel</span></a></button>
+                                    </div>
+                                    <br>
+                                    <div class="button-box">
+                                        <button type="button"><a href="{{merchant.get_express_merchant_parcel_add_url}}"><span>Send another Parcel</span></a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+{% endblock content %}    
+
