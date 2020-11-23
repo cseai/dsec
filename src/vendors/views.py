@@ -221,6 +221,8 @@ def store_product_add_view(request, store_username):
             # set product's store
             store_product.store = store
             store_product.save()
+            # If saving a form using [commit=False] Without this next line the tags won't be saved.
+            store_product_form.save_m2m()
             return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username }))
 
     context = {
@@ -262,6 +264,8 @@ def store_product_update_view(request, store_username, product_id):
     if request.method =='POST':
         if product_update_form.is_valid():
             product = product_update_form.save()
+            # If saving a form using [commit=False] Without this next line the tags won't be saved.
+            product_update_form.save_m2m()
             messages.add_message(request,messages.SUCCESS,"Your Product Updated!")
             return HttpResponseRedirect(reverse('vendors:store_detail', kwargs={'store_username': store.username,}))
 

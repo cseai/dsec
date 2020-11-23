@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phone_verify',
     'mathfilters',
+    'taggit',
     
     # Local Apps
     'accounts',

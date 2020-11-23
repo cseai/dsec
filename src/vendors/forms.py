@@ -258,7 +258,7 @@ class StoreProductAddForm(forms.ModelForm):
     # image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', )
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'tags', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
@@ -273,7 +273,7 @@ class StoreProductAddForm(forms.ModelForm):
             'measuring_type': "Measuring Type", 
             'unit_in_stock': "Quantity in stock", 
             'unit_on_order': "Quantity on order", 
-            'category': "Product Category", 
+            'tags': "Product tags", 
             # 'is_available': "", 
             # 'is_discount_available': "", 
             # 'image': "",
@@ -303,10 +303,10 @@ class StoreProductAddForm(forms.ModelForm):
                 'title': 'E.g. Kg/Litter/Pices/Meter etc.',
                 'required': True,
             }),
-            'category': forms.TextInput(attrs={
-                'placeholder': "Product Category/Tag. E.g: Pizza",
-                'title': 'Product Category/Tag',
-            }),
+            # 'category': forms.TextInput(attrs={
+            #     'placeholder': "Product Category/Tag. E.g: Pizza",
+            #     'title': 'Product Category/Tag',
+            # }),
         }
     
     def __init__(self, *args, **kwargs):
@@ -332,7 +332,7 @@ class StoreProductUpdateForm(forms.ModelForm):
     image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'category', 'is_available', 'is_discount_available', )
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'tags', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
@@ -347,7 +347,7 @@ class StoreProductUpdateForm(forms.ModelForm):
             'measuring_type': "Measuring Type", 
             'unit_in_stock': "Quantity in stock", 
             'unit_on_order': "Quantity on order", 
-            'category': "Product Category", 
+            'tags': "Product tags", 
             'is_available': "Available", 
             'is_discount_available': "Discount", 
             # 'image': "",
@@ -377,10 +377,10 @@ class StoreProductUpdateForm(forms.ModelForm):
                 'title': 'E.g. Kg/Litter/Pices/Meter etc.',
                 'required': True,
             }),
-            'category': forms.TextInput(attrs={
-                'placeholder': "Product Category/Tag. E.g: Pizza",
-                'title': 'Product Category/Tag',
-            }),
+            # 'category': forms.TextInput(attrs={
+            #     'placeholder': "Product Category/Tag. E.g: Pizza",
+            #     'title': 'Product Category/Tag',
+            # }),
         }
     def __init__(self, *args, **kwargs):
         super(StoreProductUpdateForm, self).__init__(*args, **kwargs)
