@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 # from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from vendors.models import Store
@@ -8,6 +9,33 @@ from accounts.helpers import UploadTo
 # from PIL import Image
 
 # User = get_user_model()
+
+class Cuisine(models.Model):
+    username                = models.CharField(max_length=20, unique=True)
+    title                   = models.CharField(max_length=50)
+    description             = models.TextField(null=True, blank=True)
+    image                   = models.ImageField(
+                                default='products/cuisine/image/default.png',
+                                upload_to=UploadTo('image', plus_id=False),
+                                null=True,
+                                blank=True,
+                                width_field="width_field",
+                                height_field="height_field"
+                            )
+    height_field            = models.IntegerField(default=0, null=True)
+    width_field             = models.IntegerField(default=0, null=True)
+    active                  = models.BooleanField(default=True)
+    updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp               = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = "cuisine"
+        verbose_name_plural = "cuisines"
+
+    def __str__(self):
+        return self.title
+
+
 
 class ProductManager(models.Manager):
     # we don't want to show inactive product
@@ -30,7 +58,8 @@ class Product(models.Model):
     measuring_type          = models.CharField(max_length=40, null=True, blank=True)
     unit_in_stock           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
     unit_on_order           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
-    category                = models.CharField(max_length=100, null=True, blank=True)
+    cuisine                 = models.ForeignKey(Cuisine, null=True, on_delete=models.SET_NULL)
+    tags                    = TaggableManager()
     is_available            = models.BooleanField(default=True)
     is_discount_available   = models.BooleanField(default=False)
     image                   = models.ImageField(
@@ -54,7 +83,7 @@ class Product(models.Model):
         verbose_name_plural = "products"
 
     def __str__(self):
-        return self.title
+        return f"{self.title} @{self.store.username}"
 
 
     def get_store_product_detail_url(self):
