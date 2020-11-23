@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'phone_verify',
     'mathfilters',
     'taggit',
+    'notifications', # The app should go somewhere after all the apps that are going to be generating notifications
     
     # Local Apps
     'accounts',

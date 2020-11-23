@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+import notifications.urls
+
 urlpatterns = [
     path('', include('home.urls')),
     path('stores/', include('home.stores.urls')),
@@ -28,7 +30,9 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),
     path('express/', include("express.urls")),
     path('vendor/', include("vendors.urls")),
-    path('adminpanel/',include('adminPanel.urls')),
+    path('adminpanel/', include('adminPanel.urls')),
+    # Notifications
+    path('notifications/', include(notifications.urls, namespace='notifications')),
     # api
     path('api/phone-verify/', include('accounts.sms_backends.urls')),
     # Devlopments only
