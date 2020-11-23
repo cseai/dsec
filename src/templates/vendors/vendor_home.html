@@ -42,36 +42,42 @@
         <div class="row">
             {% for store in stores  %}
             <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
-                <div class="product-wrapper">
-                    <div class="product-img" style="height:324px; width:324px;">
-                        <a href="{% url 'vendors:store_detail'  store_username=store.username %}">
-                            <img src="{{store.logo.url}}" alt="Vendor Logo" style="width:324px; height:324px; object-fit:cover;">
-                        </a>
-                        <div class="product-action">
-                            <div class="pro-action-left">
-                                <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
-                            </div>
-                            <div class="pro-action-right">
-                                <a title="Wishlist" href=""><i class="ion-ios-heart-outline"></i></a>
-                                <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
+                <div class="product-wrapper row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="product-img" style="width:250px; height:200px; ">
+                            <a href="{% url 'vendors:store_detail'  store_username=store.username %}">
+                                <img src="{{store.logo.url}}" alt="Vendor Logo" style="width:250px; height:200px; object-fit:cover;">
+                            </a>
+                            <div class="product-action">
+                                <div class="pro-action-left">
+                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
+                                </div>
+                                <div class="pro-action-right">
+                                    <a title="Wishlist" href=""><i class="ion-ios-heart-outline"></i></a>
+                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="product-list-details">
-                        <h4>
-                            <a href="{% url 'vendors:store_detail' store_username=store.username  %}" > {{ store.title }} </a>
-                        </h4>
-                        <div class="product-price-wrapper">
-                            <span>$100.00</span>
-                            <span class="product-price-old">$120.00 </span>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                        <div class="shop-list-cart-wishlist">
-                            <a href="{% url 'vendors:store_update' store_username=store.username  %}" title="Update Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
-                            <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                            <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                                <i class="ion-android-open"></i>
-                            </a>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="product-list-details">
+                            <h4>
+                                <a style="font-size: 50px;font-weight: 600;" href="{% url 'vendors:store_detail' store_username=store.username  %}" > {{ store.title }} </a>
+                            </h4>
+                            <div class="product-price-wrapper">
+                                <span style="font-weight:400;">{{store.tagline}}</span>
+                                {% comment %} <span class="product-price-old">$120.00 </span> {% endcomment %}
+                            </div>
+                            <p>
+                                {{store.description}}
+                            </p>
+                            <div class="shop-list-cart-wishlist">
+                                <a href="{% url 'vendors:store_update' store_username=store.username  %}" title="Update Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
+                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                                    <i class="ion-android-open"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

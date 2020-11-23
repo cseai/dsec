@@ -341,5 +341,5 @@ $(document).ready(function(){
     });
     //vendor update end
     
-        //end of the ready function
+    //end of the ready function
 });
