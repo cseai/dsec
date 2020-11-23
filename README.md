@@ -64,6 +64,8 @@ static_cdn
 │   │   └───user
 │   │       └───image
 │   ├───products
+│   │   ├───cuisine
+│   │   │   └───image
 │   │   └───product
 │   │       └───image
 │   └───vendors
