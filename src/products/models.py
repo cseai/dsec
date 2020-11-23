@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 # from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from vendors.models import Store
@@ -57,7 +58,8 @@ class Product(models.Model):
     measuring_type          = models.CharField(max_length=40, null=True, blank=True)
     unit_in_stock           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
     unit_on_order           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
-    category                = models.CharField(max_length=100, null=True, blank=True)
+    cuisine                 = models.ForeignKey(Cuisine, null=True, on_delete=models.SET_NULL)
+    tags                    = TaggableManager()
     is_available            = models.BooleanField(default=True)
     is_discount_available   = models.BooleanField(default=False)
     image                   = models.ImageField(
@@ -81,7 +83,7 @@ class Product(models.Model):
         verbose_name_plural = "products"
 
     def __str__(self):
-        return self.title
+        return f"{self.title} @{self.store.username}"
 
 
     def get_store_product_detail_url(self):
