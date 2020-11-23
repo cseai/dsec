@@ -9,6 +9,33 @@ from accounts.helpers import UploadTo
 
 # User = get_user_model()
 
+class Cuisine(models.Model):
+    username                = models.CharField(max_length=20, unique=True)
+    title                   = models.CharField(max_length=50)
+    description             = models.TextField(null=True, blank=True)
+    image                   = models.ImageField(
+                                default='products/cuisine/image/default.png',
+                                upload_to=UploadTo('image', plus_id=False),
+                                null=True,
+                                blank=True,
+                                width_field="width_field",
+                                height_field="height_field"
+                            )
+    height_field            = models.IntegerField(default=0, null=True)
+    width_field             = models.IntegerField(default=0, null=True)
+    active                  = models.BooleanField(default=True)
+    updated                 = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp               = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = "cuisine"
+        verbose_name_plural = "cuisines"
+
+    def __str__(self):
+        return self.title
+
+
+
 class ProductManager(models.Manager):
     # we don't want to show inactive product
     # so that we are filtering that first in queryset
