@@ -14,26 +14,26 @@ class Address(models.Model):
 
     CITY_CHOICES    = [
         (None, 'Select City'),
-        # Barisal Division
-        ('Barisal Division', (
+        # Barishal Division
+        ('Barishal Division', (
                 ('Barguna', 'Barguna'),
-                ('Barisal', 'Barisal'),
+                ('Barishal', 'Barishal'),
                 ('Bhola', 'Bhola'),
-                ('Jhalokati', 'Jhalokati'),
+                ('Jhalakathi', 'Jhalakathi'),
                 ('Patuakhali', 'Patuakhali'),
                 ('Pirojpur', 'Pirojpur'),
             )
         ),
-        # Chittagong Division
-        ('Chittagong Division', (
+        # Chattogram Division
+        ('Chattogram Division', (
                 ('Bandarban', 'Bandarban'),
                 ('Brahmanbaria', 'Brahmanbaria'),
                 ('Chandpur', 'Chandpur'),
-                ('Chittagong', 'Chittagong'),
-                ('Comilla', 'Comilla'),
+                ('Chattogram', 'Chattogram'),
+                ('Cumilla', 'Cumilla'),
                 ("Cox's Bazar", "Cox's Bazar"),
                 ('Feni', 'Feni'),
-                ('Khagrachari', 'Khagrachari'),
+                ('Khagrachhari', 'Khagrachhari'),
                 ('Lakshmipur', 'Lakshmipur'),
                 ('Noakhali', 'Noakhali'),
                 ('Rangamati', 'Rangamati'),
@@ -60,7 +60,7 @@ class Address(models.Model):
         ('Khulna Division', (
                 ('Bagerhat', 'Bagerhat'),
                 ('Chuadanga', 'Chuadanga'),
-                ('Jessore', 'Jessore'),
+                ('Jashore', 'Jashore'),
                 ('Jhenaidah', 'Jhenaidah'),
                 ('Khulna', 'Khulna'),
                 ('Kushtia', 'Kushtia'),
@@ -80,8 +80,8 @@ class Address(models.Model):
         ),
         # Rajshahi Division
         ('Rajshahi Division', (
-                ('Bogra', 'Bogra'),
-                ('Jaipurhat', 'Jaipurhat'),
+                ('Bogura', 'Bogura'),
+                ('Joypurhat', 'Joypurhat'),
                 ('Naogaon', 'Naogaon'),
                 ('Natore', 'Natore'),
                 ('Nawabganj', 'Nawabganj'),
@@ -114,8 +114,8 @@ class Address(models.Model):
 
     STATE_CHOICES   = [
         (None, 'Select State/Division'),
-        ('Barisal', 'Barisal'),
-        ('Chittagong', 'Chittagong'),
+        ('Barishal', 'Barishal'),
+        ('Chattogram', 'Chattogram'),
         ('Dhaka', 'Dhaka'),
         ('Khulna', 'Khulna'),
         ('Mymensingh', 'Mymensingh'),

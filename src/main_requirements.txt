@@ -18,6 +18,9 @@ django-phone-verify
 # django-taggit
 django-taggit
 
+# django notifications
+django-notifications-hq
+
 # For herokuapp
 gunicorn==20.0.4
 whitenoise==5.1.0
