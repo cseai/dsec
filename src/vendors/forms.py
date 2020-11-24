@@ -95,12 +95,6 @@ class RegisterStoreForm(forms.ModelForm):
         return store
 
 
-class ImagePreviewWidget(forms.widgets.FileInput):
-    def render(self, name, value, attrs=None, **kwargs):
-        input_html = super().render(name, value, attrs=None, **kwargs)
-        img_html = mark_safe(f'<br><br><img src="{value.url}" style="height:200px; width:200px; margin:0 auto; display:flex; " id="imgUploadStore"  /><br><br>')
-        return f'{img_html}{input_html}'
-
 class StoreUpdateForm(forms.ModelForm):
     
     logo = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
@@ -258,7 +252,7 @@ class StoreProductAddForm(forms.ModelForm):
     # image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'tags', 'is_available', 'is_discount_available', )
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'cuisine', 'tags', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
@@ -332,7 +326,7 @@ class StoreProductUpdateForm(forms.ModelForm):
     image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
-        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'tags', 'is_available', 'is_discount_available', )
+        fields = ('image','title', 'sku', 'description', 'manufacturer', 'is_hot', 'sup_price', 'selling_price', 'discount', 'measuring_type', 'unit_in_stock', 'unit_on_order', 'cuisine', 'tags', 'is_available', 'is_discount_available', )
 
         # customize form attrs
         labels = {
