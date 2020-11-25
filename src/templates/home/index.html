@@ -2,9 +2,30 @@
 {% load static %}
     
 {% block content %}
-    <div class="slider-area">
-        <div class="slider-active owl-dot-style owl-carousel">
-            <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url({% static 'assets/images/slider/slider-1.jpg' %});">
+    <div class="slider-area-x">
+        {% comment %} <div class="slider-active owl-dot-style owl-carousel"> {% endcomment %}
+            <div class="single-slider-x pt-210 pb-220 bg-img" style="background-image:url({% static 'assets/images/home/banner1-min.png' %}); height:1000px;">
+                <div class="container banner-content">
+                    <div class="slider-content slider-animated-1 banner-content">
+                        <h1 class="animated banner-title">TAWSIL  EXPRESS</h1>
+                        <h3 class="animated banner-subtitle">good food and express delivery.</h3>
+                        <div class="slider-btn-x mt-70">
+                            <form action="" >{% csrf_token %}
+                                <div class="search-form">
+                                    <div>
+                                        <div class="search-in" ></div>
+                                        <input style="position:relative;bottom:61px;" class="search-in " type="text" placeholder="Search You Food Or Track Your Percel">
+                                    </div>
+                                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                                </div>
+                                
+                            </form>
+                            {% comment %} <a class="animated" href="product-details.html">Order Now</a> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url(assets/images/slider/slider-2.jpg);">
                 <div class="container">
                     <div class="slider-content slider-animated-1">
                         <h1 class="animated">Drink & Heathy Food</h1>
@@ -14,19 +35,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url(assets/images/slider/slider-2.jpg);">
-                <div class="container">
-                    <div class="slider-content slider-animated-1">
-                        <h1 class="animated">Drink & Heathy Food</h1>
-                        <h3 class="animated">Fresh Heathy and Organic.</h3>
-                        <div class="slider-btn mt-90">
-                            <a class="animated" href="product-details.html">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
     </div>
 
     <div class="banner-area row-col-decrease pt-100 pb-75 clearfix">
@@ -882,7 +892,7 @@
         </div>
         <div class="banner-area">
             <div class="container">
-                <div class="discount-overlay bg-img pt-130 pb-130" style="background-image:url(assets/images/banner/banner-4.jpg);">
+                <div class="discount-overlay bg-img pt-130 pb-130" ><!--style="background-image:url(assets/images/banner/banner-4.jpg);"-->
                     <div class="discount-content text-center">
                         <h3>It’s Time To Start <br>Your Own Revolution By Laurent</h3>
                         <p>Exclusive Offer -10% Off This Week</p>

@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+
+/* navbar start */
+
+.nav-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    /* flex:1; */
+    margin:0 !important;
+}
+.logo a{
+    color:var(--color-sec) !important;
+    font-size: 40px;
+    font-family: 'Monoton' !important;
+    margin: 0;
+    padding: 0;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.account-avater{
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* navbar end */
+
+/* BANNER START */
+.banner-content{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -30px;
+}
+.banner-title{
+    font-size: 60px;
+    font-family: 'Monoton' !important;
+    color: var(--color-sec) !important;
+    font-weight:100 !important;
+    word-spacing: 25px;
+}
+.banner-subtitle{
+    font-size: 30px !important;
+    font-weight: 200 !important;
+    font-family: 'Roboto' !important;
+    text-transform: uppercase !important;
+}
+.search-form{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.search-in{
+    width: 380px;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    opacity: .5;
+    padding-left: 20px;
+    background: white;
+    padding-right: 45px;
+}
+.search-in:focus{
+    width: 380px !important;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    opacity: .5;
+    padding-left: 20px;
+    background: white;
+    padding-right: 45px;
+    font-size:18px;
+    color:var(--color-pri);
+}
+.search-in::placeholder{
+    font-size:16px;
+    color:black;
+    opacity:0.8;
+}
+.search-in:focus::placeholder{
+    color:transparent;
+}
+.search-btn{
+    position: relative;
+    background: transparent;
+    outline: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-left: -40px;
+    margin-top: 14px;
+}
+.search-btn i{
+    font-size: 30px;
+    color: var(--bg-pri-light);
+    /* margin-left: -42px; */
+    position: relative;
+    z-index: 1;
+}
+
+
+/* BANNER END */
