@@ -1841,12 +1841,15 @@ textarea:focus {
 .main-menu ul li a {
     color: #fff;
     display: inline-block;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     line-height: 60px;
     text-transform: uppercase;
-    padding-top: 2px;
+    padding-top: 0px;
+    font-family: 'Roboto';
+    text-decoration: none;
 }
+
 .stick .main-menu ul li a {
     color: #fff;
 }
@@ -1970,7 +1973,7 @@ textarea:focus {
 }
 .transparent-bar.stick {
     margin-top:58px;
-    /* animation: 300ms ease-in-out 0s normal none 1 running fadeInDown; */
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
     /* background-color: #fff; */
     color: #fff !important;
     border-bottom: 0 solid #4a90e2;

@@ -2,14 +2,17 @@
 {% load static %}
     
 {% block content %}
-    <div class="slider-area-x">
+    {% comment %} <div class="slider-area-x"> {% endcomment %}
         {% comment %} <div class="slider-active owl-dot-style owl-carousel"> {% endcomment %}
-            <div class="single-slider-x pt-210 pb-220 bg-img" style="background-image:url({% static 'assets/images/home/banner1-min.png' %}); height:1000px;">
+            <div class="banner" > <!--style="background-image:url({% static 'assets/images/home/banner1-min.png-x' %});"-->
+                <div class="banner-img">
+                    <img src="{% static 'assets/images/home/banner1-min.png' %}" alt="banner1">
+                </div>
                 <div class="container banner-content">
-                    <div class="slider-content slider-animated-1 banner-content">
-                        <h1 class="animated banner-title">TAWSIL  EXPRESS</h1>
+                    <div class="slider-content-x slider-animated-1 banner-content-x">
+                        <h1 class="animated banner-title"  data-aos="fade-right">TAWSIL  EXPRESS</h1>
                         <h3 class="animated banner-subtitle">good food and express delivery.</h3>
-                        <div class="slider-btn-x mt-70">
+                        <div class="slider-btn-x mt-30">
                             <form action="" >{% csrf_token %}
                                 <div class="search-form">
                                     <div>
@@ -37,7 +40,7 @@
                 </div>
             </div> {% endcomment %}
         {% comment %} </div> {% endcomment %}
-    </div>
+    {% comment %} </div> {% endcomment %}
 
     <div class="banner-area row-col-decrease pt-100 pb-75 clearfix">
         <div class="container">
