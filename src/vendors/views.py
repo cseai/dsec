@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.contrib import messages
 import json
 
@@ -23,15 +24,46 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
+    queryset_list = Store.objects.filter(user=request.user).order_by('id')
 
-    stores = Store.objects.filter(user=request.user).order_by('-id')
+    # Ordering
+    select_order_by = {
+        'label': "Order By",
+        'name': "order_by",
+        'choices': {
+            'id': "Default",
+            'username': "Username",
+            'title': "Title",
+            'category': "Category",
+        },
+    }
+    order_by = request.GET.get(select_order_by.get('name'))
+    if order_by and order_by in select_order_by.get('choices'):
+        queryset_list = queryset_list.order_by(order_by)
     
-    #paginator
-    paginator=Paginator(stores,1)
-    page_number=request.GET.get('page')
-    store_page=paginator.get_page(page_number)
-    
-    print(stores)
+    # pagination
+    pagination_filter = {
+        'select_show_per_page': {
+            'label': "Show",
+            'name': "per_page",
+            'choices': list(range(5, queryset_list.count()+5, 5)),
+        },
+        'page_request_var': "page",
+    }
+    max_obj_per_page = request.GET.get(pagination_filter.get('select_show_per_page').get('name'))
+    if max_obj_per_page and max_obj_per_page.isnumeric() and int(max_obj_per_page) in pagination_filter.get("select_show_per_page").get('choices'):
+        max_obj_per_page = int(max_obj_per_page)
+    else:
+        max_obj_per_page = 1
+    paginator = Paginator(queryset_list, max_obj_per_page)
+
+    page_number = request.GET.get(pagination_filter.get('page_request_var'))
+    if page_number and page_number.isnumeric():
+        page_number = int(page_number)
+    else:
+        page_number = 1
+    queryset = paginator.get_page(page_number)
+
     
     context = {
         'page_context': {
@@ -39,9 +71,13 @@ def vendor_home_view(request):
             'breadcrumb_active': "Home",
             'main_heading': "Vendor Home",
         },
-        'store_username':'h',
-        'stores': store_page,
-        'total_stores':stores.count(),
+        'filter_form': {
+            'method': "GET",
+            'select_order_by': select_order_by,
+            'pagination_filter': pagination_filter,
+        },
+        'stores': queryset,
+        'total_stores': paginator.count,
     }
     return render(request, 'vendors/vendor_home.html', context)
 

@@ -39,7 +39,7 @@
                     {% endif %} {% endcomment %}
                     <div id="title-id">{{store.title}} </div>
                 </div>
-                <div>
+                {% comment %} <div>
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
                         {% if store.is_open %}
@@ -48,26 +48,52 @@
                             <div class="close-btn" id="open-id">close</div>
                         {% endif %}
                     </form>
-                </div>
+                </div> {% endcomment %}
                 
             </span></h2>
-            <p class="mb-10" style="font-size:14px;font-weight:400;" >
-                {{ store.description }} 
+            <p class="mb-10 color-sec" style="font-size:16px;font-weight:400;" >
+                {% if store.tagline %}
+                    {{ store.tagline }}
+                {% else %}
+                    No tagline to show!
+                {% endif %}
             </p>
-            <div class="vendor_open_close">
-                <div class="vendor_open">
-                    <p class="bg-success">Open Time:</p> <p> {{ store.opening_time }} </p>
+            <div class='vendor_open_close'>
+                <div>
+                    <form action="POST">{% csrf_token %}
+                        <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
+                        {% if store.is_open %}
+                        <div class="open-btn" id="open-id">open</div>
+                        {% else %}
+                        <div class="close-btn" id="open-id">close</div>
+                        {% endif %}
+                    </form>
                 </div>
-                <div class="vendor_close">
-                    <p class="bg-warning">Close Time:</p> <p> {{ store.closing_time }} </p>
+                <div>
+                    <div><span><spam class="color-sec">Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</spam></div>
+                    <div><span><span class="color-sec">Offdays</span>: {{store.off_days}}</span></div>
                 </div>
             </div>
-            <div style="margin-top:10px">
+            <div style="margin-top:10px; margin-bottom:10px;">
                 <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
             </div>
-            {% comment %} <di class="overview-btn mt-45">
-                <a class="btn-style-2" href="shop.html">Visit Store</a>
-            </> {% endcomment %}
+            <div>
+                <p class="mb-10 color-pri" style="font-size:14px;font-weight:400;" >
+                    {% if store.description %}
+                        {{ store.description }}
+                    {% else %}
+                        No description to show!
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="shop-list-cart-wishlist">
+                <a href="{{store.get_vendor_store_update_url}}" title="Edit Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
+                {% comment %} <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                    <i class="ion-android-open"></i>
+                </a> {% endcomment %}
+            </div>
         </div>
     </div>
 </div>
@@ -249,24 +275,26 @@
                     </ul>
                 </div>
                 <div class="total-pages">
+                    <p>
                     {% with products.number|sub:1 as first_sub %}
                         {% with 2|mul:first_sub as first_page  %}
                             {{ first_page|add:1 }} - 
                         {% endwith %}
                     {% endwith %}
-                {% if products.has_next %}
-                    {{ 2|mul:products.number }} of {{ total_product }} results  </p>
-                {% else %}
-                    {% with products.number|sub:1 as pre_page %}
-                        {% with pre_page|mul:2 as curr_products %}
-                            {% with total_product|sub:curr_products as last_rem %}
-                                {% with curr_products|add:last_rem as pre_total %}
-                                    {{ pre_total }} of {{ total_product }} results  </p>
+                    {% if products.has_next %}
+                        {{ 2|mul:products.number }} of {{ total_product }} results 
+                    {% else %}
+                        {% with products.number|sub:1 as pre_page %}
+                            {% with pre_page|mul:2 as curr_products %}
+                                {% with total_product|sub:curr_products as last_rem %}
+                                    {% with curr_products|add:last_rem as pre_total %}
+                                        {{ pre_total }} of {{ total_product }} results 
+                                    {% endwith %}
                                 {% endwith %}
                             {% endwith %}
                         {% endwith %}
-                    {% endwith %}
-                {% endif %}>
+                    {% endif %}
+                    </p>
                 </div>
             </div>
         {% endif %}
