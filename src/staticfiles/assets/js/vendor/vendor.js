@@ -37,7 +37,7 @@ $(document).ready(function(){
                     $('#modalSpinner').hide();
 
                     //add data to html fields
-                    $('#modalTitle').append(data.title);
+                    $('#modalTitle').text(data.title);
                     $('#pro-1').html('<img src="'+ data.image+ '" alt="image Loading "/>');
                     $('#description').text(data.description);
 

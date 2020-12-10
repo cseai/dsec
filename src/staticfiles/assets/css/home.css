@@ -13,6 +13,7 @@
 }
 .logo a{
     color:var(--color-sec) !important;
+    /* color:blue !important; */
     font-size: 40px;
     font-family: 'Monoton' !important;
     margin: 0;
@@ -130,16 +131,108 @@
     position: relative;
     z-index: 1;
 }
-
-
 /* BANNER END */
+
+/* banner two start */
+.banner-two{
+    /* background:red; */
+}
+
+.banner-two-left{
+    /* background:blue; */
+}
+
+.banner-two-left h1{
+    text-transform: uppercase;
+    color: var(--color-sec);
+    font-family: Monoton !important;
+}
+.banner-two-left .subtitle{
+    text-transform: uppercase;
+    color: var(--color-pri);
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 10px;
+}
+.banner-two-left-details{
+    padding: 0;
+    font-size: 14px !important;
+    text-align: left;
+    font-weight: 400 !important;
+    text-transform: none !important;
+}
+.banner-two-left a{
+    background: var(--color-sec);
+    color: var(--color-pri);
+    padding: 12px 24px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: 3px 2px 5px 0px #eee;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.banner-two-right {
+    /* background-color:red; */
+}
+.banner-two-right img{
+    width: 100%;
+    height:100%;
+}
+/* banner two end */
+/* popular cousine start */
+.popular-cousine{}
+.popular-cousine .top-banner{
+    width:100%;
+}
+
+.cousine{}
+.cousine .card{
+    /* display:inline-flex;
+    justify-content: center;
+    align-items: flex-start; */
+}
+.cousine div p{
+    /* width:230px;
+    height:300px;
+    background:red; */
+    /* margin:6px; */
+}
+
+
+
+/* popular cousine end */
 
 
 /* media query  start*/
-@media only screen and (max-width:1199px){
-    .banner-content{
-        margin-top:30%;
+@media only screen and (max-width:1199.99px){
+
+}
+@media only screen and (max-width:989.99px){
+    /* banner two start */
+    .banner-two-left h1{
+        font-size: 30px !important;
     }
+    .banner-two-left .subtitle{
+        font-size: 16px;
+        font-weight: 400;
+    }
+    
+    /* banner two end */
+}
+@media only screen and (max-width:767.99px){
+    .banner-two-left {
+        text-align: center;
+    }
+    .banner-two-left-details{
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width:575.99px){
+
 }
 /* media query  end*/
 
