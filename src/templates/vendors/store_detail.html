@@ -70,7 +70,7 @@
                     </form>
                 </div>
                 <div>
-                    <div><span><spam class="color-sec">Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</spam></div>
+                    <div><span><span class="color-sec">Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
                     <div><span><span class="color-sec">Offdays</span>: {{store.off_days}}</span></div>
                 </div>
             </div>
@@ -156,12 +156,6 @@
                     <button name="sc_btn" type="submit" class="btn btn-outline-warning btn-light  my-auto ml-1" title="Filter"><i class="fas fa-filter"></i></button>
                 </div>
             </div>
-            {% comment %} <div class="input-group mb-3" style="width:250px;">
-                <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="Food name or Tag" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
-                <div class="input-group-append" style="display:none">
-                    <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
-                </div>
-            </div> {% endcomment %}
         </form>
     </div>
 </div>
@@ -170,55 +164,53 @@
         <div class="row">
             {% if products %}
                 {% for product in products  %}
-                <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
-                    <div class="product-wrapper">
-                        <div class="product-img">
-                            <a href="" data-toggle="modal" id="quick_view"  data-target="#exampleModal">
-                                <img src="{{product.image.url}}" data-sid="{{product.id}}" data-sname={{ store.username }} alt="" class="open_view">
-                            </a>
-                            {% comment %} <div class="product-action">
-                                <div class="pro-action-left">
-                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
-                                </div>
-                                <div class="pro-action-right">
-                                    <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
-                                </div>
-                            </div> {% endcomment %}
-                        </div>
-                        <div class="product-content">
-                            <h4>
-                                <a href="product-details.html">{{product.title}}</a>
-                            </h4>
-                            <div class="product-price-wrapper">
-                                <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
-                                <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
+                    <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
+                        <div class="product-wrapper">
+                            <div class="product-img">
+                                <a href="" data-toggle="modal" id="quick_view"  data-target="#exampleModal">
+                                    <img src="{{product.image.url}}" data-sid="{{product.id}}" data-sname={{ store.username }} alt="" class="open_view">
+                                </a>
+                                {% comment %} <div class="product-action">
+                                    <div class="pro-action-left">
+                                        <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
+                                    </div>
+                                    <div class="pro-action-right">
+                                        <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
+                                        <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                    </div>
+                                </div> {% endcomment %}
                             </div>
-                        </div>
-                        <div class="product-list-details">
-                            <h4>
-                                <a href="product-details.html">{{product.title}}</a>
-                            </h4>
-                            <div class="product-price-wrapper">
-                                <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
-                                <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
+                            <div class="product-content">
+                                <h4>
+                                    <a href="product-details.html">{{product.title}}</a>
+                                </h4>
+                                <div class="product-price-wrapper">
+                                    <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
+                                    <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
+                                </div>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                            <div class="shop-list-cart-wishlist" >
-                                <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
-                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                
-                                <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                            <div class="product-list-details">
+                                <h4>
+                                    <a href="product-details.html">{{product.title}}</a>
+                                </h4>
+                                <div class="product-price-wrapper">
+                                    <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
+                                    <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
+                                </div>
+                                <p>{{product.description|truncatechars:180}}</p>
+                                <div class="shop-list-cart-wishlist" >
+                                    <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
+                                    <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                                    
+                                    <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             {% else %}
                 <h6 style="display:block; margin:0 auto; font-size:25px; color:red;">No Products Available</h6>
             {% endif %}
-            
-            
         </div>
     </div>
     {% if req == 'req' %}
