@@ -61,3 +61,12 @@
 #headbar-cross{
 	padding-top:55px;
 }
+
+/* ACHOR HOVER */
+.ah:hover{
+    outline: none;
+    color: var(--color-pri);
+    text-decoration: none;
+    box-shadow: 0px 0px 1px 5px rgba(0,0,0,0.124);
+}
+

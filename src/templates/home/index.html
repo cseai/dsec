@@ -50,7 +50,7 @@
                     <p class="banner-two-left-details mb-40">
                         TAWSIL EXPRESS aims to aid Bangladesh’s expanding e-commerce sector by providing techfirst logiscs support. With exclusive features and a talented workforce, TAWSIL EXPRESS gives the delivery service industry of Bangladesh a brand new pace.
                     </p>
-                    <a href="#">become merchent</a>
+                    <a href="#" class="ah">become merchent</a>
                 </div>
                 <div class="col-sm-12 col-md-6 banner-two-right">
                     <img src="{% static 'home/Moving-Truck-Vector.png' %}" alt="banner two img">
@@ -58,62 +58,59 @@
             </div>
 
             <!--working start-->
-            <div class="popular-cousine mt-30">
+            <div class="popular-cousine mt-30" "> <!--style="background:#6bffe338;-->
                 {% comment %} <img src="{% static 'home/top banner.png' %}" alt="" class="top-banner"> {% endcomment %}
                 <img src="{% static 'home/cousine-banner.png' %}" alt="" class="top-banner">
                 
                 <div class='row justify-content-start align-items-center cousine mt-20'>
-                    <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                        <div class="card-body" style="text-align:center">
-                            <img class="card-img-top" src="{% static 'home/item.jpg' %}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                            <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                            indian food
-                            </p>
-                            <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 700;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
+                    {% for pc in popular_cousine %}
+                        {% static  pc.img as the_img %}
+                        
+                        <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
+                            <div class="card-body" style="text-align:center">
+                                <img class="card-img-top" src="{{the_img}}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
+                                <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
+                                {{ pc.name }}
+                                </p>
+                                <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 500;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                        <div class="card-body" style="text-align:center">
-                            <img class="card-img-top" src="{% static 'home/item1.jpg' %}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                            <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                            fast food
-                            </p>
-                            <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 700;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
-                        </div>
-                    </div>
-
-                    <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                        <div class="card-body" style="text-align:center">
-                            <img class="card-img-top" src="{% static 'home/desert.jpg' %}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                            <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                            indian food
-                            </p>
-                            <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 700;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
-                        </div>
-                    </div>
-                    <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                        <div class="card-body" style="text-align:center">
-                            <img class="card-img-top" src="{% static 'home/item.jpg' %}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                            <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                            indian food
-                            </p>
-                            <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 700;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
-                        </div>
-                    </div>
-
-                    <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                        <div class="card-body" style="text-align:center">
-                            <img class="card-img-top" src="{% static 'home/item.jpg' %}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                            <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                            indian food
-                            </p>
-                            <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 700;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
-                        </div>
-                    </div>
-                </div>    
+                    {% endfor %}
+                </div>
+                <div class="cousine_show_all">
+                    <a href="#">show all</a>
+                </div> 
             </div>
+            <!--popular cousine end-->
 
+            <!--prepare food start-->
+            <h1 class="prepare-food-title  mt-50">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
+            <div class="row prepare-foodflex-column-reverse flex-md-row">
+                <div class="col-sm-12 col-md-6 prepare-food-left p-0 m-0">
+                    <img src="{% static "home/foodpre.png" %}" alt="">
+                    <div class="prepare-food-left-details">
+                        <p class="prepare-food-left-details-p1">LIST YOUR RESTAURANT ON </p>
+                        <p class="prepare-food-left-details-p2">tawsil</p>
+                        <div class='left-desc pt-30'>
+                            <div class='left-desc-one'>
+                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                                <p class="left-desc-one-details m-0 p-0">Would you like thousands of new customers to taste youramazingfood? So would we!</p>
+                            </div>
+                            <div class='left-desc-one pt-40'>
+                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                                <p class="left-desc-one-details m-0 p-0">It's simple: we list your menu online, help you process orders, pick them up, and deliver them to your customer</p>
+                            </div>
+                        </div>
+                        <p class="">Interested? Let's start our </br>partnership today!</p>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 prepare-food-right p-0 m-0">
+                    <img src="{% static 'home/vita-marija-murenaite-OV_kIcdrgCs-unsplash.jpg' %}" class="w-100" style="height:700px" alt="">
+                    {% comment %} <img src="{% static 'home/lum3n-cHc5H3_FKhs-unsplash.jpg' %}" class="w-100" style="height:700px" alt=""> {% endcomment %}
+                </div>
+            </div>
+            <!--prepare food end-->
+            
         </div>
     <!--working end-->
 
