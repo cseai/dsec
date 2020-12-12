@@ -46,7 +46,9 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 
-{% include "vendors/ajax/store_product_add_ajax.html" %}
+{% comment %} {% include "vendors/ajax/store_product_add_ajax.html" %} {% endcomment %}
+<script  type="text/javascript" src="{% static 'assets/js/vendor/vendor.js' %}"></script>
+
 
 {% endblock vendor_main %}    
 

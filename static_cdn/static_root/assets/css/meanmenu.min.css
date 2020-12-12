@@ -50,7 +50,8 @@ a.meanmenu-reveal{display:none}
   width: 90%;
 }
 .mobile-menu-area {
-  background: #262626;
+  background: #344955;
+  /* background: #262626; */
 }
 .mean-container .mean-nav ul li li a {
   border-top: 1px solid rgba(255, 255, 255, 0.25);

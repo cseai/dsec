@@ -1,0 +1,38 @@
+<script>
+
+    $("#topbar-dismiss").hide();
+    
+    $(document).ready(function(){
+        if(localStorage.getItem('topbar')){
+            const nowTime =  Date.now();
+            const preTime = localStorage.getItem('topbar');
+            const dif = (nowTime-preTime)/(1000*60);
+            console.log("the dif is "+dif);
+
+            if(dif<1){
+                $("#topbar-dismiss").fadeOut(100);
+                $("#navbar-cross").css({"margin-top":"0px"})
+                $("#headbar-cross").css({"padding-top":"0px"})
+                $(".transparent-bar.stick").css({"margin-top":"0px"})
+            }
+            else{
+                $("#topbar-dismiss").show();
+            }
+        }
+        else{
+            $("#topbar-dismiss").show();
+        }
+
+        $("#top-cross").click(function(){
+            $("#topbar-dismiss").fadeOut(500);
+            {% comment %} $("#topbar-dismiss").hide() {% endcomment %}
+            $("#navbar-cross").css({"margin-top":"0px"})
+            $("#headbar-cross").css({"padding-top":"0px"})
+            $(".transparent-bar.stick").css({"margin-top":"0px"})
+            //local storage
+            localStorage.setItem('topbar',Date.now() );
+
+        })
+    })
+    
+</script>

@@ -21,31 +21,44 @@
 <div id="msg1"></div>
 <!--store logo and details start-->
 <div class="row mb-30">
-    <div class="col-lg-6 col-md-5">
-        <div class="overview-img text-center" style="max-height:350px; max-width:420px;">
-            <a href="#">
-                <img src="{{store.logo.url}}" alt="store logo">
-            </a>
+    <div class="col-lg-5 col-md-5 " style="padding-right:0;">
+        <div class="overview-img text-center" >
+            <img src="{{store.logo.url}}" alt="store logo"  class="vendor-img">
         </div>
     </div>
-    <div class="col-lg-6 col-md-7 d-flex align-items-start">
+    <div class="col-lg-7 col-md-7 d-flex align-items-start vendor-text">
         <div class="overview-content-2" style="width:100%;">
             <h2><span class="color-pri" style="display: flex;justify-content: space-between;align-items: center;" >
                 <div id="">
-                    {% comment %} {% if product.is_verified %}
-                        <i class="fas fa-check-circle text-success"></i>
-                    {% else %}
-                        <i class="fas fa-check-circle text-danger"></i>
-                    {% endif %} {% endcomment %}
                     <div id="title-id">{{store.title}} </div>
                 </div>
                 {% comment %} <div>
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
                         {% if store.is_open %}
-                            <div class="open-btn" id="open-id">open</div>
+                            <div class="open-btn" id="open-id"> <!--openbtn-loading-close-->
+                                <div 
+                                    id="open-btn-loading" 
+                                    class="spinner-border openbtn-loading-close"   
+                                    role="status"
+                                    data-url="{% url 'vendors:api_store_status_update' %}"
+                                >
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <p id="open-btn-text">open</p>
+                            </div>
                         {% else %}
-                            <div class="close-btn" id="open-id">close</div>
+                            <div class="close-btn" id="open-id">
+                                <div 
+                                    id="close-btn-loading" 
+                                    class="spinner-border openbtn-loading-close"  
+                                    role="status"
+                                    data-url="{% url 'vendors:api_store_status_update' %}"
+                                >
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <p id="close-btn-text">close</p>
+                            </div>
                         {% endif %}
                     </form>
                 </div> {% endcomment %}
@@ -324,11 +337,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="margin: 4px;color: red;display: block;font-size: 25px;" ><i class="fas fa-times"></i></span></button>
+                <button type="button" class="close "  data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="margin: 4px;color: red;display: block;font-size: 25px;" ><i class="fas fa-times"></i></span></button>
             </div>
             <div class="modal-body" >
                 <div class="vendor-spinner" id="modalSpinner">
@@ -396,7 +409,7 @@
                             <div class="product-quantity" id="modal-btn" style="margin-top:30px;">
                                 <a href="" class="" id="update-id">Update</a>
                                 <a href="" class="" id="addproduct-id">Add</a>
-                                <a href="" onclick="Alert(); " class="" id="removeproduct-id">Remove</a>
+                                <a href="" class="" id="removeproduct-id">Remove</a>
                             </div>
                         </div>
                     </div>
@@ -409,5 +422,6 @@
 {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
 
 <!-- Modal end -->
-    {% include "vendors/ajax/store_detail_ajax.html" %}
+    {% comment %} {% include "vendors/ajax/store_detail_ajax.html" %} {% endcomment %}
+        <script  type="text/javascript" src="{% static 'assets/js/vendor/vendor.js' %}"></script>
 {% endblock vendor_main %}

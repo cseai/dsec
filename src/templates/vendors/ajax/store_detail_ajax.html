@@ -1,4 +1,4 @@
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
     $("#quick_view , #quick_view_2").on('click','.open_view',function(){
         console.log("Hello there");
         // product id
@@ -107,8 +107,10 @@
         
         console.log("store name : "+csrf)
         
-        if($("#open-id").text() == "open"){
+        if($("#open-btn-text").text() == "open"){
             console.log("open clicked")
+            
+            
             let store_username = $("#openClose-input").attr("data-store");
             data={store_username:store_username,curr_state:'open',csrfmiddlewaretoken:csrf}
             
@@ -120,11 +122,31 @@
                     data = JSON.parse(data)
                     console.log(data)
                     if(data.status == '200'){
+                        //remove btn
+                        $("#open-id").fadeOut(200);
+                        setTimeout(function(){
+                            // add css
+                            $("#open-id").removeClass('open-btn').addClass("close-btn");
+                            $("#open-id").removeAttr("style");
+                            //change opacity
+                            $(".close-btn").css({'opacity': '1 !important'});
+
+                            //disappear loading
+                            $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
+                            $("#open-btn-text").attr("id","close-btn-text")
+                            //add OPEN text to CLOSE text
+                            $("#close-btn-text").append("close");
+
+                        },300)
+                        
+                        $("#open-id").animate({ opacity: 1 });
+                        $("#open-id").removeAttr("style");
+                        //show messages
                         $("#msg").show()
                         $("#msg").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+data.msg+"</div></div>");
                         setTimeout(function(){
                             $("#msg").hide()
-                        },3000)
+                        },3000);
                     }
                     else{
                         $("#msg").show()
@@ -136,6 +158,8 @@
                     
                 },
                 error: function (jqXHR, exception) {
+                    console.log("hello error?")
+
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -152,22 +176,29 @@
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
+                    //
+                    $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
+                    $("#open-btn-text").append('open');
+                    $('#open-id').animate({opacity:1})
+
+                    
+                    //show error message
                     $("#msg1").show();
-                    $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-success alert-dismissible' role='alert'></button>"+msg+"</div></div>");
+                    $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+msg+"</div></div>");
                     setTimeout(function(){
                         $("#msg1").hide();
                     },2500);
                 },
             })
 
-            $("#open-id").fadeOut(500);
-            setTimeout(function(){
-                $("#open-id").removeClass().addClass("close-btn");
-                $("#open-id").empty().append("close");
-            },600)
-            $("#open-id").fadeIn(500);
+            // let's work with css and btn
+            $("#open-btn-text").empty();
+            $("#open-btn-loading").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
+            $(".open-btn").css({"opacity":'.5 '})
+
+            
         }
-        else if($("#open-id").text() == "close" ){
+        else if($("#close-btn-text").text() == "close" ){
             console.log("close clicked")
 
             let store_username = $("#openClose-input").attr("data-store");
@@ -180,6 +211,28 @@
                     data = JSON.parse(data)
                     console.log(data);
                     if(data.status == '200'){
+                        //
+                        //remove btn
+                        $("#open-id").fadeOut(200);
+                        setTimeout(function(){
+                            // add css
+                            $("#open-id").removeClass('close-btn').addClass("open-btn");
+                            $("#open-id").removeAttr("style");
+                            //change opacity
+                            $(".open-btn").css({'opacity': '1 !important'});
+
+                            //disappear loading
+                            $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
+                            $("#close-btn-text").attr("id","open-btn-text");
+                            //add OPEN text to CLOSE text
+                            $("#open-btn-text").append("open");
+
+                        },300)
+                        
+                        $("#open-id").animate({ opacity: 1 });
+                        $("#open-id").removeAttr("style");
+                        
+                        // show messages
                         $("#msg1").show()
                         $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-success alert-dismissible' role='alert'></button>"+data.msg+"</div></div>");
                         setTimeout(function(){
@@ -196,6 +249,7 @@
                     
                 },
                 error: function (jqXHR, exception) {
+                    console.log("hello error?")
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -212,19 +266,22 @@
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
-                    $("#msg1").show()
-                        $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-success alert-dismissible' role='alert'></button>"+msg+"</div></div>");
-                        setTimeout(function(){
-                            $("#msg1").hide()
-                        },2500);
+                    //
+                    $("#open-btn-loading").removeClass("openbtn-loading-open").addClass("openbtn-loading-close");
+                    $("#open-btn-text").append('close');
+                    $('#open-id').animate({opacity:1});
+                    //show message
+                    $("#msg1").show();
+                    $("#msg1").prepend("<div id='message' class='container' style='position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;'><div class='alert alert-danger alert-dismissible' role='alert'></button>"+msg+"</div></div>");
+                    setTimeout(function(){
+                        $("#msg1").hide();
+                    },2500);
                 },
             })
-            $("#open-id").fadeOut(500);
-            setTimeout(function(){
-                $("#open-id").removeClass().addClass("open-btn");
-                $("#open-id").empty().append("open");
-            },600);
-            $("#open-id").fadeIn(500);
+            //
+            $("#open-btn-loading").removeClass("openbtn-loading-close").addClass("openbtn-loading-open");
+            $("#close-btn-text").empty();
+            $('#open-id').animate({opacity:.5})
         }
     });
 
@@ -236,29 +293,4 @@
         console.log(text_size)
         $("#title-id").css({"font-size": ""+text_size+"px","text-align": "start", "padding-right": "10px"})
     });
-
-</script>
-
-    {% comment %} $(this).attr('href','"{% url 'vendors:store_product_update' store_username='"+store_username+"'  product_id='"+id+"'  %}"') {% endcomment %}
-{% comment %} stores/Kashmeri/products/2/update/ {% endcomment %}
-                    {% comment %} <img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" />  {% endcomment %}
-{% comment %} {% url 'vendors:store_product_remove'  store_username=0 product_id=1 %} {% endcomment %}
-
-{% comment %} 
-<div id="message" class="container" style="position: absolute;z-index: 100;margin: -66px 0px;text-align: center; padding:0px 80px;">
-    <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <strong>
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-            Error
-            {% else %}
-            {{message.tags|title}}
-            {% endif %}
-        </strong>
-        {{message}}
-    </div>
-</div>
-
-{% endcomment %}
+</script> {% endcomment %}

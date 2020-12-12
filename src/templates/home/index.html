@@ -2,9 +2,33 @@
 {% load static %}
     
 {% block content %}
-    <div class="slider-area">
-        <div class="slider-active owl-dot-style owl-carousel">
-            <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url({% static 'assets/images/slider/slider-1.jpg' %});">
+    {% comment %} <div class="slider-area-x"> {% endcomment %}
+        {% comment %} <div class="slider-active owl-dot-style owl-carousel"> {% endcomment %}
+            <div class="banner" > <!--style="background-image:url({% static 'assets/images/home/banner1-min.png-x' %});"-->
+                <div class="banner-img">
+                    <img src="{% static 'assets/images/home/banner1-min.png' %}" alt="banner1">
+                </div>
+                <div class="container banner-content">
+                    <div class="slider-content-x slider-animated-1 banner-content-x">
+                        <h1 class="animated banner-title"  data-aos="fade-right">TAWSIL  EXPRESS</h1>
+                        <h3 class="animated banner-subtitle">good food and express delivery.</h3>
+                        <div class="slider-btn-x mt-30">
+                            <form action="" >{% csrf_token %}
+                                <div class="search-form">
+                                    <div>
+                                        <div class="search-in" ></div>
+                                        <input style="position:relative;bottom:61px;" class="search-in " type="text" placeholder="Search You Food Or Track Your Percel">
+                                    </div>
+                                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                                </div>
+                                
+                            </form>
+                            {% comment %} <a class="animated" href="product-details.html">Order Now</a> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url(assets/images/slider/slider-2.jpg);">
                 <div class="container">
                     <div class="slider-content slider-animated-1">
                         <h1 class="animated">Drink & Heathy Food</h1>
@@ -14,20 +38,82 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="single-slider pt-210 pb-220 bg-img" style="background-image:url(assets/images/slider/slider-2.jpg);">
-                <div class="container">
-                    <div class="slider-content slider-animated-1">
-                        <h1 class="animated">Drink & Heathy Food</h1>
-                        <h3 class="animated">Fresh Heathy and Organic.</h3>
-                        <div class="slider-btn mt-90">
-                            <a class="animated" href="product-details.html">Order Now</a>
-                        </div>
-                    </div>
+            </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+    <!--todo-->
+        <div class='container mt-50 mb-100 banne-two'>
+            <div class='row flex-column-reverse flex-md-row'>
+                <div class="col-sm-12 col-md-6 banner-two-left">
+                    <h1>tawsil express</h1>
+                    <p class="subtitle">YOUR DELIVERY PARTNER</p>
+                    <p class="banner-two-left-details mb-40">
+                        TAWSIL EXPRESS aims to aid Bangladesh’s expanding e-commerce sector by providing techfirst logiscs support. With exclusive features and a talented workforce, TAWSIL EXPRESS gives the delivery service industry of Bangladesh a brand new pace.
+                    </p>
+                    <a href="#" class="ah">become merchent</a>
+                </div>
+                <div class="col-sm-12 col-md-6 banner-two-right">
+                    <img src="{% static 'home/Moving-Truck-Vector.png' %}" alt="banner two img">
                 </div>
             </div>
+
+            <!--working start-->
+            <div class="popular-cousine mt-30" "> <!--style="background:#6bffe338;-->
+                {% comment %} <img src="{% static 'home/top banner.png' %}" alt="" class="top-banner"> {% endcomment %}
+                <img src="{% static 'home/cousine-banner.png' %}" alt="" class="top-banner">
+                
+                <div class='row justify-content-start align-items-center cousine mt-20'>
+                    {% for pc in popular_cousine %}
+                        {% static  pc.img as the_img %}
+                        
+                        <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
+                            <div class="card-body" style="text-align:center">
+                                <img class="card-img-top" src="{{the_img}}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
+                                <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
+                                {{ pc.name }}
+                                </p>
+                                <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 500;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="cousine_show_all">
+                    <a href="#">show all</a>
+                </div> 
+            </div>
+            <!--popular cousine end-->
+
+            <!--prepare food start-->
+            <h1 class="prepare-food-title  mt-50">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
+            <div class="row prepare-foodflex-column-reverse flex-md-row">
+                <div class="col-sm-12 col-md-6 prepare-food-left p-0 m-0">
+                    <img src="{% static "home/foodpre.png" %}" alt="">
+                    <div class="prepare-food-left-details">
+                        <p class="prepare-food-left-details-p1">LIST YOUR RESTAURANT ON </p>
+                        <p class="prepare-food-left-details-p2">tawsil</p>
+                        <div class='left-desc pt-30'>
+                            <div class='left-desc-one'>
+                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                                <p class="left-desc-one-details m-0 p-0">Would you like thousands of new customers to taste youramazingfood? So would we!</p>
+                            </div>
+                            <div class='left-desc-one pt-40'>
+                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                                <p class="left-desc-one-details m-0 p-0">It's simple: we list your menu online, help you process orders, pick them up, and deliver them to your customer</p>
+                            </div>
+                        </div>
+                        <p class="">Interested? Let's start our </br>partnership today!</p>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 prepare-food-right p-0 m-0">
+                    <img src="{% static 'home/vita-marija-murenaite-OV_kIcdrgCs-unsplash.jpg' %}" class="w-100" style="height:700px" alt="">
+                    {% comment %} <img src="{% static 'home/lum3n-cHc5H3_FKhs-unsplash.jpg' %}" class="w-100" style="height:700px" alt=""> {% endcomment %}
+                </div>
+            </div>
+            <!--prepare food end-->
+            
         </div>
-    </div>
+    <!--working end-->
+
 
     <div class="banner-area row-col-decrease pt-100 pb-75 clearfix">
         <div class="container">
@@ -880,9 +966,10 @@
                 </div>
             </div>
         </div>
+        
         <div class="banner-area">
             <div class="container">
-                <div class="discount-overlay bg-img pt-130 pb-130" style="background-image:url(assets/images/banner/banner-4.jpg);">
+                <div class="discount-overlay bg-img pt-130 pb-130" ><!--style="background-image:url(assets/images/banner/banner-4.jpg);"-->
                     <div class="discount-content text-center">
                         <h3>It’s Time To Start <br>Your Own Revolution By Laurent</h3>
                         <p>Exclusive Offer -10% Off This Week</p>

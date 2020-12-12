@@ -1,12 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 /* vendor store detail start */
+/*  */
+/* vendor */
+.vendor-img{
+    height:350px; 
+    width:100% !important; 
+    object-fit:cover;
+    border-radius: 10px 0px 0px 10px;
+}
+.vendor-text{
+    padding: 15px 25px 10px 30px !important;
+    background: rgba(41, 212, 206, .1);
+    border-radius: 0 10px 10px 0;
+    /* rgba(249, 170, 52, 0.1) */
+}
+/* vendor end */
 .open-btn{
     /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0px;
     right: 0px;
-    color: white;
+    color: white !important;
     background: green;
+    opacity: 1;
     padding: 10px 15px;
     font-size: 16px;
     border-radius: 5px;
@@ -14,11 +33,34 @@
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
     cursor: pointer;
 }
+.open-btn p{
+    color: white;
+    font-size: 16px;
+    margin:0px;
+}
+.openbtn-loading-close{
+    width:25px !important;
+    height:25px !important; 
+    display:none !important;
+    padding-right:5px !important;
+}
+
+.openbtn-loading-open{
+    width:25px !important;
+    height:25px !important; 
+    display:inline-block !important;
+    padding-right:5px !important;
+}
+
 .close-btn{
     /* position: absolute; */
+    opacity: 1 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0px;
     right: 0px;
-    color: white;
+    color: white !important;
     background: red;
     padding: 10px 15px;
     font-size: 16px;
@@ -26,6 +68,19 @@
     text-transform: uppercase;
     animation: close 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
     cursor: pointer;
+}
+
+.close-btn p{
+    color: white;
+    font-size: 16px;
+    margin:0px;
+}
+
+#close-btn-loading{
+    width:25px;
+    height:25px; 
+    display:none;
+    padding-right:5px;
 }
 
 
@@ -87,6 +142,7 @@
         font-size: 12px;
     }
 }
+
 
 .taka-icon{
     height:22px; 

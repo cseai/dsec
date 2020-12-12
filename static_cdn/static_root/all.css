@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 /* font-family: 'Roboto', sans-serif; */
+:root{
+	--bg-pri:#344955 !important;
+	--bg-pri-dark:#344955 !important;
+	--bg-pri-light:#4A6572 !important;
+	--bg-sec:#f9aa33 !important;
+	--color-sec:#f9aa33 !important;
+	--color-pri:#2f333a !important;
+	
+}
 .bg-pri{
 	background-color:#344955 !important;
 }
@@ -21,4 +30,34 @@
 
 .color-pri{
 	color:#2f333a !important;
+}
+
+.color-sec{
+	color:#f9aa33 !important;
+}
+
+/* topbar start */
+.top-bar{
+	position: fixed;
+    z-index: 100;
+    background: var(--bg-pri-light);
+    width: 100%;
+    height: 60px;
+}
+
+.top-bar-cross{
+	display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    z-index: 18;
+    position: absolute;
+    padding-right: 19px;
+    color: #ccc;
+	font-size: 20px;
+	cursor:pointer;
+}
+/* topbarend */
+
+#headbar-cross{
+	padding-top:55px;
 }

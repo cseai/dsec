@@ -313,7 +313,7 @@ class StoreProductAddForm(forms.ModelForm):
                 'class': '',
                 'id':'imageUploadProductAdd',
             })
-        self.fields['image'].label = "Product Image"
+        # self.fields['image'].label = "Product Image"
     
     def save(self, commit=True):
         # Save the provided information

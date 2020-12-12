@@ -1,21 +1,27 @@
 {% load static %}
-<div class="header-bottom transparent-bar black-bg">
+<div class="header-bottom transparent-bar black-bg" id="navbar-cross">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-12">
 					<div class="main-menu">
-						<nav>
-							<ul>
+						<nav class="nav-content">
+							<!--logo start-->
+							<div class="logo">
+								<a href="{% url 'home:home' %}">TAWSIL</a>
+							</div>
+							<!--logo end-->
+							<ul style="margin-top:1rem;">
 								<li class="top-hover">
 									<a href="{% url 'home:home' %}">Home</a>
-									{% comment %} <ul class="submenu">
-										<li><a href="index.html">home version 1</a></li>
-										<li><a href="index-2.html">home version 2</a></li>
-									</ul> {% endcomment %}
 								</li>
-								{% comment %} <li><a href="about-us.html">about</a></li> {% endcomment %}
+								<li class="top-hover">
+									<a href="{% url 'home:home' %}">Home</a>
+								</li>
+								<li class="top-hover">
+									<a href="{% url 'home:home' %}">Home</a>
+								</li>
 								<li class="mega-menu-position top-hover">
-									<a href="shop.html">shop <i class="ion-chevron-down"></i></a>
+									<a href="shop.html">shop<i class="ion-chevron-down"></i></a>
 									<ul class="mega-menu">
 										<li>
 											<ul>
@@ -73,34 +79,34 @@
 										<li><a href="blog-details-video.html">Blog details video</a></li>
 									</ul>
 								</li>
-								<li class="top-hover">
-									<a href="#">pages <i class="ion-chevron-down"></i></a>
-									<ul class="submenu">
-										<li><a href="about-us.html">about us </a></li>
-										<li><a href="shop.html">shop Grid</a></li>
-										<li><a href="shop-list.html">shop list</a></li>
-										<li><a href="product-details.html">product details</a></li>
-										<li><a href="cart-page.html">cart page</a></li>
-										<li><a href="checkout.html">checkout</a></li>
-										<li><a href="wishlist.html">wishlist</a></li>
-										<li><a href="my-account.html">my account</a></li>
-										<li><a href="login-register.html">login / register</a></li>
-										<li><a href="contact.html">contact</a></li>
-										<li><a href="testimonial.html">Testimonials</a></li>
-									</ul>
-								</li>
-								{% comment %} <li><a href="contact.html">contact us</a></li>
-								<li><a href="shop.html">burger</a></li>
-								<li><a href="shop.html">pizza</a></li>
-								<li><a href="shop.html">cold drink</a></li> {% endcomment %}
-								{% if request.user.is_authenticated %}
-									{% if request.user.store_set.all.count == 0 %}
-										<li><a href="{% url 'vendors:register_store' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
-									{% else %}
-										<li><a href="{% url 'vendors:home' %}"><i class="fas fa-store"></i> Your Store</a></li>
-									{% endif %}
-								{% endif %}
 								
+								
+								
+								{% if request.user.is_authenticated %}
+								<li class="top-hover" style="padding-right:5px";>
+									{% if request.user.image.url %}
+										<img src="{{ request.user.image.url }}" alt="" class="account-avater">
+									{% else %}
+										<img src="{% static 'home/avater.png' %}" alt="" class="account-avater">
+									{% endif %}
+								</li>
+								<li class="top-hover" >
+										
+										<a href="#">Accounts<i class="ion-chevron-down"></i></a>
+										<ul class="submenu">
+											<li><a href="about-us.html">about us </a></li>
+											<li><a href="shop.html">shop Grid</a></li>
+												{% if request.user.store_set.all.count == 0 %}
+													<li><a href="{% url 'vendors:register_store' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+												{% else %}
+													<li><a href="{% url 'vendors:home' %}"><i class="fas fa-store"></i> Your Store</a></li>
+												{% endif %}
+													<li><a href="{% url 'auth:logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+										</ul>
+								</li>
+								{% else %}
+								<li><a href="{% url 'auth:login' %}"><i class="fas fa-sign-out-alt"></i>Login</a></li>
+								{% endif %}
 							</ul>
 						</nav>
 					</div>

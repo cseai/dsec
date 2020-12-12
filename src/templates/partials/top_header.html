@@ -1,55 +1,55 @@
 {% load static %}
-<header class="header-area">
-	<div class="header-top black-bg">
+{% comment %} <header class="header-area"> {% endcomment %}
+	<div class="header-top black-bg top-bar" id="topbar-dismiss">
+		<div class="container-fluid top-bar-cross" style="cursor:auto;" >
+			<i class="fas fa-times" id="top-cross" style="cursor:pointer;"></i>
+		</div>
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-md-4 col-12 col-sm-4">
+			<div class="row-x">
+				<div style="
+					display: flex;
+					align-items: center;
+					justify-content: center; 
+					text-align:center; 
+					margin-top:14px;
+					gap:20px;
+				">
+					<i style="
+						font-size: 26px;
+						color: var(--color-sec);
+					"class="fas fa-motorcycle p-0 m-0" 
+					></i>
+					<p style="
+						font-size: 24px;
+						font-weight: 600;
+						font-family: 'Roboto';
+						color:var(--color-sec);
+					" class="p-0 m-0" >JOIN OUR RIDE TEAM!</p>
+					<a style="
+						color: var(--bg-pri-dark);
+						padding: 6px 12px !important;
+						background: var(--color-sec);;
+						text-align: center;
+						text-transform: uppercase;
+						border-radius: 5px;
+						font-size: 14px;
+						font-weight: 700;
+					"href="#" class="m-0 p-0">Apply Now</a>
+				</div>
+				{% comment %} <div class="col-lg-4 col-md-4 col-12 col-sm-4">
 					<div class="welcome-area">
 						<p>Default welcome msg!</p>
 					</div>
 				</div>
 				<div class="col-lg-8 col-md-8 col-12 col-sm-8">
 					<div class="account-curr-lang-wrap f-right">
-						<ul>
-							{% comment %} <li class="top-hover">
-								<a href="#">Language: (ENG) <i class="ion-chevron-down"></i></a>
-								<ul>
-									<li><a href="#">Bangla </a></li>
-									<li><a href="#">Arabic</a></li>
-									<li><a href="#">Hindi </a></li>
-									<li><a href="#">Spanish</a></li>
-								</ul>
-							</li>
-							<li class="top-hover">
-								<a href="#">Currency: (USD) <i class="ion-chevron-down"></i></a>
-								<ul>
-									<li><a href="#">Taka (BDT)</a></li>
-									<li><a href="#">Riyal (SAR)</a></li>
-									<li><a href="#">Rupee (INR)</a></li>
-									<li><a href="#">Dirham (AED)</a></li>
-								</ul>
-							</li> {% endcomment %}
-							<li class="top-hover">
-								<a href="#">Setting <i class="ion-chevron-down"></i></a>
-								<ul>
-									{% if request.user.is_authenticated %}
-									<li><a href="#wishlist.html">Wishlist </a></li>
-									<li><a href="#my-account.html">my account</a></li>
-									<li><a href="{% url 'auth:logout' %}">Logout</a></li>
-									{% else %}
-									<li><a href="#wishlist.html">Wishlist </a></li>
-									<li><a href="{% url 'auth:login' %}">Login</a></li>
-									<li><a href="{% url 'auth:register' %}">Register</a></li>
-									{% endif %}
-								</ul>
-							</li>
-						</ul>
+						
 					</div>
-				</div>
+				</div> {% endcomment %}
 			</div>
 		</div>
 	</div>
-{% include "partials/mid_header.html" %}
-{% include "partials/_navbar.html" %}
-
-</header>
+{% comment %} {% include "partials/mid_header.html" %}
+{% include "partials/_navbar.html" %} {% endcomment %}
+{% include "partials/ajax.html" %}
+{% comment %} </header> {% endcomment %}
