@@ -64,7 +64,7 @@
                 </div> {% endcomment %}
                 
             </span></h2>
-            <p class="mb-10 color-pri" style="font-size:16px;font-weight:600;" >
+            <p class="mb-10 color-sec" style="font-size:16px;font-weight:400;" >
                 {% if store.tagline %}
                     {{ store.tagline }}
                 {% else %}
@@ -83,12 +83,12 @@
                     </form>
                 </div>
                 <div>
-                    <div><span class="color-pri" style="font-size:16px;font-weight:600;"><span>Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
-                    <div><span class="color-pri" style="font-size:16px;font-weight:600;"><span>Offdays</span>: {{store.off_days}}</span></div>
+                    <div><span><span class="color-sec">Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
+                    <div><span><span class="color-sec">Offdays</span>: {{store.off_days}}</span></div>
                 </div>
             </div>
             <div style="margin-top:10px; margin-bottom:10px;">
-                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i><span class="color-pri" style="font-size:16px;font-weight:500;">{{ store.address }}</span>
+                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
             </div>
             <div>
                 <p class="mb-10 color-pri" style="font-size:14px;font-weight:400;" >
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="Food name/Tag/Cuisine/SKU/Manufacturer" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="Food name or Tag" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
                     <div class="input-group-append" style="display:none">
                         <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
                     </div>
