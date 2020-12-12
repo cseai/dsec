@@ -40,11 +40,10 @@
                                     <li><a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" style="color:#f9aa33 !important;">All Stores <i class="ion-ios-arrow-down"></i></a>
                                         <ul id="shop-catigory-1" class="panel-collapse collapse show">
                                             {% for st in request.user.store_set.all  %}
-                                                {% url 'vendors:store_detail' store_username=st.username as the_url %}
-                                                {% if  the_url in request.path %}
-                                                    <li><a href="{% url 'vendors:store_detail' st.username %}" style="color:#f9aa33 !important;">{{st.title|slice:":10"}}</a></li>
+                                                {% if  st.get_vendor_store_detail_url.lower == request.path.lower %}
+                                                    <li title="@{{st.username}}"><a href="{{st.get_vendor_store_detail_url}}" style="color:#f9aa33 !important;">{{st.title|truncatechars:10}}</a></li>
                                                 {% else %}
-                                                    <li><a href="{% url 'vendors:store_detail' st.username %}">{{st.title|slice:":10"}}</a></li>
+                                                    <li title="@{{st.username}}"><a href="{{st.get_vendor_store_detail_url}}">{{st.title|truncatechars:10}}</a></li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
@@ -53,7 +52,7 @@
                                     <li> <a data-toggle="collapse" data-parent="#faq" href="#shop-catigory-1" >All Stores <i class="ion-ios-arrow-down"></i></a>
                                         <ul id="shop-catigory-1" class="panel-collapse collapse">
                                             {% for st in request.user.store_set.all  %}
-                                                <li> <a href="{% url 'vendors:store_detail' st.username %}">{{st.title|slice:":10"}}</a></li>
+                                                <li title="@{{st.username}}"> <a href="{{st.get_vendor_store_detail_url}}">{{st.title|slice:":10"}}</a></li>
                                             {% endfor %}
                                         </ul>
                                     </li>
@@ -79,10 +78,8 @@
                                 </li> {% endcomment %}
                                 {% if '/vendor/stores/' in request.path.lower %}
                                     {% for st in request.user.store_set.all %}
-                                        {% url 'vendors:store_detail' st.username as the_url %}
-                                        {% if request.path.lower == the_url.lower %}
-                                        <li> <a href="{% url 'vendors:store_product_add' store_username=st.username %}"><i class="fas fa-plus-square color-sec" ></i>Add Product</a></li>
-                                        {% else %}
+                                        {% if st.get_vendor_store_detail_url.lower == request.path.lower %}
+                                        <li> <a href="{{st.get_vendor_store_product_add_url}}" title="Add product @{{st.username}}"><i class="fas fa-plus-square color-sec" ></i>Add Product</a></li>
                                         {% endif %}
                                     {% endfor %}
                                 {% endif %}
