@@ -23,64 +23,62 @@
 </div>
 <div class="shop-topbar-wrapper">
     <div class="shop-topbar-left">
-        <p>Showing 1 - 20 of 30 results  </p>
+        {% comment %} <ul class="view-mode">
+            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
+            <li class="active"><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
+        </ul> {% endcomment %}
+        <p>Showing {{stores.start_index}} - {{stores.end_index}} of {{total_stores}}</p>
     </div>
     <div class="product-sorting-wrapper">
-        
-        <div class="product-show shorting-style">
-            <label>Sort by:</label>
-            <select>
-                <option value="">Default</option>
-                <option value=""> Name</option>
-                <option value=""> price</option>
-            </select>
-        </div>
+        <form method="{{filter_form.method}}">
+            <div class="product-show shorting-style">
+                <label>{{filter_form.pagination_filter.select_show_per_page.label}}:</label>
+                <select name="{{filter_form.pagination_filter.select_show_per_page.name}}">
+                    {% for value in filter_form.pagination_filter.select_show_per_page.choices %}
+                        <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                </select>
+                <label>{{filter_form.select_order_by.label}}:</label>
+                <select name="{{filter_form.select_order_by.name}}">
+                    {% for value, text in filter_form.select_order_by.choices.items %}
+                        <option value="{{value}}">{{text}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-outline-warning btn-light" title="Filter"><i class="fas fa-filter"></i></button>
+            </div>
+        </form>
     </div>
 </div>
 <div class="grid-list-product-wrapper">
     <div class="product-list product-view pb-20">
         <div class="row">
             {% for store in stores  %}
-            <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
-                <div class="product-wrapper row">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="product-img" style="width:250px; height:200px; ">
-                            <a href="{% url 'vendors:store_detail'  store_username=store.username %}">
-                                <img src="{{store.logo.url}}" alt="Vendor Logo" style="width:250px; height:200px; object-fit:cover;">
-                            </a>
-                            <div class="product-action">
-                                <div class="pro-action-left">
-                                    <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
-                                </div>
-                                <div class="pro-action-right">
-                                    <a title="Wishlist" href=""><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#"><i class="ion-android-open"></i></a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-10">
+                <div class="product-wrapper">
+                    <div class="product-img justify-center" >
+                        <a href="{{store.get_vendor_store_detail_url}}" class="text-center">
+                            <img src="{{store.logo.url}}" alt="Vendor Logo" style="max-height:120px; width:120px; background-size:cover;" >
+                        </a>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <div class="product-list-details">
-                            <h4>
-                                <a style="font-size: 50px;font-weight: 600;" href="{% url 'vendors:store_detail' store_username=store.username  %}" > {{ store.title }} </a>
-                            </h4>
-                            <div class="product-price-wrapper">
-                                <span style="font-weight:400;">{{store.tagline}}</span>
-                                {% comment %} <span class="product-price-old">$120.00 </span> {% endcomment %}
-                            </div>
-                            <p>
-                                {{store.description}}
-                            </p>
-                            <div class="shop-list-cart-wishlist">
-                                <a href="{% url 'vendors:store_update' store_username=store.username  %}" title="Update Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
-                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                                    <i class="ion-android-open"></i>
-                                </a>
-                            </div>
+                    <div class="product-list-details">
+                        <h3>
+                            <a href="{{store.get_vendor_store_detail_url}}" title="Show detail!"> {{ store.title }}</a>
+                        </h3>
+                        <div class="product-price-wrapper">
+                            <span class="">@{{store.username}}</span>
+                            
+                            {% if store.is_open %}
+                                <span class="text-uppercase text-success">open</span>
+                            {% else %}
+                                <span class="text-uppercase text-danger">close</span>
+                            {% endif %}
+                        </div>
+                        <div style="margin-top:10px">
+                            <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
                         </div>
                     </div>
                 </div>
+                <hr>
             </div>
             {% endfor %}
         </div>
@@ -92,32 +90,30 @@
             <div class="pagination-style">
                 <ul>
                     {% if stores.has_previous %}
-                        <li><a class="prev-next prev" href="?page={{stores.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
-                    </li>
-                {% endif %}
-                {% for i in stores.paginator.page_range %}
-                    {% if stores.number == i %}
-                        <li><a class="active" href="#">{{i}}</a></li>
+                        <li><a class="prev-next prev" href="?{{filter_form.pagination_filter.page_request_var}}={{stores.previous_page_number}}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
                     {% else %}
-                        <li><a href="?page={{i}}">{{i}}</a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i> Prev</a>
+                        </li>
                     {% endif %}
-                {% endfor %}
-                {% if stores.has_next %}
-                    <li><a class="prev-next next" href="?page={{stores.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
-                    
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
-                    </li>
-                {% endif %}
-                
+                    {% for i in stores.paginator.page_range %}
+                        {% if stores.number == i %}
+                            <li><a class="active" href="#">{{i}}</a></li>
+                        {% else %}
+                            <li><a href="?{{filter_form.pagination_filter.page_request_var}}={{i}}">{{i}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if stores.has_next %}
+                        <li><a class="prev-next next" href="?{{filter_form.pagination_filter.page_request_var}}={{stores.next_page_number}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="total-pages">
-                <p>Showing 1 - 20 of 30 results  </p>
+                <p>Showing {{stores.start_index}} - {{stores.end_index}} of {{total_stores}} results</p>
             </div>
         </div>
     {% endif %}
