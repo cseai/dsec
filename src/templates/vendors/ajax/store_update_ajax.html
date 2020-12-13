@@ -1,5 +1,5 @@
 <script>
-    $('#imageUploadStore').change(function(){
+    {% comment %} $('#imageUploadStore').change(function(){
         let mythis=this;
         console.log("Hello there")
         if(mythis.files[0] && mythis.files){
@@ -12,5 +12,5 @@
             }
             reader.readAsDataURL(mythis.files[0])
         }
-    });
+    }); {% endcomment %}
 </script>  
