@@ -32,7 +32,7 @@
                 <div id="">
                     <div id="title-id">{{store.title}} </div>
                 </div>
-                <div>
+                {% comment %} <div>
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
                         {% if store.is_open %}
@@ -61,36 +61,64 @@
                             </div>
                         {% endif %}
                     </form>
-                </div>
+                </div> {% endcomment %}
                 
             </span></h2>
-            <p class="mb-10" style="font-size:14px;font-weight:400;" >
-                {{ store.description }} 
+            <p class="mb-10 color-pri" style="font-size:16px;font-weight:600;" >
+                {% if store.tagline %}
+                    {{ store.tagline }}
+                {% else %}
+                    No tagline to show!
+                {% endif %}
             </p>
-            <div class="vendor_open_close">
-                <div class="vendor_open">
-                    <p class="bg-success">Open Time:</p> <p> {{ store.opening_time }} </p>
+            <div class='vendor_open_close'>
+                <div>
+                    <form action="POST">{% csrf_token %}
+                        <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
+                        {% if store.is_open %}
+                        <div class="open-btn" id="open-id">open</div>
+                        {% else %}
+                        <div class="close-btn" id="open-id">close</div>
+                        {% endif %}
+                    </form>
                 </div>
-                <div class="vendor_close">
-                    <p class="bg-warning">Close Time:</p> <p> {{ store.closing_time }} </p>
+                <div>
+                    <div><span class="color-pri" style="font-size:16px;font-weight:600;"><span>Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
+                    <div><span class="color-pri" style="font-size:16px;font-weight:600;"><span>Offdays</span>: {{store.off_days}}</span></div>
                 </div>
             </div>
-            <div style="margin-top:10px">
-                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
+            <div style="margin-top:10px; margin-bottom:10px;">
+                <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i><span class="color-pri" style="font-size:16px;font-weight:500;">{{ store.address }}</span>
             </div>
-            {% comment %} <di class="overview-btn mt-45">
-                <a class="btn-style-2" href="shop.html">Visit Store</a>
-            </> {% endcomment %}
+            <div>
+                <p class="mb-10 color-pri" style="font-size:14px;font-weight:400;" >
+                    {% if store.description %}
+                        {{ store.description }}
+                    {% else %}
+                        No description to show!
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="shop-list-cart-wishlist">
+                <a href="{{store.get_vendor_store_update_url}}" title="Edit Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
+                {% comment %} <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                    <i class="ion-android-open"></i>
+                </a> {% endcomment %}
+            </div>
         </div>
     </div>
 </div>
 <!--store logo and details end-->
 <div class="shop-topbar-wrapper" style="align-items:center">
     <div class="shop-topbar-left">
-        <ul class="view-mode">
-            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
-            <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
-        </ul>
+        <div class="input-group">
+            <ul class="view-mode">
+                <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
+                <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
+            </ul>
+        </div>
         <p>Showing 
             {% with products.number|sub:1 as first_sub %}
                 {% with 2|mul:first_sub as first_page  %}
@@ -99,13 +127,13 @@
             {% endwith %}
             
             {% if products.has_next %}
-                {{ 2|mul:products.number }} of {{ total_product }} results  </p>
+                {{ 2|mul:products.number }} of {{ total_product }}</p>
             {% else %}
                 {% with products.number|sub:1 as pre_page %}
                     {% with pre_page|mul:2 as curr_products %}
                         {% with total_product|sub:curr_products as last_rem %}
                             {% with curr_products|add:last_rem as pre_total %}
-                                {{ pre_total }} of {{ total_product }} results  </p>
+                                {{ pre_total }} of {{ total_product }}</p>
                             {% endwith %}
                         {% endwith %}
                     {% endwith %}
@@ -113,15 +141,35 @@
             {% endif %}
     </div>
     <div class="product-sorting-wrapper">
-        <form action="{% url 'vendors:store_detail' store.username %}" method="get">
-            <div class="input-group mb-3" style="width:250px;">
-                <input name="search" type="text" class="form-control" placeholder="Food name" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
-                <div class="input-group-append" style="display:none">
-                    <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
+        <form method="{{filter_form.method}}">
+            <div class="product-show shorting-style">
+                <div class="input-group mb-3">
+                    <div class="mr-2">
+                        <label>{{filter_form.pagination_filter.select_show_per_page.label}}:</label>
+                        <select name="{{filter_form.pagination_filter.select_show_per_page.name}}">
+                            {% for value in filter_form.pagination_filter.select_show_per_page.choices %}
+                                <option value="{{value}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>{{filter_form.select_order_by.label}}:</label>
+                        <select name="{{filter_form.select_order_by.name}}">
+                            {% for value, text in filter_form.select_order_by.choices.items %}
+                                <option value="{{value}}">{{text}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="Food name/Tag/Cuisine/SKU/Manufacturer" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                    <div class="input-group-append" style="display:none">
+                        <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
+                    </div>
+                    <button name="sc_btn" type="submit" class="btn btn-outline-warning btn-light  my-auto ml-1" title="Filter"><i class="fas fa-filter"></i></button>
                 </div>
             </div>
         </form>
-
     </div>
 </div>
 <div class="grid-list-product-wrapper">
@@ -129,93 +177,107 @@
         <div class="row">
             {% if products %}
                 {% for product in products  %}
-                <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
-                    <div class="product-wrapper">
-                        <div class="product-img">
-                            <a href="" data-toggle="modal" id="quick_view" data-url="{% url 'vendors:api_store_product_detail' %}"  data-target="#exampleModal">
-                                <img 
-                                    src="{{product.image.url}}" 
-                                    data-sid="{{product.id}}" 
-                                    data-url="{% url 'vendors:api_store_product_detail' %}" 
-                                    data-addpro="{% url 'vendors:store_product_add' store.username %}"
-                                    data-updatepro= "{% url 'vendors:store_product_update' store.username product.id %}"
-                                    data-deletepro="{% url 'vendors:store_product_remove' store.username product.id %}"
-                                    data-sname={{ store.username }} 
-                                    alt="" 
-                                    class="open_view product-img"
-                                >
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h4>
-                                <a href="product-details.html">{{product.title}}</a>
-                            </h4>
-                            <div class="product-price-wrapper">
-                                <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
-                                <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
+                    <div class="product-width col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-30">
+                        <div class="product-wrapper">
+                            <div class="product-img">
+                                <a href="" data-toggle="modal" id="quick_view"  data-target="#exampleModal">
+                                    <img src="{{product.image.url}}" data-sid="{{product.id}}" data-sname={{ store.username }} alt="" class="open_view">
+                                </a>
+                                {% comment %} <div class="product-action">
+                                    <div class="pro-action-left">
+                                        <a title="Add Tto Cart" href="#"><i class="ion-android-cart"></i> Add Tto Cart</a>
+                                    </div>
+                                    <div class="pro-action-right">
+                                        <a title="Wishlist" href="wishlist.html"><i class="ion-ios-heart-outline"></i></a>
+                                        <a title="Quick View" data-toggle="modal" id="quick_view"  data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                    </div>
+                                </div> {% endcomment %}
                             </div>
-                        </div>
-                        <div class="product-list-details">
-                            <h4>
-                                <a href="product-details.html">{{product.title}}</a>
-                            </h4>
-                            <div class="product-price-wrapper">
-                                <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
-                                <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
+                            <div class="product-content">
+                                <h4>
+                                    <a href="product-details.html">{{product.title}}</a>
+                                </h4>
+                                <div class="product-price-wrapper">
+                                    <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
+                                    <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
+                                </div>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                            <div class="shop-list-cart-wishlist" >
-                                <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
-                                <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                
-                                <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                            <div class="product-list-details">
+                                <h4>
+                                    <a href="product-details.html">{{product.title}}</a>
+                                </h4>
+                                <div class="product-price-wrapper">
+                                    <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
+                                    <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
+                                </div>
+                                <p>{{product.description|truncatechars:180}}</p>
+                                <div class="shop-list-cart-wishlist" >
+                                    <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
+                                    <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
+                                    
+                                    <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             {% else %}
                 <h6 style="display:block; margin:0 auto; font-size:25px; color:red;">No Products Available</h6>
             {% endif %}
-            
-            
         </div>
     </div>
     {% if req == 'req' %}
-    {% if products.has_other_pages %}
-        <div class="pagination-total-pages">
-            <div class="pagination-style">
-                <ul>
-                    {% if products.has_previous %}
-                        <li><a class="prev-next prev" href="?page={{products.previous_page_number}}&search={{ sc }}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i>Prev</a>
-                    </li>
-                {% endif %}
-                {% for i in products.paginator.page_range %}
-                    {% if products.number == i %}
-                        <li><a class="active" href="#">{{i}}</a></li>
-                    {% else %}
-                        <li><a href="?page={{i}}&search={{ sc }}">{{i}}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if products.has_next %}
-                    <li><a class="prev-next next" href="?page={{products.next_page_number}}&search={{sc}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
-                    
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
-                    </li>
-                {% endif %}
-                
-                </ul>
+        {% if products.has_other_pages %}
+            <div class="pagination-total-pages">
+                <div class="pagination-style">
+                    <ul>
+                        {% if products.has_previous %}
+                            <li><a class="prev-next prev" href="?page={{products.previous_page_number}}&search={{ sc }}" ><i class="ion-ios-arrow-left"></i> Prev</a></li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="" ><i class="ion-ios-arrow-left"></i>Prev</a>
+                            </li>
+                        {% endif %}
+                        {% for i in products.paginator.page_range %}
+                            {% if products.number == i %}
+                                <li><a class="active" href="#">{{i}}</a></li>
+                            {% else %}
+                                <li><a href="?page={{i}}&search={{ sc }}">{{i}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if products.has_next %}
+                            <li><a class="prev-next next" href="?page={{products.next_page_number}}&search={{sc}}">Next<i class="ion-ios-arrow-right"></i> </a></li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="" >Next<i class="ion-ios-arrow-right"></i></a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="total-pages">
+                    <p>
+                        {% with products.number|sub:1 as first_sub %}
+                            {% with 2|mul:first_sub as first_page  %}
+                                {{ first_page|add:1 }} - 
+                            {% endwith %}
+                        {% endwith %}
+                        {% if products.has_next %}
+                            {{ 2|mul:products.number }} of {{ total_product }}
+                        {% else %}
+                            {% with products.number|sub:1 as pre_page %}
+                                {% with pre_page|mul:2 as curr_products %}
+                                    {% with total_product|sub:curr_products as last_rem %}
+                                        {% with curr_products|add:last_rem as pre_total %}
+                                            {{ pre_total }} of {{ total_product }} 
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endwith %}
+                        {% endif %}
+                    </p>
+                </div>
             </div>
-            <div class="total-pages">
-                <p>Showing 1 - 20 of 30 results  </p>
-            </div>
-        </div>
-    {% endif %}
+        {% endif %}
     {% else %}
         {% if products.has_other_pages %}
             <div class="pagination-total-pages">
@@ -247,24 +309,26 @@
                     </ul>
                 </div>
                 <div class="total-pages">
-                    {% with products.number|sub:1 as first_sub %}
-                        {% with 2|mul:first_sub as first_page  %}
-                            {{ first_page|add:1 }} - 
-                        {% endwith %}
-                    {% endwith %}
-                {% if products.has_next %}
-                    {{ 2|mul:products.number }} of {{ total_product }} results  </p>
-                {% else %}
-                    {% with products.number|sub:1 as pre_page %}
-                        {% with pre_page|mul:2 as curr_products %}
-                            {% with total_product|sub:curr_products as last_rem %}
-                                {% with curr_products|add:last_rem as pre_total %}
-                                    {{ pre_total }} of {{ total_product }} results  </p>
-                                {% endwith %}
+                    <p>
+                        {% with products.number|sub:1 as first_sub %}
+                            {% with 2|mul:first_sub as first_page  %}
+                                {{ first_page|add:1 }} - 
                             {% endwith %}
                         {% endwith %}
-                    {% endwith %}
-                {% endif %}>
+                        {% if products.has_next %}
+                            {{ 2|mul:products.number }} of {{ total_product }} 
+                        {% else %}
+                            {% with products.number|sub:1 as pre_page %}
+                                {% with pre_page|mul:2 as curr_products %}
+                                    {% with total_product|sub:curr_products as last_rem %}
+                                        {% with curr_products|add:last_rem as pre_total %}
+                                            {{ pre_total }} of {{ total_product }} 
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endwith %}
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         {% endif %}

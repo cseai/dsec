@@ -102,7 +102,7 @@ class StoreUpdateForm(forms.ModelForm):
     
     class Meta:
         model= Store
-        fields=('logo','title', 'tagline', 'username', 'category',  'description', 'opening_time', 'closing_time', 'is_open', )
+        fields=('logo','title', 'tagline', 'username', 'category',  'description', 'opening_time', 'closing_time', 'off_days', 'is_open', )
 
         # customize form attrs
         # labels = {
@@ -146,6 +146,10 @@ class StoreUpdateForm(forms.ModelForm):
             'closing_time': forms.TimeInput(attrs={
                 'placeholder': "Closing time. e.g. 22:00",
                 'title': 'Store closing time',
+            }),
+            'off_days': forms.TextInput(attrs={
+                'placeholder': "i.e. SUN-MON, FRI",
+                'title': 'Off Days',
             }),
         }
     

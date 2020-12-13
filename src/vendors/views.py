@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render, reverse, get_object_or_404
 from django import forms 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.contrib import messages
 import json
 
@@ -23,15 +24,46 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
+    queryset_list = Store.objects.filter(user=request.user).order_by('id')
 
-    stores = Store.objects.filter(user=request.user).order_by('-id')
+    # Ordering
+    select_order_by = {
+        'label': "Sort by",
+        'name': "order_by",
+        'choices': {
+            'id': "Default",
+            'username': "Username",
+            'title': "Title",
+            'category': "Category",
+        },
+    }
+    order_by = request.GET.get(select_order_by.get('name'))
+    if order_by and order_by in select_order_by.get('choices'):
+        queryset_list = queryset_list.order_by(order_by)
     
-    #paginator
-    paginator=Paginator(stores,1)
-    page_number=request.GET.get('page')
-    store_page=paginator.get_page(page_number)
-    
-    print(stores)
+    # pagination
+    pagination_filter = {
+        'select_show_per_page': {
+            'label': "View",
+            'name': "per_page",
+            'choices': list(range(5, queryset_list.count()+5, 5)),
+        },
+        'page_request_var': "page",
+    }
+    max_obj_per_page = request.GET.get(pagination_filter.get('select_show_per_page').get('name'))
+    if max_obj_per_page and max_obj_per_page.isnumeric() and int(max_obj_per_page) in pagination_filter.get("select_show_per_page").get('choices'):
+        max_obj_per_page = int(max_obj_per_page)
+    else:
+        max_obj_per_page = 1
+    paginator = Paginator(queryset_list, max_obj_per_page)
+
+    page_number = request.GET.get(pagination_filter.get('page_request_var'))
+    if page_number and page_number.isnumeric():
+        page_number = int(page_number)
+    else:
+        page_number = 1
+    queryset = paginator.get_page(page_number)
+
     
     context = {
         'page_context': {
@@ -39,9 +71,13 @@ def vendor_home_view(request):
             'breadcrumb_active': "Home",
             'main_heading': "Vendor Home",
         },
-        'store_username':'h',
-        'stores': store_page,
-        'total_stores':stores.count(),
+        'filter_form': {
+            'method': "GET",
+            'select_order_by': select_order_by,
+            'pagination_filter': pagination_filter,
+        },
+        'stores': queryset,
+        'total_stores': paginator.count,
     }
     return render(request, 'vendors/vendor_home.html', context)
 
@@ -103,62 +139,95 @@ def register_store_view(request, *args, **kwargs):
 
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
-        
     store = get_object_or_404(Store, username=store_username.lower())
-    products = Product.objects.filter(store=store).order_by('-id')
-    
-    #paginator
-    paginator=Paginator(products,2)
-    page_number=request.GET.get('page')
-    product_page=paginator.get_page(page_number)
+    queryset_list = Product.objects.filter(store=store).order_by('-id')
 
-    #post request
-    store_status_form = StoreStatusUpdateForm(request.POST or None, request.FILES or None, instance=store)
-    if request.method =='POST':
-        if store_status_form.is_valid():
-            store = store_status_form.save()
-            store.save()
-            
+    # Ordering
+    select_order_by = {
+        'label': "Sort by",
+        'name': "order_by",
+        'choices': {
+            'id': "Default",
+            'title': "Title",
+            'sku': "SKU",
+            'manufacturer': "Manufacturer",
+            'sup_price': "Supply price (Low)",
+            '-sup_price': "Supply price (High)",
+            'selling_price': "Selling price (Low)",
+            '-selling_price': "Selling price (High)",
+            'timestamp': "Timestamp (Leatest)",
+            '-timestamp': "Timestamp (Oldest)",
+        },
+    }
+    order_by = request.GET.get(select_order_by.get('name'))
+    if order_by and order_by in select_order_by.get('choices'):
+        queryset_list = queryset_list.order_by(order_by)
     
-    # get request 
-    if request.method == 'GET':
-        # print
-        if 'search' in request.GET:
-            title = request.GET['search']
-            #query
-            products = products.filter(title__icontains=title)
-            # paginator
-            print("filter query : ===> ",products)
-            paginator = Paginator(products,1)
-            page_number = request.GET.get('page')
-            product_page = paginator.get_page(page_number)
-            
-            context={
-                'page_context': {
-                    'title': store.title,
-                    'breadcrumb_active': "Store Details",
-                    'main_heading': store.title,
-                },
-                'store' : store,
-                'store_status_form' : store_status_form,
-                'products' : product_page,
-                'total_product' : products.count(),
-                'sc':title,
-                'req':'req'
-            }
-            return render(request,'vendors/store_detail.html',context)
-    
+
+    # filtering
+    search_filter = {
+        'label': "Search",
+        'name': "search",
+        # some search related context data
+        'context': {
+            'sc': "",
+            'req': "",
+        }
+    }
+    query = request.GET.get(search_filter.get('name'))
+    if query:
+        # some search related context data
+        search_filter['context']['sc'] = query
+        search_filter['context']['req'] = "req"
+
+        queryset_list = queryset_list.filter(
+            Q(title__icontains=query) |
+            Q(tags__name__in=query.split(',')) |
+            Q(cuisine__title__iexact=query) |
+            Q(sku__iexact=query) |
+            Q(manufacturer__iexact=query)
+        ).distinct()
+
+    # pagination
+    pagination_filter = {
+        'select_show_per_page': {
+            'label': "View",
+            'name': "per_page",
+            'choices': list(range(5, queryset_list.count()+5, 5)),
+        },
+        'page_request_var': "page",
+    }
+    max_obj_per_page = request.GET.get(pagination_filter.get('select_show_per_page').get('name'))
+    if max_obj_per_page and max_obj_per_page.isnumeric() and int(max_obj_per_page) in pagination_filter.get("select_show_per_page").get('choices'):
+        max_obj_per_page = int(max_obj_per_page)
+    else:
+        max_obj_per_page = 1
+    paginator = Paginator(queryset_list, max_obj_per_page)
+
+    page_number = request.GET.get(pagination_filter.get('page_request_var'))
+    if page_number and page_number.isnumeric():
+        page_number = int(page_number)
+    else:
+        page_number = 1
+    queryset = paginator.get_page(page_number)
+
     context = {
         'page_context': {
             'title': store.title,
             'breadcrumb_active': "Store Details",
             'main_heading': store.title,
         },
+        'filter_form': {
+            'method': "GET",
+            'select_order_by': select_order_by,
+            'search_filter': search_filter,
+            'pagination_filter': pagination_filter,
+        },
         'store': store,
-        'store_status_form': store_status_form,
-        'products': product_page,
-        'total_product':products.count(),
-        'req':''
+        'products': queryset,
+        'total_product': paginator.count,
+        'sc': search_filter.get('context').get("sc"),
+        'req': search_filter.get('context').get("req"),
     }
     return render(request, 'vendors/store_detail.html', context)
 
