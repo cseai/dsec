@@ -28,6 +28,7 @@ $(document).ready(function(){
             data:mydata,
             success:function(data){
                 // converts string of json to object
+                console.log(data)
                 data = JSON.parse(data);
                 // console.log(data);
 
