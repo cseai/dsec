@@ -59,7 +59,7 @@ class Product(models.Model):
     unit_in_stock           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
     unit_on_order           = models.DecimalField(default=0, max_digits=40, decimal_places=0)
     cuisine                 = models.ForeignKey(Cuisine, null=True, on_delete=models.SET_NULL)
-    tags                    = TaggableManager()
+    tags                    = TaggableManager(blank=True)
     is_available            = models.BooleanField(default=True)
     is_discount_available   = models.BooleanField(default=False)
     image                   = models.ImageField(

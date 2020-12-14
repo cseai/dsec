@@ -3,7 +3,7 @@
 {% load mathfilters %}
 
 {% block title %}
-{{ block.super }}|{{ page_context.main_heading }}
+{{ block.super }} | {{ page_context.main_heading }}
 {% endblock title %}
 
 {% block vendor_breadcrumb %}
@@ -32,7 +32,16 @@
                 <div id="">
                     <div id="title-id">{{store.title}} </div>
                 </div>
-                {% comment %} <div>
+            </span></h2>
+            <p class="mb-10 color-pri" style="font-size:16px;font-weight:400;" >
+                {% if store.tagline %}
+                    {{ store.tagline }}
+                {% else %}
+                    No tagline to show!
+                {% endif %}
+            </p>
+            <div class='vendor_open_close'>
+                <div>
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
                         {% if store.is_open %}
@@ -61,30 +70,10 @@
                             </div>
                         {% endif %}
                     </form>
-                </div> {% endcomment %}
-                
-            </span></h2>
-            <p class="mb-10 color-sec" style="font-size:16px;font-weight:400;" >
-                {% if store.tagline %}
-                    {{ store.tagline }}
-                {% else %}
-                    No tagline to show!
-                {% endif %}
-            </p>
-            <div class='vendor_open_close'>
-                <div>
-                    <form action="POST">{% csrf_token %}
-                        <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
-                        {% if store.is_open %}
-                        <div class="open-btn" id="open-id">open</div>
-                        {% else %}
-                        <div class="close-btn" id="open-id">close</div>
-                        {% endif %}
-                    </form>
                 </div>
                 <div>
-                    <div><span><span class="color-sec">Hours</span>: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
-                    <div><span><span class="color-sec">Offdays</span>: {{store.off_days}}</span></div>
+                    <div><span class="color-pri" style="font-size:16px;font-weight:400;">Hours: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
+                    <div><span class="color-pri" style="font-size:16px;font-weight:400;">Offdays: {{store.off_days}}</span></div>
                 </div>
             </div>
             <div style="margin-top:10px; margin-bottom:10px;">
@@ -119,26 +108,27 @@
                 <li><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
             </ul>
         </div>
-        <p>Showing 
-            {% with products.number|sub:1 as first_sub %}
+        <p>Showing {{products.start_index}} - {{products.end_index}} of {{total_product}}</p>
+            {% comment %} {% with products.number|sub:1 as first_sub %}
                 {% with 2|mul:first_sub as first_page  %}
                     {{ first_page|add:1 }} - 
                 {% endwith %}
             {% endwith %}
             
             {% if products.has_next %}
-                {{ 2|mul:products.number }} of {{ total_product }}</p>
+                {{ 2|mul:products.number }} of {{ total_product }}
             {% else %}
                 {% with products.number|sub:1 as pre_page %}
                     {% with pre_page|mul:2 as curr_products %}
                         {% with total_product|sub:curr_products as last_rem %}
                             {% with curr_products|add:last_rem as pre_total %}
-                                {{ pre_total }} of {{ total_product }}</p>
+                                {{ pre_total }} of {{ total_product }}
                             {% endwith %}
                         {% endwith %}
                     {% endwith %}
                 {% endwith %}
             {% endif %}
+        </p> {% endcomment %}
     </div>
     <div class="product-sorting-wrapper">
         <form method="{{filter_form.method}}">
@@ -162,11 +152,20 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="Food name or Tag" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="{{filter_form.search_filter.placeholder}}" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                    <div class="input-group-append" style="width:75px; height:38px; padding:0;">
+                        <select style="width:100%; height:100%; padding:6px 0;"  name="{{filter_form.search_filter.search_by.name}}">
+                            {% for value, text in filter_form.search_filter.search_by.choices.items %}
+                                <option value="{{value}}">{{text}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div class="input-group-append" style="display:none">
                         <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
                     </div>
-                    <button name="sc_btn" type="submit" class="btn btn-outline-warning btn-light  my-auto ml-1" title="Filter"><i class="fas fa-filter"></i></button>
+                    <div class="input-group-append" style="width:45px; height:38px; padding:0;">
+                        <button style="width:100%; height:100%; padding:6px 12px;" name="sc_btn" type="submit" class="input-group-append btn btn-outline-warning btn-light  my-auto ml-1" title="Filter"><i class="fas fa-filter"></i></button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -206,27 +205,36 @@
                             </div>
                             <div class="product-content">
                                 <h4>
-                                    <a href="product-details.html">{{product.title}}</a>
+                                    <a href="{{product.get_vendor_store_product_detail_url}}">{{product.title}}</a>
                                 </h4>
                                 <div class="product-price-wrapper">
                                     <span><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.sup_price }}</span>
                                     <span class="product-price-old"><img src={% static 'favicon_io/taka-gold.svg' %} class="taka-icon" /> {{ product.selling_price }}</span>
                                 </div>
+                                <p class="my-0 py-0">
+                                    <span>ID: {{product.id}}</span>
+                                    <span>{% if product.is_available %} <span class="text-success ml-5">Available </span>{% else %} <span class="color-sec ml-5">Unavailable </span>{% endif %}</span>
+                                </p>
                             </div>
                             <div class="product-list-details">
                                 <h4>
-                                    <a href="product-details.html">{{product.title}}</a>
+                                    <a href="{{product.get_vendor_store_product_detail_url}}">{{product.title}}</a>
                                 </h4>
                                 <div class="product-price-wrapper">
                                     <span><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{product.sup_price}}</span>
                                     <span class="product-price-old"><img src="{% static 'favicon_io/taka-gold.svg' %}" class="taka-icon" /> {{ product.selling_price }} </span>
                                 </div>
+                                <p class="my-0 py-0">
+                                    <span>ID: {{product.id}}</span>
+                                    <span>{% if product.is_available %} <span class="text-success ml-5">Available </span>{% else %} <span class="color-sec ml-5">Unavailable </span>{% endif %}</span>
+                                </p>
                                 <p>{{product.description|truncatechars:180}}</p>
                                 <div class="shop-list-cart-wishlist" >
-                                    <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
+                                    {% comment %} <a href="#" title="Wishlist"><i class="ion-ios-heart-outline"></i></a>
                                     <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                                    
+                                     {% endcomment %}
                                     <a title="Quick View" id="quick_view_2" data-toggle="modal"   data-target="#exampleModal" href="#"><i data-sid="{{product.id}}"  class="ion-android-open open_view"></i></a>
+                                    <a href="{{product.get_vendor_store_product_update_url}}" title="Edit Product"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
                                 </div>
                             </div>
                         </div>

@@ -23,28 +23,51 @@
 </div>
 <div class="shop-topbar-wrapper">
     <div class="shop-topbar-left">
-        {% comment %} <ul class="view-mode">
-            <li class="active"><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
-            <li class="active"><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
-        </ul> {% endcomment %}
+        <div class="input-group">
+            <ul class="view-mode">
+                <li><a href="#product-grid" data-view="product-grid"><i class="fa fa-th"></i></a></li>
+                <li class="active"><a href="#product-list" data-view="product-list"><i class="fa fa-list-ul"></i></a></li>
+            </ul>
+        </div>
         <p>Showing {{stores.start_index}} - {{stores.end_index}} of {{total_stores}}</p>
     </div>
     <div class="product-sorting-wrapper">
         <form method="{{filter_form.method}}">
             <div class="product-show shorting-style">
-                <label>{{filter_form.pagination_filter.select_show_per_page.label}}:</label>
-                <select name="{{filter_form.pagination_filter.select_show_per_page.name}}">
-                    {% for value in filter_form.pagination_filter.select_show_per_page.choices %}
-                        <option value="{{value}}">{{value}}</option>
-                    {% endfor %}
-                </select>
-                <label>{{filter_form.select_order_by.label}}:</label>
-                <select name="{{filter_form.select_order_by.name}}">
-                    {% for value, text in filter_form.select_order_by.choices.items %}
-                        <option value="{{value}}">{{text}}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-outline-warning btn-light" title="Filter"><i class="fas fa-filter"></i></button>
+                <div class="input-group mb-3">
+                    <div class="mr-2">
+                        <label>{{filter_form.pagination_filter.select_show_per_page.label}}:</label>
+                        <select name="{{filter_form.pagination_filter.select_show_per_page.name}}">
+                            {% for value in filter_form.pagination_filter.select_show_per_page.choices %}
+                                <option value="{{value}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>{{filter_form.select_order_by.label}}:</label>
+                        <select name="{{filter_form.select_order_by.name}}">
+                            {% for value, text in filter_form.select_order_by.choices.items %}
+                                <option value="{{value}}">{{text}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input name="{{filter_form.search_filter.name}}" type="text" class="form-control" placeholder="{{filter_form.search_filter.placeholder}}" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:5px;">
+                    <div class="input-group-append" style="width:75px; height:38px; padding:0;">
+                        <select style="width:100%; height:100%; padding:6px 0;"  name="{{filter_form.search_filter.search_by.name}}">
+                            {% for value, text in filter_form.search_filter.search_by.choices.items %}
+                                <option value="{{value}}">{{text}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group-append" style="display:none">
+                        <button class="btn btn-outline-secondary" name="sc_btn" type="button">Button</button>
+                    </div>
+                    <div class="input-group-append" style="width:45px; height:38px; padding:0;">
+                        <button style="width:100%; height:100%; padding:6px 12px;" name="sc_btn" type="submit" class="input-group-append btn btn-outline-warning btn-light  my-auto ml-1" title="Filter"><i class="fas fa-filter"></i></button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -60,10 +83,22 @@
                             <img src="{{store.logo.url}}" alt="Vendor Logo" style="max-height:120px; width:120px; background-size:cover;" >
                         </a>
                     </div>
+                    <div class="product-content">
+                        <div class="product-price-wrapper">
+                            <p class="my-0 py-1">
+                                <a href="{{store.get_vendor_store_detail_url}}" title="Show detail!" class="color-pri" style="font-size:16px;font-weight:700;">@{{store.username}}</a>
+                            </p>
+                            {% if store.is_open %}
+                                <span class="text-uppercase text-success">open</span>
+                            {% else %}
+                                <span class="text-uppercase text-danger">close</span>
+                            {% endif %}
+                        </div>
+                    </div>
                     <div class="product-list-details">
-                        <h3>
-                            <a href="{{store.get_vendor_store_detail_url}}" title="Show detail!"> {{ store.title }}</a>
-                        </h3>
+                        <p class="mb-2">
+                            <a href="{{store.get_vendor_store_detail_url}}" title="Show detail!" class="color-pri" style="font-size:16px;font-weight:700;"> {{ store.title }}</a>
+                        </p>
                         <div class="product-price-wrapper">
                             <span class="">@{{store.username}}</span>
                             

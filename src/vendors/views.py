@@ -24,7 +24,7 @@ from products.models import Product
 
 @login_required
 def vendor_home_view(request):
-    queryset_list = Store.objects.filter(user=request.user).order_by('id')
+    queryset_list = Store.objects.filter(user=request.user).filter(is_active=True).order_by('id')
 
     # Ordering
     select_order_by = {
@@ -35,12 +35,59 @@ def vendor_home_view(request):
             'username': "Username",
             'title': "Title",
             'category': "Category",
+            'timestamp': "Timestamp (Leatest)",
+            '-timestamp': "Timestamp (Oldest)",
+            'updated': "Updated (Leatest)",
+            '-updated': "Updated (Oldest)",
         },
     }
     order_by = request.GET.get(select_order_by.get('name'))
     if order_by and order_by in select_order_by.get('choices'):
         queryset_list = queryset_list.order_by(order_by)
     
+
+    # filtering
+    search_filter = {
+        'label': "Search",
+        'name': "search",
+        'placeholder': "Store Name \ Username OR IDs",
+        'search_by': {
+            'label': "Search By",
+            'name': "search_by",
+            'choices': {
+                'default': "Default",
+                'ids': "IDs",
+            },
+        },
+        # some search related context data
+        'context': {
+            'sc': "",
+            'req': "",
+        }
+    }
+    query = request.GET.get(search_filter.get('name'))
+    if query:
+        # some search related context data
+        search_filter['context']['sc'] = query
+        search_filter['context']['req'] = "req"
+
+        search_by_choice = request.GET.get(search_filter.get("search_by").get("name"))
+        if search_by_choice and search_by_choice in search_filter.get("search_by").get("choices"):
+            if search_by_choice == 'default':
+                queryset_list = queryset_list.filter(
+                    Q(title__icontains=query) |
+                    Q(username__iexact=query)
+                ).distinct()
+            elif search_by_choice == 'ids':
+                try:
+                    queryset_list = queryset_list.filter(
+                        Q(pk__in=query.split(',')) 
+                    ).distinct()
+                except:
+                    queryset_list = queryset_list.none()
+        else:
+            queryset_list = queryset_list.none()
+
     # pagination
     pagination_filter = {
         'select_show_per_page': {
@@ -54,7 +101,7 @@ def vendor_home_view(request):
     if max_obj_per_page and max_obj_per_page.isnumeric() and int(max_obj_per_page) in pagination_filter.get("select_show_per_page").get('choices'):
         max_obj_per_page = int(max_obj_per_page)
     else:
-        max_obj_per_page = 1
+        max_obj_per_page = 5
     paginator = Paginator(queryset_list, max_obj_per_page)
 
     page_number = request.GET.get(pagination_filter.get('page_request_var'))
@@ -74,10 +121,13 @@ def vendor_home_view(request):
         'filter_form': {
             'method': "GET",
             'select_order_by': select_order_by,
+            'search_filter': search_filter,
             'pagination_filter': pagination_filter,
         },
         'stores': queryset,
         'total_stores': paginator.count,
+        'sc': search_filter.get('context').get("sc"),
+        'req': search_filter.get('context').get("req"),
     }
     return render(request, 'vendors/vendor_home.html', context)
 
@@ -140,7 +190,7 @@ def register_store_view(request, *args, **kwargs):
 @login_required
 def store_detail_view(request, store_username, *args, **kwargs):
     store = get_object_or_404(Store, username=store_username.lower())
-    queryset_list = Product.objects.filter(store=store).order_by('-id')
+    queryset_list = Product.objects.filter(store=store).filter(active=True).order_by('-id')
 
     # Ordering
     select_order_by = {
@@ -157,6 +207,8 @@ def store_detail_view(request, store_username, *args, **kwargs):
             '-selling_price': "Selling price (High)",
             'timestamp': "Timestamp (Leatest)",
             '-timestamp': "Timestamp (Oldest)",
+            'updated': "Updated (Leatest)",
+            '-updated': "Updated (Oldest)",
         },
     }
     order_by = request.GET.get(select_order_by.get('name'))
@@ -168,6 +220,15 @@ def store_detail_view(request, store_username, *args, **kwargs):
     search_filter = {
         'label': "Search",
         'name': "search",
+        'placeholder': "Food Name\Tag\Cuisine\SKU\Manufacturer OR IDs",
+        'search_by': {
+            'label': "Search By",
+            'name': "search_by",
+            'choices': {
+                'default': "Default",
+                'ids': "IDs",
+            },
+        },
         # some search related context data
         'context': {
             'sc': "",
@@ -180,13 +241,25 @@ def store_detail_view(request, store_username, *args, **kwargs):
         search_filter['context']['sc'] = query
         search_filter['context']['req'] = "req"
 
-        queryset_list = queryset_list.filter(
-            Q(title__icontains=query) |
-            Q(tags__name__in=query.split(',')) |
-            Q(cuisine__title__iexact=query) |
-            Q(sku__iexact=query) |
-            Q(manufacturer__iexact=query)
-        ).distinct()
+        search_by_choice = request.GET.get(search_filter.get("search_by").get("name"))
+        if search_by_choice and search_by_choice in search_filter.get("search_by").get("choices"):
+            if search_by_choice == 'default':
+                queryset_list = queryset_list.filter(
+                    Q(title__icontains=query) |
+                    Q(tags__name__in=query.split(',')) |
+                    Q(cuisine__title__iexact=query) |
+                    Q(sku__iexact=query) |
+                    Q(manufacturer__iexact=query)
+                ).distinct()
+            elif search_by_choice == 'ids':
+                try:
+                    queryset_list = queryset_list.filter(
+                        Q(pk__in=query.split(',')) 
+                    ).distinct()
+                except:
+                    queryset_list = queryset_list.none()
+        else:
+            queryset_list = queryset_list.none()
 
     # pagination
     pagination_filter = {
@@ -201,7 +274,7 @@ def store_detail_view(request, store_username, *args, **kwargs):
     if max_obj_per_page and max_obj_per_page.isnumeric() and int(max_obj_per_page) in pagination_filter.get("select_show_per_page").get('choices'):
         max_obj_per_page = int(max_obj_per_page)
     else:
-        max_obj_per_page = 1
+        max_obj_per_page = 5
     paginator = Paginator(queryset_list, max_obj_per_page)
 
     page_number = request.GET.get(pagination_filter.get('page_request_var'))
