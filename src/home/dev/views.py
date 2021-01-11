@@ -11,7 +11,9 @@ User = get_user_model()
 
 @allowed_users(allowed_roles=[User.Role.SUPER_ADMIN, User.Role.ADMIN])
 def dev_home(request):
+    
     url_list_dict, url_dict_list = get_urls()
+    
     try:
         dev_urls = url_dict_list['dev']
         urls = {
@@ -23,6 +25,7 @@ def dev_home(request):
         'title': 'Dev Home',
         'urls': urls,
     }
+    
     return render(request, 'dev/dev_home.html', context)
 
 def show_urls(request):
