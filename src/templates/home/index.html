@@ -41,6 +41,66 @@
                 <img src="{% static 'home/Moving-Truck-Vector.png' %}" alt="banner two img">
             </div>
         </div>
+    
+        <!--popular cousine start-->
+            {% include "home/popularCousine.html" %}
+        <!--popular cousine end-->
+    
+        <!--prepare food start-->
+        <h1 class="prepare-food-title  mt-50 text-center">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
+        <div class="row prepare-foodflex-column-reverse flex-md-row">
+            <div class="col-sm-12 col-md-6 prepare-food-left p-0 m-0">
+                <img src="{% static "home/foodpre.png" %}" alt="">
+                <div class="prepare-food-left-details">
+                    <p class="prepare-food-left-details-p1">LIST YOUR RESTAURANT ON </p>
+                    <p class="prepare-food-left-details-p2">tawsil</p>
+                    <div class='left-desc pt-30'>
+                        <div class='left-desc-one'>
+                            <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                            <p class="left-desc-one-details m-0 p-0">Would you like thousands of new customers to taste youramazingfood? So would we!</p>
+                        </div>
+                        <div class='left-desc-one pt-40'>
+                            <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
+                            <p class="left-desc-one-details m-0 p-0">It's simple: we list your menu online, help you process orders, pick them up, and deliver them to your customer</p>
+                        </div>
+                    </div>
+                    <p class="">Interested? Let's start our </br>partnership today!</p>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 prepare-food-right p-0 m-0">
+                <img src="{% static 'home/vita-marija-murenaite-OV_kIcdrgCs-unsplash.jpg' %}" class="w-100" style="height:700px" alt="">
+                {% comment %} <img src="{% static 'home/lum3n-cHc5H3_FKhs-unsplash.jpg' %}" class="w-100" style="height:700px" alt=""> {% endcomment %}
+            </div>
+        </div>
+        <!--prepare food end-->
+
+        <!-- best food start-->
+            {% include "home/bestFood.html" %}
+        <!-- best food end-->
+
+        <!--TAWSIL FOOD START-->
+            <div class='row'>
+                <div class='col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6 text-center' >
+                    <div class='d-flex flex-column pt-5 tawsil-food-left'>
+                        <h1>tawsil <span>food</span> </h1>
+                        <p>for business</p>
+                        <div class='d-flex flex-column text-left'>
+                            <div class='d-flex flex-row align-items-center'>
+                                <i class="fas fa-arrow-circle-right pr-5" style="font-size: 30px;color: var(--color-sec);"></i>
+                                <p class='p-0 m-0'>Order Lunch, Fuel For Meetings To The Office.</p>
+                            </div>
+
+                            <div>
+                                <i class="fas fa-arrow-circle-right" style="font-size: 30px;color: var(--color-sec);"></i>
+                                <p>Your Favorite Food Coming To a Desk Near You.</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class='col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6' style='background-color:green;'>world</div>
+            </div>
+        <!--TAWSIL FOOD END-->
     </div>
             <!--working start-->
             {% comment %} <div class="popular-cousine mt-30" "> <!-- style="background:#6bffe338; -->
@@ -65,44 +125,11 @@
                     <a href="#">show all</a>
                 </div> 
             </div> {% endcomment %}
-    <!--popular cousine start-->
-    {% include "home/popularCousine.html" %}
-    <!--popular cousine end-->
 
-    <div class='container'>
-        <!--prepare food start-->
-            <h1 class="prepare-food-title  mt-50 text-center">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
-            <div class="row prepare-foodflex-column-reverse flex-md-row">
-                <div class="col-sm-12 col-md-6 prepare-food-left p-0 m-0">
-                    <img src="{% static "home/foodpre.png" %}" alt="">
-                    <div class="prepare-food-left-details">
-                        <p class="prepare-food-left-details-p1">LIST YOUR RESTAURANT ON </p>
-                        <p class="prepare-food-left-details-p2">tawsil</p>
-                        <div class='left-desc pt-30'>
-                            <div class='left-desc-one'>
-                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
-                                <p class="left-desc-one-details m-0 p-0">Would you like thousands of new customers to taste youramazingfood? So would we!</p>
-                            </div>
-                            <div class='left-desc-one pt-40'>
-                                <i class="fas fa-arrow-circle-right left-desc-one-icon" ></i>
-                                <p class="left-desc-one-details m-0 p-0">It's simple: we list your menu online, help you process orders, pick them up, and deliver them to your customer</p>
-                            </div>
-                        </div>
-                        <p class="">Interested? Let's start our </br>partnership today!</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 prepare-food-right p-0 m-0">
-                    <img src="{% static 'home/vita-marija-murenaite-OV_kIcdrgCs-unsplash.jpg' %}" class="w-100" style="height:700px" alt="">
-                    {% comment %} <img src="{% static 'home/lum3n-cHc5H3_FKhs-unsplash.jpg' %}" class="w-100" style="height:700px" alt=""> {% endcomment %}
-                </div>
-            </div>
-            <!--prepare food end-->
-    </div>
     <!--working end-->
-    <!-- best food start-->
-    {% include "home/bestFood.html" %}
-    <!-- best food end-->
+    
 
+    
     <div class="banner-area row-col-decrease pt-100 pb-75 clearfix">
         <div class="container">
             <div class="banner-left-side mb-20">
@@ -115,19 +142,19 @@
             <div class="banner-right-side mb-20">
                 <div class="single-banner mb-20">
                     <div class="hover-style">
-                        <a href="#"><img src="{% static 'assets/images/banner/banner-2.jpg' %}" alt=""></a>
+                        <a href="#"><img src="{% static 'assets/images/banner/banner-1.jpg' %}" alt=""></a>
                     </div>
                 </div>
-                <div class="single-banner">
+                {% comment %} <div class="single-banner">
                     <div class="hover-style">
                         <a href="#"><img src="{% static 'assets/images/banner/banner-3.jpg' %}" alt=""></a>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
     </div>
 
-        <div class="banner-area">
+        {% comment %} <div class="banner-area">
             <div class="container">
                 <div class="discount-overlay bg-img pt-130 pb-130" ><!--style="background-image:url(assets/images/banner/banner-4.jpg);"-->
                     <div class="discount-content text-center">
@@ -163,7 +190,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">

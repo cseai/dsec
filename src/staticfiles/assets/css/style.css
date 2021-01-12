@@ -2341,6 +2341,12 @@ textarea:focus {
     padding-left: 15px;
     padding-right: 15px;
 }
+.best-food-width-x {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .section-border {
     margin-right: 59px;
     margin-top: -6px;

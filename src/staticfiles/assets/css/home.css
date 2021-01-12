@@ -303,6 +303,27 @@
     text-align: left;
 }
 /* prepare food end */
+.tawsil-food{}
+.tawsil-food-left{}
+.tawsil-food-left h1{
+    font-family: 'Monoton' !important;
+    color: var(--color-sec) !important;
+    word-spacing: 15px;
+}
+.tawsil-food-left h1 span{
+    font-family: 'Roboto';
+    text-transform: capitalize;
+}
+.tawsil-food-left p{
+    color: var(--color-pri);
+    font-size: 24px;
+    padding: 10px 0;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+/* tawsil food start */
+
+/* tawsil food end */
 
 /* media query  start*/
 @media only screen and (max-width:1199.99px){
