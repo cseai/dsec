@@ -29,7 +29,7 @@ messages==0.5.0
 nexmo==2.5.2
 phonenumbers==8.12.9
 Pillow==7.2.0
-psycopg2==2.8.5
+psycopg2-binary==2.8.6
 pycodestyle==2.6.0
 PyJWT==1.7.1
 pylint==2.6.0
