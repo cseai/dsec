@@ -1,4 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+/* topbar start */
+.top-bar{
+	position: fixed;
+    z-index: 100;
+    background: var(--bg-pri-light);
+    width: 100vw;
+    height: 60px;
+}
+
+.top-bar-cross{
+	display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    z-index: 18;
+    position: absolute;
+    padding-right: 19px;
+    color: #ccc;
+	font-size: 20px;
+	cursor:pointer;
+}
+.top-bar-dialog{
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Roboto';
+    color:var(--color-sec);
+}
+
+.top-bar-content{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    text-align:center; 
+    margin-top:14px;
+    gap:20px;
+}
+.top-bar-apply{
+    color: var(--bg-pri-dark);
+    padding: 6px 12px !important;
+    background: var(--color-sec);;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+}
+/* topbar end */
+
 
 /* navbar start */
 
@@ -243,7 +290,7 @@
 }
 .prepare-food-left img{
 	width: 100.17%;
-    height: 700px;
+    height: 500px;
     padding: 0;
     margin: 0;
 }
@@ -273,6 +320,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding:0 50px;
 }
 .prepare-food-left-details-p1{
     color: var(--color-sec);
@@ -513,3 +561,52 @@ body{
 
 /* preloader animation end */
 /* preloader end */
+
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) { 
+    /* topbar  start */
+    /* .top-bar-cross{
+        margin:5px;
+    } */
+    .top-bar-content{
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        text-align:center; 
+        margin-top:10px;
+        gap:10px;
+    }
+    .top-bar-dialog{
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Roboto';
+        color:var(--color-sec);
+    }
+    
+    .top-bar-apply{
+        color: var(--bg-pri-dark);
+        padding: 5px 10px !important;
+        background: var(--color-sec);;
+        text-align: center;
+        text-transform: uppercase;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    /* topbar  end */
+
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) { }
+
+/* // Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  }
