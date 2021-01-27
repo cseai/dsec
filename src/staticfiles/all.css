@@ -31,7 +31,9 @@
 .color-pri{
 	color:#2f333a !important;
 }
-
+.color-pri-2{
+	color:#344955 !important;
+}
 .color-sec{
 	color:#f9aa33 !important;
 }
@@ -45,6 +47,14 @@
 }
 
 /* ACHOR HOVER */
+.ah{
+	color: white;
+    padding: 6px 12px;
+    background-color: var(--color-sec);
+    border-radius: 5px;
+	font-weight: 600;
+	/* transition: ; */
+}
 .ah:hover{
     outline: none;
     color: var(--color-pri);

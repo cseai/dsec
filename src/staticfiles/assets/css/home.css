@@ -12,6 +12,7 @@
 	display: flex;
     justify-content: flex-end;
     margin-top: 14px;
+    margin-right: 10px;
     z-index: 18;
     position: absolute;
     padding-right: 19px;
@@ -295,7 +296,7 @@
     margin: 0;
 }
 .prepare-food-right{
-	background-color: blue;
+	/* background-color: blue; */
 
 }
 .prepare-food-title{
@@ -345,10 +346,10 @@
 }
 .left-desc-one-details{
     font-family: 'Roboto';
-    font-weight: 100;
-    font-size: 14px;
-    color: white;
-    text-align: left;
+    font-weight: 100 !important;
+    font-size: 14px !important;
+    color: white !important;
+    text-align: left !important;
 }
 /* prepare food end */
 .tawsil-food{}

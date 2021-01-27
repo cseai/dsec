@@ -47,8 +47,8 @@
         <!--popular cousine end-->
     
         <!--prepare food start-->
-        <h1 class="prepare-food-title  mt-50 text-center color-sec ">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
-        <div class="row prepare-foodflex-column-reverse flex-md-row">
+        <h1 class="prepare-food-title  mt-50 text-center color-pri-2 ">YOU PREPARE THE FOOD WE HANDLE THE REST</h1>
+        <div class="row prepare-food flex-column-reverse flex-md-row">
             <div class="col-sm-12 col-md-6 prepare-food-left p-0 m-0">
                 <img src="{% static "home/foodpre.png" %}" alt="" style="object-fit:cover;">
                 <div class="prepare-food-left-details">
@@ -65,6 +65,7 @@
                         </div>
                     </div>
                     <p class="pt-10 color-sec">Interested? Let's start our </br>partnership today!</p>
+                    <a href="#" class="ah">GET STARTED!</a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 prepare-food-right p-0 m-0">
@@ -89,18 +90,19 @@
                                 <i class="fas fa-arrow-circle-right pr-5" style="font-size: 30px;color: var(--color-sec);"></i>
                                 <p class='p-0 m-0'>Order Lunch, Fuel For Meetings To The Office.</p>
                             </div>
-
                             <div>
                                 <i class="fas fa-arrow-circle-right" style="font-size: 30px;color: var(--color-sec);"></i>
                                 <p>Your Favorite Food Coming To a Desk Near You.</p>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
                 <div class='col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6' style='background-color:green;'>world</div>
             </div>
         <!--TAWSIL FOOD END-->
+        <!-- TAWSIL LUNCH START-->
+        {% include "home/tawsilLunch.html" %}
+        <!-- TAWSIL LUNCH END-->
     </div>
             <!--working start-->
             {% comment %} <div class="popular-cousine mt-30" "> <!-- style="background:#6bffe338; -->
