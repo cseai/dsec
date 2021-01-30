@@ -28,8 +28,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                 <div class="login-register-wrapper">
-                    <div class="login-register-tab-list nav">
-                        
+                    <div class="login-register-tab-list nav pb-3">
                         <a class="active" data-toggle="tab" href="#lg2">
                             <h4> {{ page_context.main_heading }} </h4>
                         </a>
@@ -47,15 +46,15 @@
                                     </ul>
                                     <hr>
                                     <br>
-                                    <div class="button-box">
+                                    <div class="button-box pt-3">
                                         <button type="button"><a href={{ product.get_vendor_store_product_update_url }}><span>Update</span></a></button>
                                     </div>
                                     <br>
-                                    <div class="button-box">
+                                    <div class="button-box pt-3">
                                         <button type="button"><a href={{ product.get_vendor_store_product_remove_url }}><span>Remove Product</span></a></button>
                                     </div>
                                     <br>
-                                    <div class="button-box">
+                                    <div class="button-box pt-3">
                                         <button type="button"><a href={{ store.get_vendor_store_product_add_url }}><span>Add another poduct</span></a></button>
                                     </div>
                                 </div>

@@ -130,14 +130,14 @@ class Address(models.Model):
     ]
 
     address_type        = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES)
-    line_1              = models.CharField(max_length=120)
-    line_2              = models.CharField(max_length=120, null=True, blank=True)
-    city                = models.CharField(max_length=20, choices=CITY_CHOICES)
-    state               = models.CharField(max_length=20, choices=STATE_CHOICES)
-    postal_code         = models.CharField(max_length=10)
+    line_1              = models.CharField(max_length=120, help_text="Address line 1 should contain the primary address information and secondary address information (e.g., floor, suite or mail stop number) on one line.")
+    line_2              = models.CharField(max_length=120, null=True, blank=True, help_text="Address line 2 should contain the building/dorm or school name.")
+    city                = models.CharField(max_length=20, choices=CITY_CHOICES, help_text="City/District name.")
+    state               = models.CharField(max_length=20, choices=STATE_CHOICES, help_text="State/Division name.")
+    postal_code         = models.CharField(max_length=10, help_text="Postal/Zip Code.")
     country             = models.CharField(max_length=20, choices=COUNTRY_CHOICES, default=COUNTRY_CHOICE_BANGLADESH)
-    updated             = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp           = models.DateTimeField(auto_now_add=True)
+    updated             = models.DateTimeField(auto_now=True, auto_now_add=False, help_text="Last updated timestamp.")
+    timestamp           = models.DateTimeField(auto_now_add=True, help_text="Creation timestamp.")
 
     class Meta:
         verbose_name        = "address"

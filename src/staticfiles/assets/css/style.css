@@ -25,6 +25,12 @@
     
 -----------------------------------------------------------------------------------*/
 
+/*-----------------------------
+    @belal customization
+-------------------------------*/
+form .asteriskField {
+    color:rgba(224, 44, 43, 0.9);
+}
 
 /*-----------------------------
     1. Template default css
@@ -4055,7 +4061,7 @@ h4.grand-totall-title span {
     color: #666;
     font-size: 14px;
     height: 50px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */ /* commented by @belal for help_text */
     padding: 0 15px;
 }
 .login-form-container input::-moz-placeholder {

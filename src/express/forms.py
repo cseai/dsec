@@ -64,27 +64,27 @@ class MerchantAddressUpdateForm(forms.ModelForm):
             #     # 'required': False,
             # }),
             'line_1': forms.TextInput(attrs={
-                'placeholder': "Address line 1",
+                # 'placeholder': "Address line 1",
                 'title': 'Address line 1',
             }),
             'line_2': forms.TextInput(attrs={
-                'placeholder': "Address line 2",
+                # 'placeholder': "Address line 2",
                 'title': 'Address line 2',
             }),
             'city': forms.Select(attrs={
-                'placeholder': "City",
+                # 'placeholder': "City",
                 'title': 'City',
             }),
             'state': forms.Select(attrs={
-                'placeholder': "State",
+                # 'placeholder': "State",
                 'title': 'State',
             }),
             'postal_code': forms.TextInput(attrs={
-                'placeholder': "Postal code",
+                # 'placeholder': "Postal code",
                 'title': 'Postal code',
             }),
             'country': forms.Select(attrs={
-                'placeholder': "Country",
+                # 'placeholder': "Country",
                 'title': 'Country',
             }),
         }

@@ -28,8 +28,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                 <div class="login-register-wrapper">
-                    <div class="login-register-tab-list nav">
-                        
+                    <div class="login-register-tab-list nav pb-3">
                         <a class="active" data-toggle="tab" href="#lg2">
                             <h4> {{ page_context.main_heading }} </h4>
                         </a>
@@ -49,7 +48,7 @@
                                         <hr>
                                         {{ pickup_address_form.non_field_errors }}
                                         {{pickup_address_form|crispy}}
-                                        <div class="button-box">
+                                        <div class="button-box pt-3">
                                             <button type="submit"><span>Save Changes</span></button>
                                         </div>
                                     </form>

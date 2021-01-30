@@ -1,7 +1,7 @@
 # My workspace
 
 # vscode settings
-.vscode/*
+.vscode
 
 # design/*
 # static_cdn/media_root/*
