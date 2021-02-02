@@ -91,7 +91,6 @@
 									{% endif %}
 								</li>
 								<li class="top-hover" >
-										
 										<a href="#">Accounts<i class="ion-chevron-down"></i></a>
 										<ul class="submenu">
 											<li><a href="about-us.html">about us </a></li>
@@ -124,10 +123,6 @@
 							<ul class="menu-overflow" id="nav">
 								<li>
 									<a href="{% url 'home:home' %}">Home</a>
-									{% comment %} <ul>
-										<li><a href="index.html">home version 1</a></li>
-										<li><a href="index-2.html">home version 2</a></li>
-									</ul> {% endcomment %}
 								</li>
 								<li>
 									<a href="#">pages</a>
@@ -194,7 +189,7 @@
 										</li>
 									</ul>
 								</li>
-								<li>
+								{% comment %} <li>
 									<a href="blog-rightsidebar.html">blog</a>
 									<ul>
 										<li><a href="blog.html">Blog No sidebar</a></li>
@@ -203,14 +198,20 @@
 										<li><a href="blog-details-gallery.html">Blog details gallery</a></li>
 										<li><a href="blog-details-video.html">Blog details video</a></li>
 									</ul>
-								</li>
-								<li><a href="contact.html">contact us</a></li>
-								<li><a href="shop.html">burger</a></li>
-								{% if request.user.store_set.all.count == 0 %}
-									<li><a href="{% url 'vendors:register_store' %}">Become a Seller</a></li>
+								</li> {% endcomment %}
+								{% comment %} <li><a href="contact.html">contact us</a></li>
+								<li><a href="shop.html">burger</a></li> {% endcomment %}
+								{% if request.user.is_authenticated %}
+									{% if request.user.store_set.all.count == 0 %}
+										<li><a href="{% url 'vendors:register_store' %}">Become a Seller</a></li>
+									{% else %}
+										<li><a href="{% url 'vendors:home' %}"> Your Store</a></li>
+									{% endif %}
+									<li><a href="{% url 'auth:logout' %}">logout</a></li>
 								{% else %}
-									<li><a href="{% url 'vendors:home' %}">Your Store</a></li>
+									<li><a href="{% url 'auth:login' %}">login</a></li>
 								{% endif %}
+								
 							</ul>
 						</nav>
 					</div>
