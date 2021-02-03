@@ -12,30 +12,36 @@ class ImagePreviewWidget(forms.widgets.FileInput):
 
 
 class RegisterStoreForm(forms.ModelForm):
-    address_line_1  = forms.CharField(label='', max_length=120)
-    address_line_2  = forms.CharField(label='', max_length=120, required=False)
-    city            = forms.ChoiceField(label='', choices=Address.CITY_CHOICES)
-    state           = forms.ChoiceField(label='', choices=Address.STATE_CHOICES)
-    postal_code     = forms.CharField(label='', max_length=10)
-    country         = forms.ChoiceField(label='', choices=Address.COUNTRY_CHOICES)
+    address_line_1  = forms.CharField(label='Address line 1', max_length=120, help_text="Address line 1 should contain the primary address information and secondary address information (e.g., floor, suite or mail stop number) on one line.")
+    address_line_2  = forms.CharField(label='Address line 2', max_length=120, required=False, help_text="Address line 2 should contain the building/dorm or school name.")
+    city            = forms.ChoiceField(label='City', choices=Address.CITY_CHOICES, help_text="City/District name.")
+    state           = forms.ChoiceField(label='State', choices=Address.STATE_CHOICES, help_text="State/Division name.")
+    postal_code     = forms.CharField(label='Postal code', max_length=10, help_text="Postal/Zip Code.")
+    country         = forms.ChoiceField(label='Country', choices=Address.COUNTRY_CHOICES)
     
     address_line_1.widget.attrs.update({
-        'placeholder': "Address line 1", 'title': 'Address line 1',
+        # 'placeholder': "Address line 1", 
+        'title': 'Address line 1',
     })
     address_line_2.widget.attrs.update({
-        'placeholder': "Address line 2", 'title': 'Address line 2 (Optional)',
+        # 'placeholder': "Address line 2", 
+        'title': 'Address line 2 (Optional)',
     })
     city.widget.attrs.update({
-        'placeholder': "City", 'title': 'City',
+        # 'placeholder': "City", 
+        'title': 'City',
     })
     state.widget.attrs.update({
-        'placeholder': "State", 'title': 'State',
+        # 'placeholder': "State", 
+        'title': 'State',
     })
     postal_code.widget.attrs.update({
-        'placeholder': "Postal code", 'title': 'Postal code',
+        # 'placeholder': "Postal code", 
+        'title': 'Postal code',
     })
     country.widget.attrs.update({
-        'placeholder': "Country", 'title': 'Country',
+        # 'placeholder': "Country", 
+        'title': 'Country',
     })
 
     class Meta:
@@ -43,28 +49,28 @@ class RegisterStoreForm(forms.ModelForm):
         fields=('title', 'tagline', 'username', 'category', 'description', 'opening_time', 'closing_time', 'address_line_1', 'address_line_2', 'city', 'state', 'postal_code', 'country')
 
         # customize form attrs
-        labels = {
-            'title': '',
-            'tagline': '',
-            'username': '',
-            'category': '',
-            'description': '',
-            'opening_time': '',
-            'closing_time': '',
-        }
+        # labels = {
+        #     'title': '',
+        #     'tagline': '',
+        #     'username': '',
+        #     'category': '',
+        #     'description': '',
+        #     'opening_time': '',
+        #     'closing_time': '',
+        # }
 
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': "Title",
+                # 'placeholder': "Title",
                 'required': True,
                 'title': 'Store name',
             }),
             'tagline': forms.TextInput(attrs={
-                'placeholder': "Tagline",
+                # 'placeholder': "Tagline",
                 'title': 'Store Tagline',
             }),
             'username': forms.TextInput(attrs={
-                'placeholder': "username",
+                # 'placeholder': "username",
                 'title': 'Unique Store username',
             }),
             'category': forms.Select(attrs={
@@ -73,16 +79,16 @@ class RegisterStoreForm(forms.ModelForm):
                 'title': 'Store Category',
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': "Store Description",
+                # 'placeholder': "Store Description",
                 'title': 'Store description',
                 'class':'form-control mb-30'
             }),
             'opening_time': forms.TimeInput(attrs={
-                'placeholder': "Opening time. e.g. 8:00",
+                # 'placeholder': "Opening time. e.g. 8:00",
                 'title': 'Store openning time',
             }),
             'closing_time': forms.TimeInput(attrs={
-                'placeholder': "Closing time. e.g. 22:00",
+                # 'placeholder': "Closing time. e.g. 22:00",
                 'title': 'Store closing time',
             }),
         }
