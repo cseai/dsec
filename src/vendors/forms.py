@@ -103,7 +103,7 @@ class RegisterStoreForm(forms.ModelForm):
 
 class StoreUpdateForm(forms.ModelForm):
     
-    logo = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    logo = forms.ImageField(label="Logo image",required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
     logo = forms.ImageField(widget=ImagePreviewWidget,)
     
     class Meta:
@@ -124,16 +124,16 @@ class StoreUpdateForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': "Title",
+                # 'placeholder': "Title",
                 'required': True,
                 'title': 'Store name',
             }),
             'tagline': forms.TextInput(attrs={
-                'placeholder': "Tagline",
+                # 'placeholder': "Tagline",
                 'title': 'Store Tagline',
             }),
             'username': forms.TextInput(attrs={
-                'placeholder': "username",
+                # 'placeholder': "username",
                 'title': 'Unique Store username',
             }),
             'category': forms.Select(attrs={
@@ -142,19 +142,19 @@ class StoreUpdateForm(forms.ModelForm):
                 'title': 'Store Category',
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': "Store Description",
+                # 'placeholder': "Store Description",
                 'title': 'Store description',
             }),
             'opening_time': forms.TimeInput(attrs={
-                'placeholder': "Opening time. e.g. 8:00",
+                # 'placeholder': "Opening time. e.g. 8:00",
                 'title': 'Store openning time',
             }),
             'closing_time': forms.TimeInput(attrs={
-                'placeholder': "Closing time. e.g. 22:00",
+                # 'placeholder': "Closing time. e.g. 22:00",
                 'title': 'Store closing time',
             }),
             'off_days': forms.TextInput(attrs={
-                'placeholder': "i.e. SUN-MON, FRI",
+                # 'placeholder': "i.e. SUN-MON, FRI",
                 'title': 'Off Days',
             }),
         }
@@ -165,7 +165,7 @@ class StoreUpdateForm(forms.ModelForm):
                 'class': '',
                 'id':'imageUploadStore',
             })
-        self.fields['logo'].label = "Product Image"
+        self.fields['logo'].label = "Logo image"
     
     
     def save(self, commit=True):
@@ -197,27 +197,27 @@ class StoreAddressUpdateForm(forms.ModelForm):
             #     # 'required': False,
             # }),
             'line_1': forms.TextInput(attrs={
-                'placeholder': "Address line 1",
+                # 'placeholder': "Address line 1",
                 'title': 'Address line 1',
             }),
             'line_2': forms.TextInput(attrs={
-                'placeholder': "Address line 2",
+                # 'placeholder': "Address line 2",
                 'title': 'Address line 2',
             }),
             'city': forms.Select(attrs={
-                'placeholder': "City",
+                # 'placeholder': "City",
                 'title': 'City',
             }),
             'state': forms.Select(attrs={
-                'placeholder': "State",
+                # 'placeholder': "State",
                 'title': 'State',
             }),
             'postal_code': forms.TextInput(attrs={
-                'placeholder': "Postal code",
+                # 'placeholder': "Postal code",
                 'title': 'Postal code',
             }),
             'country': forms.Select(attrs={
-                'placeholder': "Country",
+                # 'placeholder': "Country",
                 'title': 'Country',
             }),
         }
@@ -285,30 +285,30 @@ class StoreProductAddForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': "Product Title",
+                # 'placeholder': "Product Title",
                 'title': 'Product Title',
                 'required': True,
             }),
             'sku': forms.TextInput(attrs={
-                'placeholder': "SKU",
+                # 'placeholder': "SKU",
                 'title': 'SKU',
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': "Product Description",
+                # 'placeholder': "Product Description",
                 'title': 'Product description',
                 'required': True,
             }),
             'manufacturer': forms.TextInput(attrs={
-                'placeholder': "Manufacturer",
+                # 'placeholder': "Manufacturer",
                 'title': 'Manufacturer Name',
             }),
             'measuring_type': forms.TextInput(attrs={
-                'placeholder': "E.g. Kg/Litter/Pices/Meter etc.",
+                # 'placeholder': "E.g. Kg/Litter/Pices/Meter etc.",
                 'title': 'E.g. Kg/Litter/Pices/Meter etc.',
                 'required': True,
             }),
             # 'category': forms.TextInput(attrs={
-            #     'placeholder': "Product Category/Tag. E.g: Pizza",
+            #     # 'placeholder': "Product Category/Tag. E.g: Pizza",
             #     'title': 'Product Category/Tag',
             # }),
         }
@@ -319,7 +319,7 @@ class StoreProductAddForm(forms.ModelForm):
                 'class': '',
                 'id':'imageUploadProductAdd',
             })
-        # self.fields['image'].label = "Product Image"
+        self.fields['image'].label = "Product Image"
     
     def save(self, commit=True):
         # Save the provided information
@@ -332,7 +332,7 @@ class StoreProductAddForm(forms.ModelForm):
 
 class StoreProductUpdateForm(forms.ModelForm):
     
-    image = forms.ImageField(label=('User Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
+    image = forms.ImageField(label=('Product Image'),required=True, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput,)
     image=forms.ImageField(widget=ImagePreviewWidget,)
     class Meta:
         model = Product
@@ -359,25 +359,25 @@ class StoreProductUpdateForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': "Product Title",
+                # 'placeholder': "Product Title",
                 'title': 'Product Title',
                 'required': True,
             }),
             'sku': forms.TextInput(attrs={
-                'placeholder': "SKU",
+                # 'placeholder': "SKU",
                 'title': 'SKU',
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': "Product Description",
+                # 'placeholder': "Product Description",
                 'title': 'Product description',
                 'required': True,
             }),
             'manufacturer': forms.TextInput(attrs={
-                'placeholder': "Manufacturer",
+                # 'placeholder': "Manufacturer",
                 'title': 'Manufacturer Name',
             }),
             'measuring_type': forms.TextInput(attrs={
-                'placeholder': "E.g. Kg/Litter/Pices/Meter etc.",
+                # 'placeholder': "E.g. Kg/Litter/Pices/Meter etc.",
                 'title': 'E.g. Kg/Litter/Pices/Meter etc.',
                 'required': True,
             }),

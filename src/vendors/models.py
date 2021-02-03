@@ -28,7 +28,7 @@ class Store(models.Model):
     closing_time            = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True, help_text="Generally the time when services are ended.")
     # store_status            = models.CharField(max_length=255, blank=True, null=True)
     is_open                 = models.BooleanField(default=False, help_text="is the Store/Restaurant open?")
-    off_days                = models.CharField(max_length=30, blank=True, null=True, help_text="Off days in a week. E.g. 'FRI, SAT'")
+    off_days                = models.CharField(max_length=30, blank=True, null=True, help_text="Off days in a week. E.g. FRI, SAT")
     address                 = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL, help_text="Address of the Store/Restaurant (Address FK).") # always parmanent address
     logo                    = models.ImageField(
                                 default='vendors/store/logo/default.png',

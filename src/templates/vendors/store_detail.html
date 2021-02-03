@@ -40,7 +40,7 @@
                     No tagline to show!
                 {% endif %}
             </p>
-            <div class='vendor_open_close'>
+            {% comment %} <div class='vendor_open_close'>
                 <div>
                     <form action="POST">{% csrf_token %}
                         <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
@@ -75,7 +75,7 @@
                     <div><span class="color-pri" style="font-size:16px;font-weight:400;">Hours: {{ store.opening_time }} - {{ store.closing_time }}</span></div>
                     <div><span class="color-pri" style="font-size:16px;font-weight:400;">Offdays: {{store.off_days}}</span></div>
                 </div>
-            </div>
+            </div> {% endcomment %}
             <div style="margin-top:10px; margin-bottom:10px;">
                 <i class="fas fa-map-marker-alt pr-10" style="font-size:20px; color: red"></i>{{ store.address }}
             </div>
@@ -88,13 +88,44 @@
                     {% endif %}
                 </p>
             </div>
-            
-            <div class="shop-list-cart-wishlist">
-                <a href="{{store.get_vendor_store_update_url}}" title="Edit Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
-                {% comment %} <a href="#" title="Add To Cart"><i class="ion-android-cart"></i></a>
-                <a href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                    <i class="ion-android-open"></i>
-                </a> {% endcomment %}
+            <div class='vendor_open_close'>
+                <div>
+                    <form action="POST">{% csrf_token %}
+                        <input type="hidden" name="openClose" id="openClose-input" data-store="{{store.username}}">
+                        {% if store.is_open %}
+                            <div class="open-btn" id="open-id"> <!--openbtn-loading-close-->
+                                <div 
+                                    id="open-btn-loading" 
+                                    class="spinner-border openbtn-loading-close"   
+                                    role="status"
+                                    data-url="{% url 'vendors:api_store_status_update' %}"
+                                >
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <p id="open-btn-text">open</p>
+                            </div>
+                        {% else %}
+                            <div class="close-btn" id="open-id">
+                                <div 
+                                    id="close-btn-loading" 
+                                    class="spinner-border openbtn-loading-close"  
+                                    role="status"
+                                    data-url="{% url 'vendors:api_store_status_update' %}"
+                                >
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <p id="close-btn-text">close</p>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="shop-list-cart-wishlist">
+                    <a href="{{store.get_vendor_store_update_url}}" title="Edit Store"><i class="far fa-edit"></i><i class="ion-ios-heart-outlin"></i></a>
+                </div>
+            </div>
+            <div>
+                <div><span class="color-pri" style="font-size:16px;font-weight:400;">Service time: {{ store.opening_time }} to {{ store.closing_time }}</span></div>
+                <div><span class="color-pri" style="font-size:16px;font-weight:400;">Offdays: {{store.off_days}}</span></div>
             </div>
         </div>
     </div>
