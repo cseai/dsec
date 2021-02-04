@@ -11,10 +11,9 @@
             <p>Typi non habent claritatem insitam est usus legentis in qui facit eorum claritatem, investigationesdemonstraverunt lectores legere me lius quod legunt saepius.</p>
         </div>
         <div class="tab-content jump">
-            {% comment %} <div id="tab1" class="tab-pane active"> {% endcomment %}
                 <div class="row">
                     {% for pc in popular_cousine  %}
-                        <div class="custom-col-5">
+                        <div class="custom-col-5-x col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                             <div class="product-wrapper mb-25">
                                 <div class="product-img">
                                     <a href="product-details.html">
@@ -31,15 +30,10 @@
                                     </div>
                                 </div>
                                 <div class="product-content" style="padding:5px 0 0;">
-                                    {% comment %} <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                                        {{ pc.name }}
-                                    </p> {% endcomment %}
                                     <div class="product-price-wrapper">
                                         <div class="cousine_show_all">
                                             <a href="#"> {{ pc.name }} </a>
-                                        </div> 
-                                        {% comment %} <span>$100.00</span>
-                                        <span class="product-price-old">$120.00 </span> {% endcomment %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

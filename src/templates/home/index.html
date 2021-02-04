@@ -75,124 +75,13 @@
         </div>
         <!--prepare food end-->
 
-        <!-- best food start-->
-            {% include "home/bestFood.html" %}
-        <!-- best food end-->
-
-        <!--TAWSIL FOOD START-->
-            <div class='row'>
-                <div class='col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6 text-center' >
-                    <div class='d-flex flex-column pt-5 tawsil-food-left'>
-                        <h1>tawsil <span>food</span> </h1>
-                        <p>for business</p>
-                        <div class='d-flex flex-column text-left'>
-                            <div class='d-flex flex-row align-items-center'>
-                                <i class="fas fa-arrow-circle-right pr-5" style="font-size: 30px;color: var(--color-sec);"></i>
-                                <p class='p-0 m-0'>Order Lunch, Fuel For Meetings To The Office.</p>
-                            </div>
-                            <div>
-                                <i class="fas fa-arrow-circle-right" style="font-size: 30px;color: var(--color-sec);"></i>
-                                <p>Your Favorite Food Coming To a Desk Near You.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6' style='background-color:green;'>world</div>
-            </div>
-        <!--TAWSIL FOOD END-->
         <!-- TAWSIL LUNCH START-->
         {% include "home/tawsilLunch.html" %}
         <!-- TAWSIL LUNCH END-->
     </div>
             <!--working start-->
-            {% comment %} <div class="popular-cousine mt-30" "> <!-- style="background:#6bffe338; -->
-                <img src="{% static 'home/cousine-banner.png' %}" alt="" class="top-banner">
-                
-                <div class='row justify-content-start align-items-center cousine mt-20'>
-                    {% for pc in popular_cousine %}
-                        {% static  pc.img as the_img %}
-                        
-                        <div class='col-md-4 col-sm-6 col-lg-3 card-x' style="width: 18rem;">
-                            <div class="card-body" style="text-align:center">
-                                <img class="card-img-top" src="{{the_img}}" style="border-radius:10px; width:215px; height:250px; object-fit:cover;" alt="Card image cap">
-                                <p class="card-text mb-20" style="font-size: 20px;font-weight: 700;padding-top: 10px;text-align: center;text-transform:uppercase;">
-                                {{ pc.name }}
-                                </p>
-                                <a href="#" style="text-transform: uppercase;color: var(--color-pri);font-size:20px;font-weight: 500;background: var(--color-sec);padding: 7px 14px;border-radius: 5px;">explore</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="cousine_show_all">
-                    <a href="#">show all</a>
-                </div> 
-            </div> {% endcomment %}
 
-    <!--working end-->
-    
 
-    
-    <div class="banner-area row-col-decrease pt-100 pb-75 clearfix">
-        <div class="container">
-            <div class="banner-left-side mb-20">
-                <div class="single-banner">
-                    <div class="hover-style">
-                        <a href="#"><img src="{% static 'assets/images/banner/banner-1.jpg' %}" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <div class="banner-right-side mb-20">
-                <div class="single-banner mb-20">
-                    <div class="hover-style">
-                        <a href="#"><img src="{% static 'assets/images/banner/banner-1.jpg' %}" alt=""></a>
-                    </div>
-                </div>
-                {% comment %} <div class="single-banner">
-                    <div class="hover-style">
-                        <a href="#"><img src="{% static 'assets/images/banner/banner-3.jpg' %}" alt=""></a>
-                    </div>
-                </div> {% endcomment %}
-            </div>
-        </div>
-    </div>
-
-        {% comment %} <div class="banner-area">
-            <div class="container">
-                <div class="discount-overlay bg-img pt-130 pb-130" ><!--style="background-image:url(assets/images/banner/banner-4.jpg);"-->
-                    <div class="discount-content text-center">
-                        <h3>It’s Time To Start <br>Your Own Revolution By Laurent</h3>
-                        <p>Exclusive Offer -10% Off This Week</p>
-                        <div class="banner-btn">
-                            <a href="#">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="brand-logo-area pb-100">
-            <div class="container">
-                <div class="brand-logo-active owl-carousel">
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-1.png' %}">
-                    </div>
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-2.png' %}">
-                    </div>
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-3.png' %}">
-                    </div>
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-4.png' %}">
-                    </div>
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-5.png' %}">
-                    </div>
-                    <div class="single-brand-logo">
-                        <img alt="" src="{% static 'assets/images/brand-logo/logo-2.png' %}">
-                    </div>
-                </div>
-            </div>
-        </div> {% endcomment %}
         
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
